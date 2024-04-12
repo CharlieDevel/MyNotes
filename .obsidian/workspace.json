@@ -1,0 +1,151 @@
+{
+  "main": {
+    "id": "76c023e93c4b2fb4",
+    "type": "split",
+    "children": [
+      {
+        "id": "28a181de52e3fa98",
+        "type": "tabs",
+        "children": [
+          {
+            "id": "a1a9d10ddee55828",
+            "type": "leaf",
+            "state": {
+              "type": "markdown",
+              "state": {
+                "file": "LimeSurvey.md",
+                "mode": "source",
+                "source": false
+              }
+            }
+          }
+        ]
+      }
+    ],
+    "direction": "vertical"
+  },
+  "left": {
+    "id": "2d2ed8ba8e7e2f68",
+    "type": "split",
+    "children": [
+      {
+        "id": "2d6cd63aac6723a7",
+        "type": "tabs",
+        "children": [
+          {
+            "id": "99ff3f8d9e01b05a",
+            "type": "leaf",
+            "state": {
+              "type": "file-explorer",
+              "state": {
+                "sortOrder": "alphabetical"
+              }
+            }
+          },
+          {
+            "id": "a8d402546b3638c5",
+            "type": "leaf",
+            "state": {
+              "type": "search",
+              "state": {
+                "query": "",
+                "matchingCase": false,
+                "explainSearch": false,
+                "collapseAll": false,
+                "extraContext": false,
+                "sortOrder": "alphabetical"
+              }
+            }
+          },
+          {
+            "id": "76efff5b82aa5938",
+            "type": "leaf",
+            "state": {
+              "type": "bookmarks",
+              "state": {}
+            }
+          }
+        ]
+      }
+    ],
+    "direction": "horizontal",
+    "width": 300
+  },
+  "right": {
+    "id": "6fc46009bb2cd47f",
+    "type": "split",
+    "children": [
+      {
+        "id": "2ab0d07ef2a147a5",
+        "type": "tabs",
+        "children": [
+          {
+            "id": "e3645677678729d8",
+            "type": "leaf",
+            "state": {
+              "type": "backlink",
+              "state": {
+                "file": "LimeSurvey.md",
+                "collapseAll": false,
+                "extraContext": false,
+                "sortOrder": "alphabetical",
+                "showSearch": false,
+                "searchQuery": "",
+                "backlinkCollapsed": false,
+                "unlinkedCollapsed": true
+              }
+            }
+          },
+          {
+            "id": "3f579c3ed0537abc",
+            "type": "leaf",
+            "state": {
+              "type": "outgoing-link",
+              "state": {
+                "file": "LimeSurvey.md",
+                "linksCollapsed": false,
+                "unlinkedCollapsed": true
+              }
+            }
+          },
+          {
+            "id": "2802a4ab6382c453",
+            "type": "leaf",
+            "state": {
+              "type": "tag",
+              "state": {
+                "sortOrder": "frequency",
+                "useHierarchy": true
+              }
+            }
+          },
+          {
+            "id": "393061441ebb775d",
+            "type": "leaf",
+            "state": {
+              "type": "outline",
+              "state": {
+                "file": "LimeSurvey.md"
+              }
+            }
+          }
+        ]
+      }
+    ],
+    "direction": "horizontal",
+    "width": 300,
+    "collapsed": true
+  },
+  "left-ribbon": {
+    "hiddenItems": {
+      "switcher:Open quick switcher": false,
+      "graph:Open graph view": false,
+      "canvas:Create new canvas": false,
+      "daily-notes:Open today's daily note": false,
+      "templates:Insert template": false,
+      "command-palette:Open command palette": false
+    }
+  },
+  "active": "a1a9d10ddee55828",
+  "lastOpenFiles": []
+}
