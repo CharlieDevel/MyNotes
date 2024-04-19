@@ -19,8 +19,11 @@ Si la encuesta **no se ha publicado**, se puede modificar **cualquier campo**
 PERO si la encuesta **ya esta publicada y alguien la ha respondido**, entonces NO se pueden modificar todos los campos. Por ejemplo si se quiere modificar la redaccion de una pregunta entonces si se puede, **pero** si se quiere modificar el tipo de respuesta(e. g. cambiar de "Si o No" a "Multiopcion") entonces no se puede modificar la encuesta
 > La unica forma de modificar ese tipo de datos es creando una nueva version, pero se **perderan los datos**, por eso es importante **testear y verificar con otras personas la encuesta**
 
-
-
+# Activación de la encuesta
+* Opciones especiales
+Estas opciones son específicas sobre que información recolectar o como manejarla cuando alguien la responde y de guardan los datos, o también que sea de **Acceso Restringido** (sólo se puede respondercon un Link y/o contraseña, y se necesita una tabla de participantes)
+* Tabla de participantes
+Nueva sección que sólo aparece al tener la encuesta en **Acceso Restringido** 
 # Factores
 * Dependiendo de la configuración del LimeSurvey, las relaciones de los datos en bases de datos **se verá afectada**
 
@@ -40,7 +43,11 @@ En el minuto *2:26:00* O *2:28:50* Empiezan conceptos mas de logica, que seria c
 PENDIENTE minuto3:00:0
 La parte de **Activacion de la encuesta**
 
-
+ Minuto 3:22:00 se explica como **recordar datos**
+ > DUDA IMPORTANTE
+ > En minuto 3:23:40 se empieza a hablar de exportar los datos, pero hay que tener cuidado con la exportación si luego se quiere sacar datos más estadísticos como la media o así
+ > RESPUESTA: La doble dimensión es en realidad cómo esos datos se representan en el archivo exportado, si como en código o string tal cual(tipo si hay preguntas con "si o no" entonces algo que permita la dimensiónalidad permite visualizar eso como "Si" ó "1", como el SPSS)
+# Exportar datos 
 
 
 
