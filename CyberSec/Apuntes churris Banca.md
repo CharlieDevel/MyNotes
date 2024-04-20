@@ -18,8 +18,8 @@ Entre los 2 servidores de backend y fronted existen varios riesgos por la necesi
 Entre máquinas para tener Https
 Auténticarse de nuevo con firma digital **cuando se realizan transacciones**
 
-
-
+- Cadenas de segurida
+Las cadenas de seguridad no son sólo tener 2 componentes y que uno se relacione con el otro, y cada uno tiene una propiedad de seguridad, es además de que uno se dirige a otro y le HEREDA la seguridad que tenía al otro, protegiendo así con esa otra propiedad al otro componente
 
 
 
