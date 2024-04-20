@@ -34,3 +34,10 @@ You must make this launch.json
 3. Install Firefox debugger in vscode
 
 And done, now you should have fire fox running, then we run the react app with `npm start`, copy the address and put it in firefox, and finally run the debugger in vs code, with all our break points set
+
+# React Component
+These are **functions or classes**, that contain JSX 
+> NOTE: EVERY JSX **MUST** start with an opening and closing html syntax
+
+- Function
+These are pretty simple, you just need to make a normal function BUT in the return part, it must contain the JSX syntax with your elements like this:
