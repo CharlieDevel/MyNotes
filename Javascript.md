@@ -77,4 +77,7 @@ To use this you must:
 ```javascript
 <Route path="/banking" element={<BankingFeed />} />
 ```
+If you have the definition of your component in the file you are writing, then you can also use it calling the function as is
+
+
 # Hooks
