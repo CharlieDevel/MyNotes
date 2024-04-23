@@ -39,5 +39,45 @@ And done, now you should have fire fox running, then we run the react app with `
 These are **functions or classes**, that contain JSX 
 > NOTE: EVERY JSX **MUST** start with an opening and closing html syntax
 
-- Function
+## Limitation
+EACH component must equal to a file, where all the other parts of it reside
+
+## Function definition
 These are pretty simple, you just need to make a normal function BUT in the return part, it must contain the JSX syntax with your elements like this:
+```javascript
+function YourComponent(props) {
+  // Component logic here
+  return <div>This is YourComponent</div>;
+}
+```
+- Simple and concise syntax.
+- Used for presentational components or components that don't need state or lifecycle methods.
+- Most components can be written as functional components, especially with the introduction of hooks.
+## Class definition
+Regarding the classes, you must make a class that inherits from another class, AND it must contain a `render()` function defined, which contains the JSX syntax and your elements like this
+```javascript
+class YourComponent extends React.Component {
+  render() {
+    // Component logic here
+    return <div>This is YourComponent</div>;
+  }
+}
+```
+- More verbose syntax compared to function components.
+- Used for components that need to manage state, lifecycle methods, or have complex logic.
+- Older approach, but still widely used, especially in existing codebases.
+## Usage
+To use this you must:
+1. **First import it**, in order to be accessible
+2. **Use it** through this syntax
+```javascript
+<MyComponent />
+```
+3. (Optional) **Pass properties to component**, this lets us pass *arguments* to components just like functions, this is done by putting the properties we want to modify like html parts, like: 
+```javascript
+<Route path="/banking" element={<BankingFeed />} />
+```
+If you have the definition of your component in the file you are writing, then you can also use it calling the function as is
+
+
+# Hooks
