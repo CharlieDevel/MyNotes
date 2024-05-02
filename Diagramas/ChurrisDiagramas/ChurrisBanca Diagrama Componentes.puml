@@ -1,0 +1,99 @@
+@startuml
+
+'https://plantuml.com/component-diagram
+Skinparam backgroundColor #EEEBDC
+'skinparam componentStyle uml1
+skinparam linetype polyline
+'skinparam linetype ortho
+skinparam Nodesep 45
+'skinparam Ranksep 45
+skinparam component {
+ArrowColor Maroon
+BorderColor Maroon
+BackgroundColor  #fefece
+}
+
+'//===========================  Layout object, invisible object to maipualte the position of other objects
+skinparam package<<Layout>> {
+  borderColor Transparent
+  backgroundColor Transparent
+  fontColor Transparent
+  stereotypeFontColor Transparent
+}
+package layouter <<Layout>>
+package layouter2 <<Layout>>
+package layouter3 <<Layout>>
+'//====
+
+
+package Frontend #ade { 
+    [BankWebSystem]
+    package WebAccess #ddc {
+        [AuthenticationProcess]
+        [User]
+        package WallStructure #edc {
+            [SocialWall]
+            [Message]
+            [BankWall]
+        }
+    }
+    [UsersDatabase]
+}
+note top
+=Use APACHE for the servers
+end note
+
+package Backend #cbd {
+    [DigitalCertificate]
+    [BankManagementWebService]
+    package UserBankAccountStructure #9ad {
+        [UserBankAccount]
+        [Transaction]
+    }
+    [UsersBankDatabase]
+
+    package MoneyKind {
+        [Churrumino]
+        [Dolar]
+    }
+}
+
+'//===========================  Relationships
+[AuthenticationProcess] -- [User] : > Login
+[User] -- [Message] : > ==<color:Red>HAS Messages?
+
+[BankWebSystem] -- [AuthenticationProcess] : > Has
+
+[UserBankAccount] -- "0..*" [Transaction] : > Has
+
+[BankWebSystem] -- [BankManagementWebService] : > Requires service for more \n**important operations**
+@enduml
+
+
+
+
+
+
+
+
+
+/'
+Objetivonnuu
+Dar seguimiento y monitoreoccdndas
+fubakese radyacion
+ed cintinua cin serrvicios
+calidad
+docencia'
+continuo 
+
+traabjos finales
+docencia
+
+3 tipos de poblacion
+    Egresados pero no graduados
+    Graduados
+    Docentes
+Multiusuario
+Hay proveedores que dan la infromacion, los cuales NO SON USUARIOS
+Mientras que los que consultan esta informacion SI son usuarios
+'/

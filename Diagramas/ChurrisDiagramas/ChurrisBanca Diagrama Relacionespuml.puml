@@ -1,0 +1,79 @@
+@startuml
+
+'https://plantuml.com/component-diagram
+Skinparam backgroundColor #EEEBDC
+'skinparam componentStyle uml1
+skinparam linetype polyline
+'skinparam linetype ortho
+skinparam Nodesep 45
+'skinparam Ranksep 45
+skinparam component {
+ArrowColor Maroon
+BorderColor Maroon
+BackgroundColor  #fefece
+}
+
+'//===========================  Layout object, invisible object to maipualte the position of other objects
+skinparam package<<Layout>> {
+  borderColor Transparent
+  backgroundColor Transparent
+  fontColor Transparent
+  stereotypeFontColor Transparent
+}
+package layouter <<Layout>>
+package layouter2 <<Layout>>
+package layouter3 <<Layout>>
+'//====
+
+
+'//===========================  Relationships
+[User] -- [User] : Has Friend
+[User] --- [User] : > Follows
+[User] -- "1" [BankWall] : ==Has
+[User] -- "1" [SocialWall] : ==Has
+[User] ---- [Message] : > Likes/Dislikes
+[User] ---- [Message] : > Creates/Deletes
+
+[SocialWall] -l- "0..*" [Message] : > ==Has
+
+note "This only displays the transactions \n of **only one** user" as BankWallNote
+BankWallNote -- [BankWall]
+[BankWall] -- "0..*" [Transaction] : > ==Has
+
+[UserBankAccount] -- [User] : < ==<color:Red>Has?
+note "This component **represents** the user account \n but with more **security**" as UserBankAccountNote
+UserBankAccountNote -- [UserBankAccount]
+
+[Transaction] -- [UserBankAccount] : > Has 2 users
+[Transaction] -- "   1" [MoneyKind] : > Has
+[Transaction] -- "   1" [DigitalCertificate] : > **Has**
+@enduml
+
+
+
+
+
+
+
+
+
+/'
+Objetivonnuu
+Dar seguimiento y monitoreoccdndas
+fubakese radyacion
+ed cintinua cin serrvicios
+calidad
+docencia'
+continuo 
+
+traabjos finales
+docencia
+
+3 tipos de poblacion
+    Egresados pero no graduados
+    Graduados
+    Docentes
+Multiusuario
+Hay proveedores que dan la infromacion, los cuales NO SON USUARIOS
+Mientras que los que consultan esta informacion SI son usuarios
+'/

@@ -1,0 +1,90 @@
+@startuml
+skinparam MaxMessageSize 300
+skinparam WrapWidth 300
+'skinparam componentStyle uml1
+'skinparam linetype polyline
+'skinparam linetype ortho
+skinparam Nodesep 45
+'skinparam Ranksep 45
+'top to bottom direction
+left to right direction
+skinparam wrapWidth 450
+Skinparam backgroundColor #EEEBDC
+skinparam class {
+ArrowColor Maroon
+BorderColor Maroon
+BackgroundColor  #fefece
+ArrowThickness 2
+}
+
+
+class App {
+    =Responsabilities
+    2
+    3
+    3.1
+}
+
+class SocialFeedPage {
+    =Responsabilities
+    4.2
+    Raw display
+}
+
+note right
+=Objectives
+# <color:Red> Make react **receive data entities from the backend** and be shown in the webpage
+# Make react handle the data received **in a common way**
+# Make react **send the data to the pages** that must display the info
+## <color:Red> **OR** use it for inner logic
+# Display the info received **from the backend**
+## <color:Red> **Process** the information
+## **Present** it in the web page
+end note
+
+
+
+'//===========================  Relationships
+App --> SocialFeedPage : Routes to other page
+
+
+
+
+
+
+
+
+
+
+
+
+
+@enduml
+
+
+
+
+
+
+
+
+/'
+Objetivonnuu
+Dar seguimiento y monitoreoccdndas
+fubakese radyacion
+ed cintinua cin serrvicios
+calidad
+docencia'
+continuo 
+
+traabjos finales
+docencia
+
+3 tipos de poblacion
+    Egresados pero no graduados
+    Graduados
+    Docentes
+Multiusuario
+Hay proveedores que dan la infromacion, los cuales NO SON USUARIOS
+Mientras que los que consultan esta informacion SI son usuarios
+'/
