@@ -109,6 +109,13 @@ Y luego hacer un análisis de riesgo, **teniendo** el sistema y los objetivos
 
 ## Uso de interfaces de red dentro de estas máquinas
 
+# Acceder a server en linux en Oracle VM desde Windows
+Si uno tiene un linux corriendo en Oracle VM desde windows, y se ejecuta desde el linux un programa que manda informacion a un puerto, hay que
+1. Configurar la maquina virtual en la configuración de red/networking que sea **Bridged Adapter** en vez de NAT, porque asi convertimos al linux como otra computadora dentro de la red local de windows
+2. Despues iniciar linux con esa configuracion
+3. Iniciar el programa(Si es un programa propio, asegurarse de que el programa mande informacion a la IP del linux y puerto deseado)
+4. Introducir en terminal *sudo ifconfig* para saber el IP del linux
+5. Introducir en windows la IP y puerto en el navegador como por ejemplo “192.168.0.20:3142/”, y listo
 
 
 

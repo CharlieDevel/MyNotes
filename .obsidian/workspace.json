@@ -13,7 +13,19 @@
             "state": {
               "type": "markdown",
               "state": {
-                "file": "Javascript.md",
+                "file": "Configuraciones.md",
+                "mode": "source",
+                "source": false
+              }
+            }
+          },
+          {
+            "id": "3a408b048ed25bac",
+            "type": "leaf",
+            "state": {
+              "type": "markdown",
+              "state": {
+                "file": "CyberSec/Apuntes churris Banca.md",
                 "mode": "source",
                 "source": false
               }
@@ -85,7 +97,7 @@
             "state": {
               "type": "backlink",
               "state": {
-                "file": "Javascript.md",
+                "file": "Configuraciones.md",
                 "collapseAll": false,
                 "extraContext": false,
                 "sortOrder": "alphabetical",
@@ -102,7 +114,7 @@
             "state": {
               "type": "outgoing-link",
               "state": {
-                "file": "Javascript.md",
+                "file": "Configuraciones.md",
                 "linksCollapsed": false,
                 "unlinkedCollapsed": true
               }
@@ -125,7 +137,7 @@
             "state": {
               "type": "outline",
               "state": {
-                "file": "Javascript.md"
+                "file": "Configuraciones.md"
               }
             }
           }
@@ -148,6 +160,9 @@
   },
   "active": "a1a9d10ddee55828",
   "lastOpenFiles": [
+    "Javascript.md",
+    "CyberSec/Apuntes churris Banca.md",
+    "Configuraciones.md",
     "LimeSurvey.md"
   ]
 }
