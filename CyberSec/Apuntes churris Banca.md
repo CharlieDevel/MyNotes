@@ -16,8 +16,15 @@ Hay que llevar registro de que likes ha dado un usuario para que lo pueda desmar
 Entre los 2 servidores de backend y fronted existen varios riesgos por la necesidad de comunicar datos importantes hacia afuera, que un servidor este hablando legítimamente con el otro y no era un falso, que no sea capturada la llave para encriptar
 - Cross side scripting: Hacer que el usuario en una aplicación web crea que está usando algo legítimo, o una parte legitima
 - Al atacar, cuidar el tema de los cambios, tipo un usuario malicioso se hace amigo y quita el ser amigo, donde este usuario quiere ver el perfil de alguien cuando NO debería(sólo si el otro usuario no lo sigue)
-- 
 
+- Identificar puertos vulnerables
+Los puertos en una máquina se usan para que la máquina se comunique con el exterior, y hay programas que usan estos puertos **y quedan en LISTEN**, lo cual son como ventanas abiertas a cualquier interacción que puede ser maliciosa, y se **necesita eliminar los programa innecesarios**
+
+- BLOQUEAR las 2 interfaces de red extra
+Porque si alguien consigue las IPs de esas interfaces de red, se puede conectar por SSH o así, y romperlo todo
+
+- Permitir sólo UNA CONEXIÓN a las bases de datos
+Configurar en María DB las sesiones permitidas en base de datos sólo una, pero hay que meter más cuidado en el mismo usuario el cual tiene su sesión activa
 
 Entre máquinas para tener Https
 Auténticarse de nuevo con firma digital **cuando se realizan transacciones**
@@ -97,12 +104,16 @@ Después de definir objetivos
 Identificar como se propagan los objetivos a los componentes
 Y luego hacer un análisis de riesgo, **teniendo** el sistema y los objetivos
 
+# Como usar la Máquinas remotas de producción
+
+
+## Uso de interfaces de red dentro de estas máquinas
 
 
 
 
 
-
+# Firewall y iptables
 
 
 
