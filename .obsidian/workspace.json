@@ -13,7 +13,19 @@
             "state": {
               "type": "markdown",
               "state": {
-                "file": "Configuraciones.md",
+                "file": "Javascript.md",
+                "mode": "source",
+                "source": false
+              }
+            }
+          },
+          {
+            "id": "320d9cabc83856a0",
+            "type": "leaf",
+            "state": {
+              "type": "markdown",
+              "state": {
+                "file": "Bases de datos/Notas Bases de Datos.md",
                 "mode": "source",
                 "source": false
               }
@@ -31,7 +43,8 @@
               }
             }
           }
-        ]
+        ],
+        "currentTab": 1
       }
     ],
     "direction": "vertical"
@@ -97,7 +110,7 @@
             "state": {
               "type": "backlink",
               "state": {
-                "file": "Configuraciones.md",
+                "file": "Bases de datos/Notas Bases de Datos.md",
                 "collapseAll": false,
                 "extraContext": false,
                 "sortOrder": "alphabetical",
@@ -114,7 +127,7 @@
             "state": {
               "type": "outgoing-link",
               "state": {
-                "file": "Configuraciones.md",
+                "file": "Bases de datos/Notas Bases de Datos.md",
                 "linksCollapsed": false,
                 "unlinkedCollapsed": true
               }
@@ -137,7 +150,7 @@
             "state": {
               "type": "outline",
               "state": {
-                "file": "Configuraciones.md"
+                "file": "Bases de datos/Notas Bases de Datos.md"
               }
             }
           }
@@ -158,11 +171,13 @@
       "command-palette:Open command palette": false
     }
   },
-  "active": "a1a9d10ddee55828",
+  "active": "99ff3f8d9e01b05a",
   "lastOpenFiles": [
+    "Bases de datos",
     "Javascript.md",
+    "Bases de datos/Notas Bases de Datos.md",
+    "LimeSurvey.md",
     "CyberSec/Apuntes churris Banca.md",
-    "Configuraciones.md",
-    "LimeSurvey.md"
+    "Configuraciones.md"
   ]
 }
