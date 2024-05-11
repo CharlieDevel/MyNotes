@@ -26,9 +26,16 @@ Porque si alguien consigue las IPs de esas interfaces de red, se puede conectar 
 - Permitir sólo UNA CONEXIÓN a las bases de datos
 Configurar en María DB las sesiones permitidas en base de datos sólo una, pero hay que meter más cuidado en el mismo usuario el cual tiene su sesión activa
 
+- El cgi si tiene puertos abiertos, y por ser CGI, se puede inyectar un programa malvado, y como C lo atrapa, entonces es vulnerable a inyección de código **HAY QUE CUIDARSE AL LEER ENTRADA ESTÁNDAR CON CGI**
+- También se pueden inyectar cosas **en disco** y así, por ejemplo viendo que archivos son leídos por un programa, **que ruta se está accediendo**
+
 Entre máquinas para tener Https
 Auténticarse de nuevo con firma digital **cuando se realizan transacciones**
 
+- Si un comando cambia algo luego en realidad no cambio
+Es por VCL que por alguna razón cuando alguien cambia una configuración de iptables o algo así, entonces devuelve la configuración a como estaba, pero si se cambia la configuración varias veces entonces VCL se confunde y eventualmente deja el valor que estaba modificado
+
+- Si se intenta conectar a la máquina remota desde otro lugar, puede que no se conecte el ssh pero peque VCL piensa que es algo malicioso, y hay que ir aVCL y decirle que uno se quiere conectar con la interfaz de ellos
 # =======
 
 - Cadenas de seguridad
@@ -121,6 +128,60 @@ Si uno tiene un linux corriendo en Oracle VM desde windows, y se ejecuta desde e
 
 
 # Firewall y iptables
+Iptables está en
+`/etc/iptables/rules.v4`
+Aquí es donde se controla la **Capa 3 de la máquina** y se pueden **rechazar o aceptar** paquetes del exterior, y los paquetes que vienen del exterior(importante para que apache y otros puedan comunicarse entre máquinas)
+Esto se controla por reglas, y las reglas **están encadenadas** donde si una regla aplica a algo, **entonces no va a probar las reglas que están después**
+
+- También puede controlar además con quien puedo hablar, **que tipo de paquetes de una conversación(ESTABLISHED, NEW, RELATED)**, como TCP quita puede permitir paquetes SÓLO SI son de una conversación ESTABLISHED
+- RELATED: Significa que de una sesión establecida, hacer una nueva sesión, pero sin usar un paquete NEW
+## Para editar IPTABLES
+Hay que editar el archivo en su ruta, y **REINICIAR el servicio de IPTABLES**
+> Consideraciones
+> Esto funciona como las reglas de gramática de ANTLR en términos de **reglas de paquetes válidos**, donde los paquetes que cumplen UNA regla, entonces se deja pasar
+> - Con esto hay que considerar paquetes que son muy frecuentes, y no dejar la regla que los deja pasar **en el fondo**, porque el rendimiento de red se verá afectado por **hacer mucha verificación**
+
+- Al crear una regla, y se quiere usar un servicio, como icmp, entonces hay que repetir el servicio en 2 argumentos, el -p, que indica protocolo a usar, y TAMBIÉN el -m, que es o el mismo protocolo, o un componente/elemento de este protocolo, y luego también se especificar el tipo de ese subtipo del protocolo, como el `--state NEW`
+	Básicamentete es como que en la máquina hay protocolos, en los protocolos estan sus componentes, en los componentes sus tipo, y así
+- También al crear reglas, si la regla es muy específica, **DEBE IR DE PRIMERO** antes de las demás reglas, porque la primera regla que haga match con el paquete entonces ya deja de revisar las reglas que están después
+- **Las 4 reglas después de las primeras 2 que empiezan con -A** son las más importantes que uno tiene que modificar, **LAS DEMÁS NO SE TOCAN**, de hecho las 4 tampoco se deberían tocar
+![[iptablesNormal.jpg]]
+
+ Reglas SUPER IMPORTANTE `INPUT -i lo -j ACCEPT`
+-i = interfaz de entrada(lo = la interfaz de la máquina, el este caso se refiere a la interfaz de `loopback)
+-j = accion que va a hacer si la regla se cumple, también significa `jump`, y permite saltar a otra regla
+-A = Al inicio de reglas, significa `Append`, y es el añadir 
+-: al inicio = Los 2 puntos al inicio de la línea son las DEFINICIONES DE CADENAS, donde aquí se ve que están los 3 de INPUT, OUTPUT Y FORWARD, y también los 2 de vcl, esto también nos puede servir para **Modularizar** y hacer cadenas extras, pero sólo si uno tiene muchas reglas
+
+
+una regla a ya sea {INPUT, OUTPUT, FORWARD}
+ La segunda regla después de esta es muy importante también que
+ Fui
+Hay que
+
+# =====================
+Iptables tiene otro tipo de reglas
+- Filtrar, que es con lo que siempre se utiliza
+- NAT
+- mangle, que es tocar los bits de los paquetes, SÓLO USAR cuando se sabe qué se está haciendo
+- Raw
+
+También está otro campo pero más grande llamado **Chains**
+- input
+- output
+- forward
+
+
+
+
+# Comandos
+Ver procesos de la máquina
+`ps ax | less`
+lsmod : Sirve para ver procesos de los módulos del kernel, que tal vez puedan no ser necesarios(se pueden encontrar procesos maliciosos si se compara esto en estado actual de la máquina, y una lista de estos pero cuando la máquina estaba desde un estado seguro, como cuando se recién compró), se quitan cosas de aquí con `rmmod`
+
+
+
+
 
 
 
