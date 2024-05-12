@@ -4,7 +4,7 @@
 
 //=====  Cuándo deben haber ENTIDADES DÉBILES?
 
-Cuando la  「entidad en sí o los atributos」 de esa entidad NO dependan de 『otras entidades u otros atributos』, en ese orden
+Cuando la  「entidad en sí o los atributos」 de esa entidad dependan de 『otras entidades u otros atributos』, en ese orden
 
 //=====  Cómo hacer buen 『diseño conceptual』 al leer el análisis
 
@@ -28,8 +28,8 @@ Cuando la  「entidad en sí o los atributos」 de esa entidad NO dependan de �
 
 Doble línea = TIENE que participar
 
-La relación tiene doble línea(doble rombo) = la entidad débil NECESITA la entidad fuerte para EXISTIR
-
+La relación tiene doble rombo [Singifica que] la entidad débil NECESITA la entidad fuerte para EXISTIR
+La relación tiene doble línea [Singifica que] la entidad tiene participacion OBLIGATORIA en la relacion con la otra entidad
   
   
 
