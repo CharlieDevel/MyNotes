@@ -25,7 +25,7 @@
             "state": {
               "type": "markdown",
               "state": {
-                "file": "Bases de datos/Notas Bases de Datos.md",
+                "file": "Configuraciones.md",
                 "mode": "source",
                 "source": false
               }
@@ -120,7 +120,7 @@
             "state": {
               "type": "backlink",
               "state": {
-                "file": "Bases de datos/Notas Bases de Datos.md",
+                "file": "Configuraciones.md",
                 "collapseAll": false,
                 "extraContext": false,
                 "sortOrder": "alphabetical",
@@ -137,7 +137,7 @@
             "state": {
               "type": "outgoing-link",
               "state": {
-                "file": "Bases de datos/Notas Bases de Datos.md",
+                "file": "Configuraciones.md",
                 "linksCollapsed": false,
                 "unlinkedCollapsed": true
               }
@@ -160,7 +160,7 @@
             "state": {
               "type": "outline",
               "state": {
-                "file": "Bases de datos/Notas Bases de Datos.md"
+                "file": "Configuraciones.md"
               }
             }
           }
@@ -183,10 +183,11 @@
   },
   "active": "320d9cabc83856a0",
   "lastOpenFiles": [
+    "Diagramas/ChurrisDiagramas/UMLDiagram.puml",
+    "Bases de datos/Notas Bases de Datos.md",
     "Bases de datos/Scripts/pdfs/Laboratorio 5 - JPRM.pdf",
     "Bases de datos/Scripts/pdfs/Laboratorio 5 - JPRM (1).pdf",
     "CyberSec/Apuntes churris Banca.md",
-    "Bases de datos/Notas Bases de Datos.md",
     "Bases de datos/Scripts/pdfs/Laboratorio 4 - JPRM.pdf",
     "Bases de datos/Scripts/pdfs/Laboratorio 2 - JPRM.pdf",
     "Javascript.md",
@@ -197,7 +198,6 @@
     "Bases de datos/Scripts/pdfs/_Reporte lab 6 (1).pdf",
     "Bases de datos/Scripts/pdfs/PythonNotesForProfessionals.pdf",
     "Bases de datos/Scripts/pdfs/MicrosoftStickyNotesahk.exe",
-    "Bases de datos/Scripts/pdfs/MicrosoftStickyNotesahk.ahk",
     "LimeSurvey.md"
   ]
 }

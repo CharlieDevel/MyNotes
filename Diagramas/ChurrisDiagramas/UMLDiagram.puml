@@ -1,0 +1,155 @@
+@startuml
+
+skinparam MaxMessageSize 300
+skinparam WrapWidth 300
+'skinparam componentStyle uml1
+'skinparam linetype polyline
+'skinparam linetype ortho
+skinparam Nodesep 45
+'skinparam Ranksep 45
+'top to bottom direction
+left to right direction
+skinparam wrapWidth 450
+Skinparam backgroundColor #EEEBDC
+skinparam class {
+ArrowColor Maroon
+BorderColor Maroon
+BackgroundColor  #fefece
+ArrowThickness 2
+}
+
+'//===========================  Layout object, invisible object to maipualte the position of other objects
+'//====
+
+note as ketim
+=Objectives
+
+==CGIOperations*
+Manage transactions to another user with DigitalCertificate
+
+_* Responsibility also propagated to the path back to the root node
+end note
+
+
+package Frontend #ade { 
+    class BankWebSystem {
+
+    }
+    package WebAccess #ddc {
+        class AuthenticationProcess {
+
+        }
+        class User {
+
+        }
+        package WallStructure #edc {
+            class SocialWall {
+
+            }
+            class Message {
+
+            }
+            class BankWall {
+
+            }
+        }
+    }
+    class UsersDatabase {
+
+    }
+}
+
+package Backend #cbd {
+    class DigitalCertificate {
+
+    }
+    class ApacheServer {
+        Will handle the requests with CGI(C++)
+
+    }
+    package CGIOperations #fea {
+        class GetAccounts {
+
+        }
+        class MakeTransfer<Transferer, Transferee, PrivateKey, Amount> {
+            Receives the info **representing** the users to make the transfer and the amount of money(plus maybe other options because of the money types) using several components to perform the operation
+
+        }
+        note bottom
+        The private Key **must come ALL THE WAY** from the web app to this place
+        end note
+        class DigitalCertificateHandler<PrivateKey> {
+            Eases the usage of the DigitalCertificate .pem file usage to validate users when given a **private key**
+        }
+        class UserBankAccountDatabaseHandler {
+
+        }
+    }
+
+
+    package UserBankAccountStructure #9ad {
+        class UserBankAccount {
+            
+        }
+        class Transaction {
+
+        }
+    }
+    class UsersBankDatabase {
+
+    }
+
+    package MoneyKind {
+        class Churrumino {
+
+        }
+        class Dolar {
+
+        }
+    }
+}
+
+'//===========================  Relationships
+AuthenticationProcess -- User : > Login
+User -- Message : > ==<color:Red>HAS Messages?
+
+BankWebSystem -- AuthenticationProcess : > Has
+
+UserBankAccount -- "0..*" Transaction : > Has
+
+BankWebSystem -- ApacheServer : > Requires service for more \n**important operations**
+ApacheServer -- CGIOperations : > Serves as the entrypoint \nfor bank operations
+
+MakeTransfer --> DigitalCertificateHandler : > Uses
+MakeTransfer --> UserBankAccountDatabaseHandler : > Uses
+DigitalCertificateHandler --> DigitalCertificate : > Reads
+@enduml
+
+
+
+
+
+
+
+
+
+/'
+Objetivonnuu
+Dar seguimiento y monitoreoccdndas
+fubakese radyacion
+ed cintinua cin serrvicios
+calidad
+docencia'
+continuo 
+
+traabjos finales
+docencia
+
+3 tipos de poblacion
+    Egresados pero no graduados
+    Graduados
+    Docentes
+Multiusuario
+Hay proveedores que dan la infromacion, los cuales NO SON USUARIOS
+Mientras que los que consultan esta informacion SI son usuarios
+'/

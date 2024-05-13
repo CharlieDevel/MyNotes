@@ -27,14 +27,13 @@ package layouter3 <<Layout>>
 
 
 '//===========================  Relationships
-[User] -- [User] : Has Friend
 [User] --- [User] : > Follows
 [User] -- "1" [BankWall] : ==Has
-[User] -- "1" [SocialWall] : ==Has
+[User] ---- "1" [SocialWall] : ==Has
 [User] ---- [Message] : > Likes/Dislikes
 [User] ---- [Message] : > Creates/Deletes
 
-[SocialWall] -l- "0..*" [Message] : > ==Has
+[SocialWall] - "0..*" [Message] : Has >
 
 note "This only displays the transactions \n of **only one** user" as BankWallNote
 BankWallNote -- [BankWall]

@@ -39,13 +39,20 @@ package Frontend #ade {
     }
     [UsersDatabase]
 }
-note top
-=Use APACHE for the servers
-end note
 
 package Backend #cbd {
     [DigitalCertificate]
     [BankManagementWebService]
+    package CGIOperations #fea {
+        [GetAccounts]
+        [MakeTransfer]
+        note bottom
+        **Transferer -> Transferee**
+        =USE DigitalCertificate
+        end note
+    }
+
+
     package UserBankAccountStructure #9ad {
         [UserBankAccount]
         [Transaction]
@@ -67,6 +74,7 @@ package Backend #cbd {
 [UserBankAccount] -- "0..*" [Transaction] : > Has
 
 [BankWebSystem] -- [BankManagementWebService] : > Requires service for more \n**important operations**
+[BankManagementWebService] -- CGIOperations : > Serves as the entrypoint \nfor bank operations
 @enduml
 
 
