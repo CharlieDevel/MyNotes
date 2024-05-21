@@ -28,6 +28,10 @@ Configurar en María DB las sesiones permitidas en base de datos sólo una, pero
 
 - El cgi si tiene puertos abiertos, y por ser CGI, se puede inyectar un programa malvado, y como C lo atrapa, entonces es vulnerable a inyección de código **HAY QUE CUIDARSE AL LEER ENTRADA ESTÁNDAR CON CGI**
 - También se pueden inyectar cosas **en disco** y así, por ejemplo viendo que archivos son leídos por un programa, **que ruta se está accediendo**
+### ==================
+- IMPORTANTE SOBRE CERTIFICADOS DIGITALES
+
+
 
 Entre máquinas para tener Https
 Auténticarse de nuevo con firma digital **cuando se realizan transacciones**
@@ -35,17 +39,17 @@ Auténticarse de nuevo con firma digital **cuando se realizan transacciones**
 - Si un comando cambia algo luego en realidad no cambio
 Es por VCL que por alguna razón cuando alguien cambia una configuración de iptables o algo así, entonces devuelve la configuración a como estaba, pero si se cambia la configuración varias veces entonces VCL se confunde y eventualmente deja el valor que estaba modificado
 
-- Si se intenta conectar a la máquina remota desde otro lugar, puede que no se conecte el ssh pero peque VCL piensa que es algo malicioso, y hay que ir aVCL y decirle que uno se quiere conectar con la interfaz de ellos
+- Si se intenta conectar a la máquina remota desde otro lugar, puede que no se conecte el ssh pero porque VCL piensa que es algo malicioso, y hay que ir a VCL y decirle que uno se quiere conectar con la interfaz de ellos
 # =======
 
 - Cadenas de seguridad
 Las cadenas de seguridad no son sólo tener 2 componentes y que uno se relacione con el otro, y cada uno tiene una propiedad de seguridad, es además de que uno se dirige a otro y le HEREDA la seguridad que tenía al otro, protegiendo así con esa otra propiedad al otro componente
-OJO: Esto es una espada de doble filo, porque así como un componente está protegiendo a otro componente, pero alguien logra meterse en un componente, **O el otro**, entonces el atacabnte **puede ser capaz** de meterse en el otro componente de la cadena, y así por todos los demás componentes de la cadena
+OJO: Esto es una espada de doble filo, porque así como un componente está protegiendo a otro componente, pero alguien logra meterse en un componente, **O el otro**, entonces el ataabnte **puede ser capaz** de meterse en el otro componente de la cadena, y así por todos los demás componentes de la cadena
 
 ## **Recurso, Procesamiento y Red**
 Estas son las 3 arquetipos del software que **la seguridad** busca proteger y manejar estas propiedades, en **cualquiera de sus formas**(hablando de las implementaciones de estas propiedades, donde también los controles de seguridad como auditabilidad que genera bitácoras, entran también como otra forma de esos arquetipos)
 
-Además ésta el **4to componente**, el **Las personas**, que se refiere a cualquiera de las formas en las que alguien **interactúa con estos arquetipos**
+Además ésta el **4to componente**, **Las personas**, que se refiere a cualquiera de las formas en las que alguien **interactúa con estos arquetipos**
 
 # CGI
 Da paginas html generadas dinámicamente, 
@@ -170,6 +174,21 @@ También está otro campo pero más grande llamado **Chains**
 - input
 - output
 - forward
+# ===================
+# IPtables
+
+- **firewalld**: Hace más simple ip tables, pero hace muchas cosas por debajo como por estándar
+- **Nftables**: 
+Esto puede agarrar un archivo ip tables y cambiarle la sintaxis
+
+
+
+# Generación de certificados digitales
+
+
+
+
+
 
 
 

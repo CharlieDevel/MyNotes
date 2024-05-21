@@ -4,6 +4,11 @@ The ultimate goal of this approach to develop an architecture is to use an **ord
 
 From that, ensuring a TREE structure of a system is the BEST OUTCOME to achieve, where nodes that are high up **have many abstractions** and contain several other things, while the leaf nodes contain the data **in its rawest form**, where the implementation details reside and there's no abstraction
 And regarding relationships between them, its best of those **relationships** between nodes is done at the **same level or lower nodes**, because a node interacting with a higher node would make the tree a graph, and those are harder to think about
+
+### How to apply this security to an already **Existing System** we don't know about?
+Applying this to a system which is built by us is easy, because what we have to do is just see how we grouped together and made interactions with the system in such a way that contains structural security, because we built it ourselves, BUT when **we must apply this security to a system we didn't build**, (like an operative system, WHICH we must do because that is where we deploy our servers) then we must do the same thing we do with all complex things, **study it and gain knowledge in order to identify the ALREADY EXISTING GROUPS made for it** and after discovering those existing groups, we must identify **The ones we need, and those who DON'T**, and either tweak or **Remove** the ones we don't need
+**But how do we do that?** We did that through the **controls and operations from which the system can to be influenced**, and we know how to do this because we studied this system, just like an operative system contains **system calls and such in order to be affected by the exterior**, like anti viruses which use these things
+
 ### What is a Model?
 M is a model of S, if M can be used to be able to answer questions about S
 

@@ -53,6 +53,9 @@ Especificamente se maneja asi:
 - **.crt o .cer**: Estos archivos significan que contienen **solo un** certificado
 - **.key**: Estos archivos solo contienen una PRIVATE KEY
 
+## CSR
+Además ésta en .CSR(Certificate Sign Request), que esto lo que es es básicamente servir como **public key** para alguien que también tiene una private key, y esto luego con una CERTIFICATE(cer) se va a validar que este .csr es válido(al hacer el proceso de autenticar con la private key)
+Y con esto ahora se puede generar un CRT, el cual es la forma en la que se representa **cada persona**, donde así cada sitio tiene que generar el crt de cada persona que quiera autenticarse ante el, esto para generar el crt que verifica a esta persona, y así la próxima vez que vaya a auténticarse 
 # Hacer que apache reconozca certificados de CLIENTES
 Para que apache logre identificar certificados de clientes, es necesario ademas de hacer que apache tenga su propio certificado y lo use en la configuracion `sites-available/default-ssl.conf`, tambien hay que anhadir que pueda reconocer cuando un cliente esta dando un certificado(**Y TAMBIEN** hacer que apache pase los datos de certificado del cliente al otro programa que lo va a leer como cgi)
 Habiendo definido que hay que hacer, la configuracion seria la siguiente
