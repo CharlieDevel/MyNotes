@@ -32,6 +32,18 @@
             }
           },
           {
+            "id": "97c54a63e8d69232",
+            "type": "leaf",
+            "state": {
+              "type": "markdown",
+              "state": {
+                "file": "FlowUML/FlowUML.md",
+                "mode": "source",
+                "source": false
+              }
+            }
+          },
+          {
             "id": "3a408b048ed25bac",
             "type": "leaf",
             "state": {
@@ -54,7 +66,7 @@
             }
           }
         ],
-        "currentTab": 1
+        "currentTab": 2
       }
     ],
     "direction": "vertical"
@@ -120,7 +132,7 @@
             "state": {
               "type": "backlink",
               "state": {
-                "file": "Configuraciones.md",
+                "file": "FlowUML/FlowUML.md",
                 "collapseAll": false,
                 "extraContext": false,
                 "sortOrder": "alphabetical",
@@ -137,7 +149,7 @@
             "state": {
               "type": "outgoing-link",
               "state": {
-                "file": "Configuraciones.md",
+                "file": "FlowUML/FlowUML.md",
                 "linksCollapsed": false,
                 "unlinkedCollapsed": true
               }
@@ -160,7 +172,7 @@
             "state": {
               "type": "outline",
               "state": {
-                "file": "Configuraciones.md"
+                "file": "FlowUML/FlowUML.md"
               }
             }
           }
@@ -181,23 +193,36 @@
       "command-palette:Open command palette": false
     }
   },
-  "active": "320d9cabc83856a0",
+  "active": "99ff3f8d9e01b05a",
   "lastOpenFiles": [
+    "LimeSurvey.md",
+    "Javascript.md",
+    "FlowUML/FlowUMLCanva.canvas",
+    "FlowUML/Raw Code Extraction.md",
+    "Configuraciones.md",
+    "V&V.md",
+    "CyberSec/Apuntes churris Banca.md",
+    "FlowUML",
+    "FlowUML/FlowUML.md",
+    "CyberSec/ISO 42010 Architecture Approach.md",
+    "Redes/Configuración de dispositivos para la red.md",
+    "Redes/Configuración de dispositivos de red etapa 2.md",
+    "Redes",
+    "Diagramas/Screenshot_20240502-222129_ES File Explorer Pro.jpg",
+    "CyberSec/CyberSec img/ExamplesOfViewPoints.png",
+    "CyberSec/CyberSec img/ConceptualModel.png",
+    "CyberSec/CyberSec img/ArchitectureComponentDiagram.png",
+    "CyberSec/CyberSec img/WholePartsTreeAndInteractionDiagrams.png",
+    "CyberSec/CyberSec img/LayersOfTheConcepts.png",
+    "CyberSec/CyberSec img/iptablesNormal.jpg",
     "Diagramas/ChurrisDiagramas/UMLDiagram.puml",
     "Bases de datos/Notas Bases de Datos.md",
     "Bases de datos/Scripts/pdfs/Laboratorio 5 - JPRM.pdf",
     "Bases de datos/Scripts/pdfs/Laboratorio 5 - JPRM (1).pdf",
-    "CyberSec/Apuntes churris Banca.md",
     "Bases de datos/Scripts/pdfs/Laboratorio 4 - JPRM.pdf",
     "Bases de datos/Scripts/pdfs/Laboratorio 2 - JPRM.pdf",
-    "Javascript.md",
-    "Configuraciones.md",
     "Bases de datos/Scripts/sql-basico.sql",
     "Bases de datos/Scripts/sql-avanzado.sql",
-    "Bases de datos/Scripts/pdfs/_Reporte lab 6.pdf",
-    "Bases de datos/Scripts/pdfs/_Reporte lab 6 (1).pdf",
-    "Bases de datos/Scripts/pdfs/PythonNotesForProfessionals.pdf",
-    "Bases de datos/Scripts/pdfs/MicrosoftStickyNotesahk.exe",
-    "LimeSurvey.md"
+    "Bases de datos/Scripts/pdfs/_Reporte lab 6.pdf"
   ]
 }
