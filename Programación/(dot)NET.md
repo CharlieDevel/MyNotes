@@ -17,7 +17,7 @@ They are used to declare **anonymous functions**, doing the following
 
 ```csharp
 delegate int MyDelegate(int x);
-MyDelegate myDelegate = delegate(int x) { x * x; };
+MyDelegate myDelegate = delegate(int x) { x * x; };u
 ```
 
 5. Lambda functions

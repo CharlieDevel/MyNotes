@@ -13,7 +13,7 @@
             "state": {
               "type": "markdown",
               "state": {
-                "file": "Javascript.md",
+                "file": "Programación/Javascript.md",
                 "mode": "source",
                 "source": false
               }
@@ -37,7 +37,7 @@
             "state": {
               "type": "markdown",
               "state": {
-                "file": "FlowUML/FlowUML.md",
+                "file": "Programación/(dot)NET.md",
                 "mode": "source",
                 "source": false
               }
@@ -132,7 +132,7 @@
             "state": {
               "type": "backlink",
               "state": {
-                "file": "FlowUML/FlowUML.md",
+                "file": "Programación/(dot)NET.md",
                 "collapseAll": false,
                 "extraContext": false,
                 "sortOrder": "alphabetical",
@@ -149,7 +149,7 @@
             "state": {
               "type": "outgoing-link",
               "state": {
-                "file": "FlowUML/FlowUML.md",
+                "file": "Programación/(dot)NET.md",
                 "linksCollapsed": false,
                 "unlinkedCollapsed": true
               }
@@ -172,7 +172,7 @@
             "state": {
               "type": "outline",
               "state": {
-                "file": "FlowUML/FlowUML.md"
+                "file": "Programación/(dot)NET.md"
               }
             }
           }
@@ -193,22 +193,22 @@
       "command-palette:Open command palette": false
     }
   },
-  "active": "99ff3f8d9e01b05a",
+  "active": "97c54a63e8d69232",
   "lastOpenFiles": [
+    "Configuraciones.md",
+    "Programación/Javascript.md",
+    "FlowUML/FlowUML.md",
     "Programación/Spring Boot DI.md",
     "Programación/Domain-Entities.svg",
     "Programación/(dot)NET.md",
     "Programación/(dot)NET tests.md",
     "Programación",
     "LimeSurvey.md",
-    "Javascript.md",
     "FlowUML/FlowUMLCanva.canvas",
     "FlowUML/Raw Code Extraction.md",
-    "Configuraciones.md",
     "V&V.md",
     "CyberSec/Apuntes churris Banca.md",
     "FlowUML",
-    "FlowUML/FlowUML.md",
     "CyberSec/ISO 42010 Architecture Approach.md",
     "Redes/Configuración de dispositivos para la red.md",
     "Redes/Configuración de dispositivos de red etapa 2.md",
