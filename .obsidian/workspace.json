@@ -195,6 +195,11 @@
   },
   "active": "99ff3f8d9e01b05a",
   "lastOpenFiles": [
+    "Programación/Spring Boot DI.md",
+    "Programación/Domain-Entities.svg",
+    "Programación/(dot)NET.md",
+    "Programación/(dot)NET tests.md",
+    "Programación",
     "LimeSurvey.md",
     "Javascript.md",
     "FlowUML/FlowUMLCanva.canvas",
@@ -222,7 +227,6 @@
     "Bases de datos/Scripts/pdfs/Laboratorio 4 - JPRM.pdf",
     "Bases de datos/Scripts/pdfs/Laboratorio 2 - JPRM.pdf",
     "Bases de datos/Scripts/sql-basico.sql",
-    "Bases de datos/Scripts/sql-avanzado.sql",
-    "Bases de datos/Scripts/pdfs/_Reporte lab 6.pdf"
+    "Bases de datos/Scripts/sql-avanzado.sql"
   ]
 }
