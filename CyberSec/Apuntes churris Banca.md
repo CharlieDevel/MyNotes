@@ -1,6 +1,6 @@
 
 - Autenticación en páginas web
-Tener un pedazo de función que auténticque en **cada página** que el usuario es legítimo
+Tener un pedazo de función que auténtique en **cada página** que el usuario es legítimo
 
 - Tener cuidado con apache con el path, porque cualquiera puede acceder a los archivos del servidor
 
