@@ -1,0 +1,33 @@
+{
+	"nodes":[
+		{"id":"d977a56a5c9847ae","type":"text","text":"# Base de Datos","x":-1280,"y":-290,"width":250,"height":60},
+		{"id":"60165bb0882f8abf","type":"text","text":"Tablas","x":-1320,"y":-184,"width":250,"height":60},
+		{"id":"ac2e7380f4872746","type":"text","text":"# Viewpoint Base de Datos\nTener tablas que estan **mapeadas** a **respuestas determinadas** de las encuestas\n**Describir** la informacion de cada columna y a que tipo de respuestas esta mapeada\n**Columnas** con datos **NO repetidos**(**convertir** los datos repetidos en una tabla y que las demas tablas hagan referencia a este)","x":-460,"y":-200,"width":640,"height":204},
+		{"id":"c40c651aecc7c948","type":"text","text":"# Viewpoint Uso de Datos \n\n\nREAD WRITE\nLos recursos, al unirse son mas que solo la suma de sus partes?\nPuertos de los Recursos, como interactuan con otros Recursos y que **compatibilidad** tiene con otros Recursos y lo **influenciables** que son por ese puerto de entrada\nDON'T forget that the way to understand a Resource is a high level description of it, you should also be able to describe the Resource as what it actually is(like the **implementation** of the abstraction, because we can treat the implementation as the abstracion, but we can handle the implementation ***differently*** than the abstraction)","x":220,"y":-620,"width":780,"height":360},
+		{"id":"74c643e9a11e81f8","type":"text","text":"Datos de personas","x":-1038,"y":-184,"width":250,"height":60},
+		{"id":"a80184f1a377ae64","type":"text","text":"Datos de personas profesionales[Tal vez?]","x":-1020,"y":-124,"width":250,"height":60},
+		{"id":"61f6335098b1ee26","type":"text","text":"# Sistema Gestion de Calidad","x":-1115,"y":-760,"width":327,"height":110},
+		{"id":"0f5dc48ca015fff1","type":"text","text":"### Informacion de Entidades de Interes para la Calidad","x":-1125,"y":-620,"width":347,"height":79},
+		{"id":"424b3f3f464eccdc","type":"text","text":"# Viewpoint Sistema de Calidad\nTener Informacion de Entidades de Interes para la Calidad a dispocision de Usuarios del Sistema\nAcceder a la Informacion(especificada arriba)\nRecolectar datos de entidades que dan **informacion objetiva** sobre la **calidad** de la educacion de Nutricion\nObtener **metricas** que expresen **datos objetivos** sobre la educacion y calidad de la carrera de Nutricion\n\n","x":-663,"y":-709,"width":760,"height":200},
+		{"id":"ae2672c8bf71bbd4","type":"text","text":"Acceso a los datos en BD","x":-1195,"y":-520,"width":250,"height":60},
+		{"id":"d6e6fea76cf94986","type":"text","text":"# Viewpoint Sistema Busqueda\n**Guardar** datos de personas y sus **datos academicos/profesionales laborales** en la base de datos\n**Recuperar** los datos de la base de datos sobre entidades con informacion de interes\nRecuperar datos de entidades y **entidades relacionadas**","x":-620,"y":-509,"width":760,"height":200},
+		{"id":"36ed9e6e553092a6","type":"text","text":"Pregunta","x":-842,"y":285,"width":250,"height":60},
+		{"id":"0a92498cf2d8d388","type":"text","text":"Configuracion pregunta","x":-788,"y":345,"width":250,"height":60},
+		{"id":"24e84c9fd0833204","type":"text","text":"Respuestas predefinidas","x":-788,"y":405,"width":250,"height":60},
+		{"id":"075d36017f81d10a","type":"text","text":"Encuesta","x":-913,"y":225,"width":250,"height":60},
+		{"id":"b5486f2067077b46","type":"text","text":"Configuracion de encuesta","x":-1163,"y":195,"width":250,"height":60},
+		{"id":"5432d9c31220f39f","type":"text","text":"# LimeSurvey","x":-1000,"y":100,"width":250,"height":60},
+		{"id":"807939e4dc192dfe","type":"text","text":"Personas por enviar","x":-1250,"y":315,"width":250,"height":60},
+		{"id":"cd8384a9bcf212d2","type":"text","text":"Envio de invitacion","x":-1250,"y":375,"width":250,"height":60},
+		{"id":"9b6bc2d9cac79fde","type":"text","text":"Envio de recordatorio","x":-1248,"y":430,"width":250,"height":60},
+		{"id":"bb55da439ecd3435","type":"text","text":"Respuesta","x":-788,"y":465,"width":250,"height":60},
+		{"id":"63b0ff92c61b5fa5","x":-538,"y":430,"width":218,"height":95,"type":"text","text":"## Exportacion de respuestas"},
+		{"id":"b65bcdb92041b570","type":"text","text":"# Viewpoint Encuesta\n**Almacenar** la **informacion relevante** Y **TAMBIEN facil de conseguir** y entendible por una maquina \nQue las respuestas sean en **codigo** preferiblemente\nRespuestas sean **predefinidas** preferiblemente\nRespuestas tengan la **menor cantidad de texto libre** posible\nRespuestas con la **mayor cantidad de restricciones** posible\nMostrar los Respuestas en estadistica en formato EXCEL de forma **entendible y deseada**(Formatear la forma en la que se guardan las respuestas bien)\nPreguntas con Respuestas Predefinidas **convertir en obligatoria** preferiblemente\nTener Dicionario de Codigo ***Actualizado* con las Respuestas** al Exportar Datos\n**Mantener ACTIVAS** las encuestas en los momentos cuando se hacen pruebas\n\n","x":-320,"y":45,"width":780,"height":360},
+		{"id":"577b7b846ab717d6","x":-895,"y":525,"width":250,"height":60,"type":"text","text":"Diccionario de Codigos Respuesta"},
+		{"id":"160fec7777823179","x":-1177,"y":-443,"width":250,"height":60,"type":"text","text":"Calidad de educacion en Nutricion"},
+		{"id":"63c8d979136051d3","type":"text","text":"Usuarios de BD","x":-1413,"y":-86,"width":250,"height":60},
+		{"id":"8d4859338889e8a0","type":"text","text":"Permisos de Usuario BD","x":-1381,"y":-26,"width":250,"height":60},
+		{"id":"01491f698797ceb2","x":-1038,"y":-26,"width":250,"height":60,"type":"text","text":"Datos sobre Calidad de Carrera Nutricion"}
+	],
+	"edges":[]
+}
