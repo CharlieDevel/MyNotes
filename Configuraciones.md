@@ -72,3 +72,4 @@ Este paso permite hacer que apache envie a un programa(como cgi) el recibir info
 
 # Acceder a una maquina remota por SSH con ROOT
 Para acceder a una maquina con la cuenta ROOT(que ssh no permite, aun cuando la cuenta root exista), se tiene que modificar una linea en `/etc/ssh/sshd_config`, en este archivo hay que encontrar la directiva `PermitRootLogin`, y hacer `PermitRootLogin yes`, y ahora se podra acceder a la maquina como root por default, util para cuando se usa vscode para conectarse a otras maquinas y poder hacer que vscode tambien haga cosas root, como por ejemplo debbuggear procesos ajenos(como con cgi con apache, que cada vez que alguien accede a un programa cgi por http, se levanta un programa cgi y luego se cierra)
+
