@@ -10,6 +10,8 @@ Se puede hacer en código una matriz de permisos que tiene recursos y el permiso
 - Desplegar muros de otros
 Hay que ver cómo es que un usuario puede ver muros de otros de forma dinámica Y TAMBIÉN se guarde en base de datos
 
+- Analizar la **Configuración Default** de los sistema usados(máquina Linux, apache, react, node, etc)
+
 - Lista de posts likeados por usuario
 Hay que llevar registro de que likes ha dado un usuario para que lo pueda desmarcar luego
 - Problemas de seguridad en comunicación entre servidores
