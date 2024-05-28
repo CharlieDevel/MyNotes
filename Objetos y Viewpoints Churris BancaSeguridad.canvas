@@ -45,7 +45,7 @@
 		{"id":"3ffe51a8f08c81da","type":"text","text":".csr + Firmador = CA **CONFIA** en el .crt generado","x":130,"y":190,"width":290,"height":60},
 		{"id":"1a2aeb82decacab4","type":"text","text":"VERIFICAR que el crt generado es diferente cada vez que se genera","x":625,"y":-183,"width":315,"height":83},
 		{"id":"0893baac9ab4d6be","type":"text","text":"# Viewpoint Seguridad Linux\nAceptar unicamente **paquetes en capa 3 de red** los cuales sean **absolutamente necesarios**\nFirewall(Servidor de cgi) acepta comunicarse **solo** con Servidor Backend\nFirewall(Servidor Backend) acepta paquetes **solo** de ESTABLISHED(Por el tema de aceptar solo comunicacion si yo he hablado con alguien que me esta respondiendo)\nFirewall(Servidor Backend) acepta paquetes **solo** de NEW por parte del Servidor Frontend\n\n","x":-1850,"y":220,"width":780,"height":320},
-		{"id":"4a374c5f290b5de9","type":"text","text":"# Viewpoint Seguridad Linux\nPuertos atacados\ntelnet se puede usar para llegarle a una maquina y que lo procese, porque \ntelbnet puede hablar HTTP, IMPORTANTE, por lo que hay que cuidar el puerto porque se pueden saltar capa 4, 5 y 6 y las demas\n","x":-2000,"y":895,"width":780,"height":320}
+		{"id":"4a374c5f290b5de9","type":"text","text":"# Viewpoint Seguridad Linux\nPuertos atacados\ntelnet se puede usar para llegarle a una maquina y que lo procese, porque puede conectarse a **cualquier puerto**\ntelbnet puede hablar HTTP, IMPORTANTE, por lo que hay que cuidar el puerto porque se pueden saltar capa 4, 5 y 6 y las demas\n","x":-2000,"y":895,"width":780,"height":320}
 	],
 	"edges":[
 		{"id":"c74ba99324a3d874","fromNode":"f07ecbbab07a3792","fromSide":"right","toNode":"4346b9f47b8fee34","toSide":"left"},
