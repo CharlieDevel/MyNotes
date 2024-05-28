@@ -35,14 +35,16 @@
 		{"id":"51d2631b2f2fa7fe","type":"text","text":"**Certificado sitio web** verificado por CA\n(que verifica a otros certificados que serian los usuarios)","x":-80,"y":576,"width":281,"height":88},
 		{"id":"3b3030171b58d8ec","type":"text","text":"Certificados clientes(varios .crt ya guardados)","x":-44,"y":664,"width":284,"height":66},
 		{"id":"19aa608c3e456a66","type":"text","text":"Hostname de acuerdo a CN del certificado del sitio","x":-80,"y":520,"width":250,"height":60},
-		{"id":"2808db5a5951ac36","type":"text","text":"CA(.crt)","x":-80,"y":460,"width":250,"height":60},
 		{"id":"838c18f95d3c4421","type":"text","text":"Validador de Certs de usuarios","x":-120,"y":365,"width":250,"height":60},
 		{"id":"ef349afc571dcd5a","type":"text","text":"Certificado de Usuario(.crt)","x":-100,"y":305,"width":250,"height":60},
 		{"id":"45c89438dd2f0669","type":"text","text":"DNS(/etc/hosts)","x":-44,"y":730,"width":250,"height":60},
 		{"id":"cb34148d27c2da26","type":"text","text":"# Viewpoint Certificados\nEl servidor web debe tener certificado y ser su propia CA(Certificate Authority)\nEl servidor debe confiar cuando un cliente se conecta por medio de su propio CA y tambien el certificado del cliente(el cual debio haber sido validado de antes por el CA del sitio por medio de .csr de cliente)\n","x":-320,"y":-200,"width":740,"height":200},
 		{"id":"3f1c93a34492c49e","type":"text","text":"# Viewpoint Funcionamiento de Certificados\nIMPLEMENTACION: Cuando un .crt cliente firmado por una CA(que debe ser confiada por nuestro server) es recibido en el server, el server debe hacer 2 cosas -- 1. Verificar el .crt del cliente con la llave publica del CA -- 2. Si se verifica la firma del CA con la del .crt cliente, entonces ahora pedir al cliente su llave privada para verificar que ese .crt que dio **ciertamente le pertenece**","x":-245,"y":-400,"width":790,"height":200},
 		{"id":"315e802faef4fca8","type":"text","text":"# Viewpoint Seguridad\nLimitar las **interacciones innecesarias/ventanas de ataque**\nPerfil es confidencial(solo un usuario puede ver su propio perfil O TAMBIEN perfil de amigos) #SF, #BDF , #DU\nLas transferencias son info sensible y solo el emisor y receptor de la transferencia puede ver esta info #SF, #SB, #BDB\nSolo los amigos pueden ver mi perfil #SF , #BDF\nLos datos de usuario deben ser encriptados al enviarse de una computadora a otra(incluyendo red LAN) #DU , #SF, #DBF , #MF\nProteger la maquina de un log in de alguien no autorizado\nProteger los inputs de inyecciones sql","x":-1360,"y":-200,"width":760,"height":360},
-		{"id":"0893baac9ab4d6be","type":"text","text":"# Viewpoint Seguridad Linux\nAceptar unicamente **paquetes en capa 3 de red** los cuales sean **absolutamente necesarios**\nFirewall(Servidor de cgi) acepta comunicarse **solo** con Servidor Backend\nFirewall(Servidor Backend) acepta paquetes **solo** de ESTABLISHED(Por el tema de aceptar solo comunicacion si yo he hablado con alguien que me esta respondiendo)\nFirewall(Servidor Backend) acepta paquetes **solo** de NEW por parte del Servidor Frontend\n\n","x":-1920,"y":220,"width":780,"height":320}
+		{"id":"0893baac9ab4d6be","type":"text","text":"# Viewpoint Seguridad Linux\nAceptar unicamente **paquetes en capa 3 de red** los cuales sean **absolutamente necesarios**\nFirewall(Servidor de cgi) acepta comunicarse **solo** con Servidor Backend\nFirewall(Servidor Backend) acepta paquetes **solo** de ESTABLISHED(Por el tema de aceptar solo comunicacion si yo he hablado con alguien que me esta respondiendo)\nFirewall(Servidor Backend) acepta paquetes **solo** de NEW por parte del Servidor Frontend\n\n","x":-1920,"y":220,"width":780,"height":320},
+		{"id":"2808db5a5951ac36","type":"text","text":"CA(.crt)","x":130,"y":130,"width":250,"height":60},
+		{"id":"3ffe51a8f08c81da","x":130,"y":190,"width":290,"height":60,"type":"text","text":".csr + Firmador = CA **CONFIA** en el .crt generado"},
+		{"id":"1a2aeb82decacab4","x":625,"y":-183,"width":315,"height":83,"type":"text","text":"VERIFICAR que el crt generado es diferente cada vez que se genera"}
 	],
 	"edges":[
 		{"id":"c74ba99324a3d874","fromNode":"f07ecbbab07a3792","fromSide":"right","toNode":"4346b9f47b8fee34","toSide":"left"},
@@ -61,6 +63,7 @@
 		{"id":"9fb3d9aa120cc680","fromNode":"a117b7775a7bd1f8","fromSide":"bottom","toNode":"2eadba890e264e47","toSide":"top"},
 		{"id":"7bd230a631c3333a","fromNode":"2eadba890e264e47","fromSide":"bottom","toNode":"a37d2294ab8a69ee","toSide":"right"},
 		{"id":"52d66168c2932d25","fromNode":"9026918508aa0acb","fromSide":"bottom","toNode":"85ea55dd268caf2c","toSide":"top"},
-		{"id":"0237ee6c0471434a","fromNode":"85ea55dd268caf2c","fromSide":"bottom","toNode":"a117b7775a7bd1f8","toSide":"top"}
+		{"id":"0237ee6c0471434a","fromNode":"85ea55dd268caf2c","fromSide":"bottom","toNode":"a117b7775a7bd1f8","toSide":"top"},
+		{"id":"cada7eb84d0826b7","fromNode":"1a2aeb82decacab4","fromSide":"left","toNode":"3ffe51a8f08c81da","toSide":"right","color":"6"}
 	]
 }
