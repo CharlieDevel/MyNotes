@@ -18,6 +18,7 @@ All of that are **Resources you want to visualize** and make sure to be known by
  
 ### Ports of Resources
 Another important component to add to the Resources are ***ports and influencers***, which is the input of the Resource that is able to *influence* the Resource's behaviour, and NOTE that you are not the ONLY one able to influence a Resource, **other resources or even forces are able to influence it(i. e. time)**
+> It is specially important to take into account that this is done because what we are trying to model is **COMPLEX**, and thus things like expert opinions or best practices **are BAD**, because we need to **study the system or problem to be understood**
 
 ### Viewpoint 
 **Viewpoints** are defined as: A list of statements of things that perceive a part from **reality and the Resources**, where we are able to define a Resource in a unique way rather than a general definition like just having a security viewpoint, and then a list of things like: `Sensitive Data should be encrypted` or `When Server receives data, encrypt the data`, it is beneficial to follow a pretty simple and conscice way and mention the **explicit resources in action** like `Data`, and a **predicate of what happens to the Resource**, like `Transaction Data can only be viewed by Emisor and Receptor`, because viewpoints are supposed to DEFINE the Resources in their unique perspective, you can also add in parentheses which resource the statement is interested in
