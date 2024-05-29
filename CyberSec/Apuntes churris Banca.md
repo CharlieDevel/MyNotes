@@ -12,6 +12,8 @@ Hay que ver cómo es que un usuario puede ver muros de otros de forma dinámica 
 
 - Analizar la **Configuración Default** de los sistema usados(máquina Linux, apache, react, node, etc)
 
+* Saber llaves publicas que estan adentro y generar unas parecidas
+
 - Lista de posts likeados por usuario
 Hay que llevar registro de que likes ha dado un usuario para que lo pueda desmarcar luego
 - Problemas de seguridad en comunicación entre servidores

@@ -1,7 +1,6 @@
 {
 	"nodes":[
 		{"id":"25daf4e7ec466521","type":"text","text":"# Viewpoint Usuario General\nUsar una aplicacion web donde tenga mi cuenta bancaria\n","x":580,"y":0,"width":360,"height":220},
-		{"id":"315e802faef4fca8","type":"text","text":"# Viewpoint Seguridad\nLimitar las **interacciones innecesarias/ventanas de ataque**\nPerfil es confidencial(solo un usuario puede ver su propio perfil O TAMBIEN perfil de amigos) #SF, #BDF , #DU\nLas transferencias son info sensible y solo el emisor y receptor de la transferencia puede ver esta info #SF, #SB, #BDB\nSolo los amigos pueden ver mi perfil #SF , #BDF\nLos datos de usuario deben ser encriptados al enviarse de una computadora a otra(incluyendo red LAN) #DU , #SF, #DBF , #MF\nProteger la maquina de un log in de alguien no autorizado\nProteger los inputs de inyecciones sql","x":580,"y":600,"width":780,"height":340},
 		{"id":"4346b9f47b8fee34","type":"text","text":"**Servidor frontend web**\nPuertos: URL - React - Red local con MariaDB - paginas y sus opciones","x":-470,"y":470,"width":350,"height":100},
 		{"id":"f07ecbbab07a3792","type":"text","text":"Maquina Frontend","x":-870,"y":480,"width":250,"height":60},
 		{"id":"410fb029573ee934","type":"text","text":"HTTP REQUEST/RESPONSE","x":60,"y":1300,"width":250,"height":60},
@@ -15,7 +14,6 @@
 		{"id":"5d7bbb2e98ea2f18","type":"text","text":"Post","x":-870,"y":820,"width":250,"height":50},
 		{"id":"a22fb28fc6b6fb40","type":"text","text":"# BD Frontend","x":-870,"y":640,"width":250,"height":60},
 		{"id":"ed37533e0cd20058","type":"text","text":"Token JWT","x":-420,"y":320,"width":250,"height":60},
-		{"id":"0893baac9ab4d6be","type":"text","text":"# Viewpoint Seguridad Linux\nAceptar unicamente **paquetes en capa 3 de red** los cuales sean **absolutamente necesarios**\n\n","x":-1850,"y":220,"width":780,"height":320},
 		{"id":"be044027a9f81ef1","type":"text","text":"## Firewall","x":-1320,"y":670,"width":250,"height":60},
 		{"id":"6d87b17a4fa94161","type":"text","text":"# Viewpoint Atacante\nEncontrar formas de encontrar un puerto e influenciar componentes que aceptan input\nModificar parametros y ver que sucede en los componentes\nEncontrar que esta a cargo de proteger lo que nos interesa y estudiarlo para encontrar como entrarle\n","x":970,"y":980,"width":780,"height":320},
 		{"id":"dcb529ff95de8d66","type":"text","text":"Usuario de BD para servidor","x":-870,"y":870,"width":250,"height":60},
@@ -34,20 +32,25 @@
 		{"id":"51d2631b2f2fa7fe","type":"text","text":"**Certificado sitio web** verificado por CA\n(que verifica a otros certificados que serian los usuarios)","x":-80,"y":576,"width":281,"height":88},
 		{"id":"3b3030171b58d8ec","type":"text","text":"Certificados clientes(varios .crt ya guardados)","x":-44,"y":664,"width":284,"height":66},
 		{"id":"19aa608c3e456a66","type":"text","text":"Hostname de acuerdo a CN del certificado del sitio","x":-80,"y":520,"width":250,"height":60},
-		{"id":"2808db5a5951ac36","type":"text","text":"CA(.crt)","x":-80,"y":460,"width":250,"height":60},
 		{"id":"838c18f95d3c4421","type":"text","text":"Validador de Certs de usuarios","x":-120,"y":365,"width":250,"height":60},
 		{"id":"ef349afc571dcd5a","type":"text","text":"Certificado de Usuario(.crt)","x":-100,"y":305,"width":250,"height":60},
 		{"id":"45c89438dd2f0669","type":"text","text":"DNS(/etc/hosts)","x":-44,"y":730,"width":250,"height":60},
 		{"id":"cb34148d27c2da26","type":"text","text":"# Viewpoint Certificados\nEl servidor web debe tener **certificado** firmado por nuestra **CA**(Certificate Authority)\n**Certs Clientes** deben ser primero confirmados por la **CA** y luego autenticados con su **Private Key** en el servidor\nEl servidor debe confiar cuando un cliente se conecta por medio de su propio CA y tambien el certificado del cliente(el cual debio haber sido validado de antes por el CA del sitio por medio de .csr de cliente)\n","x":-320,"y":-200,"width":740,"height":240},
 		{"id":"3f1c93a34492c49e","type":"text","text":"# Viewpoint Funcionamiento de Certificados\nIMPLEMENTACION: Cuando un .crt cliente firmado por una CA(que debe ser confiada por nuestro server) es recibido en el server, el server debe hacer 2 cosas -- 1. Verificar el .crt del cliente con la llave publica del CA -- 2. Si se verifica la firma del CA con la del .crt cliente, entonces ahora pedir al cliente su llave privada para verificar que ese .crt que dio **ciertamente le pertenece**","x":-245,"y":-400,"width":790,"height":200},
 		{"id":"2e9caa955002f741","type":"text","text":"Programa CGI para info bancaria","x":-545,"y":1440,"width":250,"height":60},
-		{"id":"d929c2ea1b0a6ce1","x":-380,"y":1530,"width":250,"height":60,"type":"text","text":"Crear transaccion"},
-		{"id":"37b94c1ab7a55216","x":-340,"y":1590,"width":250,"height":60,"type":"text","text":"T Emisor"},
-		{"id":"abf1b7dffb4eb8d5","x":-340,"y":1650,"width":250,"height":60,"type":"text","text":"T Receptor"},
-		{"id":"6a49e162554e77a6","x":-340,"y":1710,"width":250,"height":60,"type":"text","text":"Conversor Moneda"},
-		{"id":"2240f9ac9d003d03","type":"text","text":"# Viewpoint Seguridad Transacciones\nTransaccion hecha queda registrada en Base de Datos\nTransacciones que queden registradas en el sistema\nSolo Usuario puede ver info completa de transaccion\n","x":1380,"y":600,"width":780,"height":340},
+		{"id":"d929c2ea1b0a6ce1","type":"text","text":"Crear transaccion","x":-380,"y":1530,"width":250,"height":60},
+		{"id":"37b94c1ab7a55216","type":"text","text":"T Emisor","x":-340,"y":1590,"width":250,"height":60},
+		{"id":"abf1b7dffb4eb8d5","type":"text","text":"T Receptor","x":-340,"y":1650,"width":250,"height":60},
+		{"id":"6a49e162554e77a6","type":"text","text":"Conversor Moneda","x":-340,"y":1710,"width":250,"height":60},
 		{"id":"db182d078ad2766a","type":"text","text":"# Viewpoint Usuario de Web\nEntrar con un login a la app web #SF #BDF \nCrear posts #SF\nDar like/dislike a posts #SF\nSeguir a otras personas #SF\nVer perfil de mis amigos #SF\nVer posts de otras personas\nVer mi perfil #SF #BDF\n\nUsuario hace Transaccion a otro Usuario con Moneda en especifico\n\t1Hacer transacciones a cualquier otro usuario con moneda en especifico\n\n","x":970,"y":0,"width":620,"height":460},
-		{"id":"742d9e856a3e390a","x":-340,"y":1770,"width":250,"height":60,"type":"text","text":"Monto"}
+		{"id":"742d9e856a3e390a","type":"text","text":"Monto","x":-340,"y":1770,"width":250,"height":60},
+		{"id":"3d505b177dc473e4","type":"text","text":"# Viewpoint Seguridad\nLimitar las **interacciones innecesarias/ventanas de ataque**\nPerfil es confidencial(solo un usuario puede ver su propio perfil O TAMBIEN perfil de amigos) #SF, #BDF , #DU\nLas transferencias son info sensible y solo el emisor y receptor de la transferencia puede ver esta info #SF, #SB, #BDB\nSolo los amigos pueden ver mi perfil #SF , #BDF\nLos datos de usuario deben ser encriptados al enviarse de una computadora a otra(incluyendo red LAN) #DU , #SF, #DBF , #MF\nProteger la maquina de un log in de alguien no autorizado\nProteger los inputs de inyecciones sql","x":-1280,"y":-180,"width":760,"height":360},
+		{"id":"30de634e73beb56b","type":"text","text":"# Viewpoint Seguridad Linux\nAceptar unicamente **paquetes en capa 3 de red** los cuales sean **absolutamente necesarios**\nFirewall(Servidor de cgi) acepta comunicarse **solo** con Servidor Backend\nFirewall(Servidor Backend) acepta paquetes **solo** de ESTABLISHED(Por el tema de aceptar solo comunicacion si yo he hablado con alguien que me esta respondiendo)\nFirewall(Servidor Backend) acepta paquetes **solo** de NEW por parte del Servidor Frontend\n\n","x":-1770,"y":240,"width":780,"height":320},
+		{"id":"3069d76ecd051de6","type":"text","text":"# Viewpoint Seguridad Linux\nPuertos atacados\ntelnet se puede usar para llegarle a una maquina y que lo procese, porque puede conectarse a **cualquier puerto**\ntelnet puede hablar HTTP, IMPORTANTE, por lo que hay que cuidar el puerto porque se pueden saltar capa 4, 5 y 6 y las demas\nHay que detectar **donde va** alguien y que es lo **que lleva consigo** cuando ya se le permitio donde","x":-1920,"y":915,"width":780,"height":320},
+		{"id":"2240f9ac9d003d03","type":"text","text":"# Viewpoint Seguridad Transacciones\nTransaccion hecha queda registrada en Base de Datos\nTransacciones que queden registradas en el sistema\nSolo Usuario puede ver info completa de transaccion\n","x":-2100,"y":-170,"width":780,"height":340},
+		{"id":"ee6a60976cefbe2b","type":"text","text":"CA(.crt)","x":135,"y":160,"width":250,"height":60},
+		{"id":"e50f463f60e22ccc","type":"text","text":".csr + Firmador = CA **CONFIA** en el .crt generado","x":135,"y":220,"width":290,"height":60},
+		{"id":"907e1e6cc4da4324","type":"text","text":"VERIFICAR que el crt generado es diferente cada vez que se genera","x":630,"y":-153,"width":315,"height":83}
 	],
 	"edges":[
 		{"id":"c74ba99324a3d874","fromNode":"f07ecbbab07a3792","fromSide":"right","toNode":"4346b9f47b8fee34","toSide":"left"},
@@ -64,6 +67,7 @@
 		{"id":"52a223a18c5c47d8","fromNode":"ed37533e0cd20058","fromSide":"top","toNode":"08de617d327f3f93","toSide":"bottom","label":"Representa"},
 		{"id":"0ed489a36f5ec3a6","fromNode":"4346b9f47b8fee34","fromSide":"top","toNode":"ed37533e0cd20058","toSide":"bottom"},
 		{"id":"52d66168c2932d25","fromNode":"9026918508aa0acb","fromSide":"bottom","toNode":"85ea55dd268caf2c","toSide":"top"},
-		{"id":"0237ee6c0471434a","fromNode":"85ea55dd268caf2c","fromSide":"bottom","toNode":"a117b7775a7bd1f8","toSide":"top"}
+		{"id":"0237ee6c0471434a","fromNode":"85ea55dd268caf2c","fromSide":"bottom","toNode":"a117b7775a7bd1f8","toSide":"top"},
+		{"id":"d0e95ed51f3bdf2b","fromNode":"907e1e6cc4da4324","fromSide":"left","toNode":"e50f463f60e22ccc","toSide":"right","color":"6"}
 	]
 }
