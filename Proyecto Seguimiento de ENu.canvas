@@ -22,12 +22,15 @@
 		{"id":"9b6bc2d9cac79fde","type":"text","text":"Envio de recordatorio","x":-1248,"y":430,"width":250,"height":60},
 		{"id":"bb55da439ecd3435","type":"text","text":"Respuesta","x":-788,"y":465,"width":250,"height":60},
 		{"id":"63b0ff92c61b5fa5","x":-538,"y":430,"width":218,"height":95,"type":"text","text":"## Exportacion de respuestas"},
-		{"id":"b65bcdb92041b570","type":"text","text":"# Viewpoint Encuesta\n**Almacenar** la **informacion relevante** Y **TAMBIEN facil de conseguir** y entendible por una maquina \nQue las respuestas sean en **codigo** preferiblemente\nRespuestas sean **predefinidas** preferiblemente\nRespuestas tengan la **menor cantidad de texto libre** posible\nRespuestas con la **mayor cantidad de restricciones** posible\nMostrar los Respuestas en estadistica en formato EXCEL de forma **entendible y deseada**(Formatear la forma en la que se guardan las respuestas bien)\nPreguntas con Respuestas Predefinidas **convertir en obligatoria** preferiblemente\nTener Dicionario de Codigo ***Actualizado* con las Respuestas** al Exportar Datos\n**Mantener ACTIVAS** las encuestas en los momentos cuando se hacen pruebas\n\n","x":-320,"y":45,"width":780,"height":360},
 		{"id":"577b7b846ab717d6","x":-895,"y":525,"width":250,"height":60,"type":"text","text":"Diccionario de Codigos Respuesta"},
 		{"id":"160fec7777823179","x":-1177,"y":-443,"width":250,"height":60,"type":"text","text":"Calidad de educacion en Nutricion"},
 		{"id":"63c8d979136051d3","type":"text","text":"Usuarios de BD","x":-1413,"y":-86,"width":250,"height":60},
 		{"id":"8d4859338889e8a0","type":"text","text":"Permisos de Usuario BD","x":-1381,"y":-26,"width":250,"height":60},
-		{"id":"01491f698797ceb2","x":-1038,"y":-26,"width":250,"height":60,"type":"text","text":"Datos sobre Calidad de Carrera Nutricion"}
+		{"id":"01491f698797ceb2","x":-1038,"y":-26,"width":250,"height":60,"type":"text","text":"Datos sobre Calidad de Carrera Nutricion"},
+		{"id":"7e4b8d3742d71d35","x":-592,"y":285,"width":250,"height":60,"type":"text","text":"Restriciones"},
+		{"id":"5cd14f7f748bfe09","x":-538,"y":225,"width":250,"height":60,"type":"text","text":"Regex"},
+		{"id":"55fec6956a04834a","x":-538,"y":165,"width":250,"height":60,"type":"text","text":"Opciones basicas "},
+		{"id":"b65bcdb92041b570","type":"text","text":"# Viewpoint Encuesta\n**Almacenar** la **informacion relevante** Y **TAMBIEN facil de conseguir** y entendible por una maquina \nQue las respuestas sean en **codigo** preferiblemente\nRespuestas sean **predefinidas** preferiblemente\nRespuestas tengan la **menor cantidad de texto libre** posible\nRespuestas con la **mayor cantidad de restricciones** posible\nMostrar los Respuestas en estadistica en formato EXCEL de forma **entendible y deseada**(Formatear la forma en la que se guardan las respuestas bien)\nPreguntas con Respuestas Predefinidas **convertir en obligatoria** preferiblemente\nTener Dicionario de Codigo ***Actualizado* con las Respuestas** al Exportar Datos\n**Mantener ACTIVAS** las encuestas en los momentos cuando se hacen pruebas\n\n","x":-220,"y":34,"width":780,"height":360}
 	],
 	"edges":[]
 }

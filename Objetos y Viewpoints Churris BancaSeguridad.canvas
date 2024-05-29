@@ -1,8 +1,7 @@
 {
 	"nodes":[
 		{"id":"25daf4e7ec466521","type":"text","text":"# Viewpoint Usuario General\nUsar una aplicacion web donde tenga mi cuenta bancaria\n","x":580,"y":0,"width":360,"height":220},
-		{"id":"db182d078ad2766a","type":"text","text":"# Viewpoint Usuario de Web\nEntrar con un login a la app web #SF #BDF \nCrear posts #SF\nDar like/dislike a posts #SF\nSeguir a otras personas #SF\nVer perfil de mis amigos #SF\nVer posts de otras personas\nVer mi perfil #SF #BDF\n\nHacer transacciones a cualquier otro usuario con moneda en especifico\n\n","x":580,"y":280,"width":520,"height":290},
-		{"id":"315e802faef4fca8","type":"text","text":"# Viewpoint Seguridad\nLimitar las **interacciones innecesarias/ventanas de ataque**\nPerfil es confidencial(solo un usuario puede ver su propio perfil O TAMBIEN perfil de amigos) #SF, #BDF , #DU\nLas transferencias son info sensible y solo el emisor y receptor de la transferencia puede ver esta info #SF, #SB, #BDB\nSolo los amigos pueden ver mi perfil #SF , #BDF\nLos datos de usuario deben ser encriptados al enviarse de una computadora a otra(incluyendo red LAN) #DU , #SF, #DBF , #MF\nProteger la maquina de un log in de alguien no autorizado\nProteger los inputs de inyecciones sql","x":580,"y":600,"width":780,"height":320},
+		{"id":"315e802faef4fca8","type":"text","text":"# Viewpoint Seguridad\nLimitar las **interacciones innecesarias/ventanas de ataque**\nPerfil es confidencial(solo un usuario puede ver su propio perfil O TAMBIEN perfil de amigos) #SF, #BDF , #DU\nLas transferencias son info sensible y solo el emisor y receptor de la transferencia puede ver esta info #SF, #SB, #BDB\nSolo los amigos pueden ver mi perfil #SF , #BDF\nLos datos de usuario deben ser encriptados al enviarse de una computadora a otra(incluyendo red LAN) #DU , #SF, #DBF , #MF\nProteger la maquina de un log in de alguien no autorizado\nProteger los inputs de inyecciones sql","x":580,"y":600,"width":780,"height":340},
 		{"id":"4346b9f47b8fee34","type":"text","text":"**Servidor frontend web**\nPuertos: URL - React - Red local con MariaDB - paginas y sus opciones","x":-470,"y":470,"width":350,"height":100},
 		{"id":"f07ecbbab07a3792","type":"text","text":"Maquina Frontend","x":-870,"y":480,"width":250,"height":60},
 		{"id":"410fb029573ee934","type":"text","text":"HTTP REQUEST/RESPONSE","x":60,"y":1300,"width":250,"height":60},
@@ -28,9 +27,7 @@
 		{"id":"a37d2294ab8a69ee","type":"text","text":"# BD Backend","x":-955,"y":1550,"width":250,"height":60},
 		{"id":"bccb54578af9571e","type":"text","text":"Transferencia","x":-955,"y":1605,"width":250,"height":60},
 		{"id":"62d1573547127180","type":"text","text":"Datos bancarios","x":-955,"y":1660,"width":250,"height":60},
-		{"id":"2e9caa955002f741","type":"text","text":"Programa CGI para info bancaria","x":-670,"y":1410,"width":250,"height":60},
 		{"id":"47e91107a51d5ef9","type":"text","text":"Usuario de BD para servidor","x":-955,"y":1720,"width":250,"height":60},
-		{"id":"2eadba890e264e47","type":"text","text":"Programa CGI para **hacer** transferencia","x":-380,"y":1410,"width":250,"height":60},
 		{"id":"85ea55dd268caf2c","type":"text","text":"**Servidor backend web**\nPuertos: URL - Node Express - JWT - *Cualquier* request POST","x":-470,"y":960,"width":350,"height":100},
 		{"id":"b7a928a954829a51","type":"text","text":"HTTPS REQUESt/REPSONSE","x":-505,"y":1165,"width":250,"height":50},
 		{"id":"2d04b05baf9530b6","type":"text","text":"Certificado sitio web(para encripcion)","x":-505,"y":1115,"width":250,"height":50},
@@ -41,8 +38,16 @@
 		{"id":"838c18f95d3c4421","type":"text","text":"Validador de Certs de usuarios","x":-120,"y":365,"width":250,"height":60},
 		{"id":"ef349afc571dcd5a","type":"text","text":"Certificado de Usuario(.crt)","x":-100,"y":305,"width":250,"height":60},
 		{"id":"45c89438dd2f0669","type":"text","text":"DNS(/etc/hosts)","x":-44,"y":730,"width":250,"height":60},
-		{"id":"cb34148d27c2da26","type":"text","text":"# Viewpoint Certificados\nEl servidor web debe tener certificado y ser su propia CA(Certificate Authority)\nEl servidor debe confiar cuando un cliente se conecta por medio de su propio CA y tambien el certificado del cliente(el cual debio haber sido validado de antes por el CA del sitio por medio de .csr de cliente)\n","x":-320,"y":-200,"width":740,"height":200},
-		{"id":"3f1c93a34492c49e","type":"text","text":"# Viewpoint Funcionamiento de Certificados\nIMPLEMENTACION: Cuando un .crt cliente firmado por una CA(que debe ser confiada por nuestro server) es recibido en el server, el server debe hacer 2 cosas -- 1. Verificar el .crt del cliente con la llave publica del CA -- 2. Si se verifica la firma del CA con la del .crt cliente, entonces ahora pedir al cliente su llave privada para verificar que ese .crt que dio **ciertamente le pertenece**","x":-245,"y":-400,"width":790,"height":200}
+		{"id":"cb34148d27c2da26","type":"text","text":"# Viewpoint Certificados\nEl servidor web debe tener **certificado** firmado por nuestra **CA**(Certificate Authority)\n**Certs Clientes** deben ser primero confirmados por la **CA** y luego autenticados con su **Private Key** en el servidor\nEl servidor debe confiar cuando un cliente se conecta por medio de su propio CA y tambien el certificado del cliente(el cual debio haber sido validado de antes por el CA del sitio por medio de .csr de cliente)\n","x":-320,"y":-200,"width":740,"height":240},
+		{"id":"3f1c93a34492c49e","type":"text","text":"# Viewpoint Funcionamiento de Certificados\nIMPLEMENTACION: Cuando un .crt cliente firmado por una CA(que debe ser confiada por nuestro server) es recibido en el server, el server debe hacer 2 cosas -- 1. Verificar el .crt del cliente con la llave publica del CA -- 2. Si se verifica la firma del CA con la del .crt cliente, entonces ahora pedir al cliente su llave privada para verificar que ese .crt que dio **ciertamente le pertenece**","x":-245,"y":-400,"width":790,"height":200},
+		{"id":"2e9caa955002f741","type":"text","text":"Programa CGI para info bancaria","x":-545,"y":1440,"width":250,"height":60},
+		{"id":"d929c2ea1b0a6ce1","x":-380,"y":1530,"width":250,"height":60,"type":"text","text":"Crear transaccion"},
+		{"id":"37b94c1ab7a55216","x":-340,"y":1590,"width":250,"height":60,"type":"text","text":"T Emisor"},
+		{"id":"abf1b7dffb4eb8d5","x":-340,"y":1650,"width":250,"height":60,"type":"text","text":"T Receptor"},
+		{"id":"6a49e162554e77a6","x":-340,"y":1710,"width":250,"height":60,"type":"text","text":"Conversor Moneda"},
+		{"id":"2240f9ac9d003d03","type":"text","text":"# Viewpoint Seguridad Transacciones\nTransaccion hecha queda registrada en Base de Datos\nTransacciones que queden registradas en el sistema\nSolo Usuario puede ver info completa de transaccion\n","x":1380,"y":600,"width":780,"height":340},
+		{"id":"db182d078ad2766a","type":"text","text":"# Viewpoint Usuario de Web\nEntrar con un login a la app web #SF #BDF \nCrear posts #SF\nDar like/dislike a posts #SF\nSeguir a otras personas #SF\nVer perfil de mis amigos #SF\nVer posts de otras personas\nVer mi perfil #SF #BDF\n\nUsuario hace Transaccion a otro Usuario con Moneda en especifico\n\t1Hacer transacciones a cualquier otro usuario con moneda en especifico\n\n","x":970,"y":0,"width":620,"height":460},
+		{"id":"742d9e856a3e390a","x":-340,"y":1770,"width":250,"height":60,"type":"text","text":"Monto"}
 	],
 	"edges":[
 		{"id":"c74ba99324a3d874","fromNode":"f07ecbbab07a3792","fromSide":"right","toNode":"4346b9f47b8fee34","toSide":"left"},
@@ -58,8 +63,6 @@
 		{"id":"75690076ac93c6f3","fromNode":"f07ecbbab07a3792","fromSide":"bottom","toNode":"a22fb28fc6b6fb40","toSide":"top"},
 		{"id":"52a223a18c5c47d8","fromNode":"ed37533e0cd20058","fromSide":"top","toNode":"08de617d327f3f93","toSide":"bottom","label":"Representa"},
 		{"id":"0ed489a36f5ec3a6","fromNode":"4346b9f47b8fee34","fromSide":"top","toNode":"ed37533e0cd20058","toSide":"bottom"},
-		{"id":"9fb3d9aa120cc680","fromNode":"a117b7775a7bd1f8","fromSide":"bottom","toNode":"2eadba890e264e47","toSide":"top"},
-		{"id":"7bd230a631c3333a","fromNode":"2eadba890e264e47","fromSide":"bottom","toNode":"a37d2294ab8a69ee","toSide":"right"},
 		{"id":"52d66168c2932d25","fromNode":"9026918508aa0acb","fromSide":"bottom","toNode":"85ea55dd268caf2c","toSide":"top"},
 		{"id":"0237ee6c0471434a","fromNode":"85ea55dd268caf2c","fromSide":"bottom","toNode":"a117b7775a7bd1f8","toSide":"top"}
 	]
