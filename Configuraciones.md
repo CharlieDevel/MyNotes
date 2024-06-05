@@ -72,3 +72,24 @@ Este paso permite hacer que apache envie a un programa(como cgi) el recibir info
 
 # Acceder a una maquina remota por SSH con ROOT
 Para acceder a una maquina con la cuenta ROOT(que ssh no permite, aun cuando la cuenta root exista), se tiene que modificar una linea en `/etc/ssh/sshd_config`, en este archivo hay que encontrar la directiva `PermitRootLogin`, y hacer `PermitRootLogin yes`, y ahora se podra acceder a la maquina como root por default, util para cuando se usa vscode para conectarse a otras maquinas y poder hacer que vscode tambien haga cosas root, como por ejemplo debbuggear procesos ajenos(como con cgi con apache, que cada vez que alguien accede a un programa cgi por http, se levanta un programa cgi y luego se cierra)
+
+# Audit2allow -a
+Esto es parte de selinux, que es algo que hace que las cosas no funcionen en la máquina por seguridad y lo hace por medio de booleanos, permisos extra de archivos/directorios(como los de ls -a, pero se puede ver con `ls -alZ`, donde la Z muestra lo de selinux) y por último módulos que son más dinámicos y complicados de detectar error
+Getsebool -a / setsebool ()
+El audit también tiene el auditwhy que muestra razones por las que una acción de usuario o proceso ha fallado, también hay otra parte donde muestra con muchísimo más detalle los errores de las cosas, `pero se ve muy feo por el formato muy pobre`
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+s
