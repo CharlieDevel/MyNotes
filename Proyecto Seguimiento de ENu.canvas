@@ -32,8 +32,8 @@
 		{"id":"cd8384a9bcf212d2","type":"text","text":"Envio de invitacion","x":-1445,"y":562,"width":250,"height":60},
 		{"id":"9b6bc2d9cac79fde","type":"text","text":"Envio de recordatorio","x":-1443,"y":617,"width":250,"height":60},
 		{"id":"ab984a5497588abc","type":"text","text":"## Encuestado","x":-1506,"y":417,"width":250,"height":60},
-		{"id":"32ff2b0932b5f7d1","type":"text","text":"# Viewpoint Encuestado\nRespuestas con **formato en especifico** DEBEN ser dichas explicitamente al Encuestado\nPreguntas NO dificiles o poco claras\nInstrucciones claras","x":640,"y":536,"width":640,"height":204},
-		{"id":"d6eb516f842fdb82","type":"text","text":"Regex **CON o SIN** tildes \n\nregexMatch('/^(?:\\p{Lu}\\p{Ll}*)(?: \\p{Lu}\\p{Ll}*)*$/', G01Q03SQ99) != ''","x":-740,"y":267,"width":250,"height":60},
+		{"id":"32ff2b0932b5f7d1","type":"text","text":"# Viewpoint Encuestado\nPreguntas con **formato en especifico** DEBEN ser dichas explicitamente al Encuestado\nPreguntas NO dificiles o poco claras\nEncuesta con Instrucciones claras","x":640,"y":536,"width":640,"height":204},
+		{"id":"d6eb516f842fdb82","type":"text","text":"Regex **SIN** tildes \n\nregexMatch('/^(?:\\p{Lu}\\p{Ll}*)(?: \\p{Lu}\\p{Ll}*)*$/', G01Q03SQ99) != ''","x":-740,"y":267,"width":250,"height":60},
 		{"id":"55fec6956a04834a","type":"text","text":"Opciones basicas ","x":-788,"y":207,"width":250,"height":60},
 		{"id":"a7bae5356a8559d6","type":"text","text":"# Apuntes de conservatorio de nutrición\n\n\n\nSistema de calidad\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n","x":-982,"y":-1320,"width":622,"height":480}
 	],

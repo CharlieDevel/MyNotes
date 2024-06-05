@@ -31,8 +31,11 @@ _* Responsibility also propagated to the path back to the root node
 end note
 
 
-package Frontend #ade { 
-    class BankWebSystem {
+package ServerWeb #ade { 
+    class ReactApp {
+
+    }
+    class ExpressApp {
 
     }
     package WebAccess #ddc {
@@ -60,14 +63,19 @@ package Frontend #ade {
 }
 
 package Backend #cbd {
-    class DigitalCertificate {
-
+    class DigitalCertificates {
     }
+    note bottom
+    We have all the certificates of the users in here to later validate that the user that wanted to make a transaction from the React app, and receive in here the certificate, which Apache validates and we thus make the transaction
+    end note
     class ApacheServer {
         Will handle the requests with CGI(C++)
 
     }
     package CGIOperations #fea {
+        note as CGINotes
+        A transaction is performed only when Apache confirmed the certificate of the person that wanted to make a transaction is someone we trust via the CA
+        end note
         class GetAccounts {
 
         }
@@ -75,9 +83,6 @@ package Backend #cbd {
             Receives the info **representing** the users to make the transfer and the amount of money(plus maybe other options because of the money types) using several components to perform the operation
 
         }
-        note bottom
-        The private Key **must come ALL THE WAY** from the web app to this place
-        end note
         class DigitalCertificateHandler<PrivateKey> {
             Eases the usage of the DigitalCertificate .pem file usage to validate users when given a **private key**
         }
@@ -99,11 +104,11 @@ package Backend #cbd {
 
     }
 
-    package MoneyKind {
+    package MoneyKind #ead {
         class Churrumino {
 
         }
-        class Dolar {
+        class Euro {
 
         }
     }
@@ -113,12 +118,13 @@ package Backend #cbd {
 AuthenticationProcess -- User : > Login
 User -- Message : > ==<color:Red>HAS Messages?
 
-BankWebSystem -- AuthenticationProcess : > Has
+ReactApp -- AuthenticationProcess : > Has
 
 UserBankAccount -- "0..*" Transaction : > Has
 
-BankWebSystem -- ApacheServer : > Requires service for more \n**important operations**
-ApacheServer -- CGIOperations : > Serves as the entrypoint \nfor bank operations
+ReactApp -- ExpressApp : > Acts as a middle man beteween client app and all the **bank operations**
+ExpressApp -- ApacheServer : > Requires service for more \n**important operations**
+ApacheServer -- CGIOperations : > Lets cgi programs available \nfor bank operations
 
 MakeTransfer --> DigitalCertificateHandler : > Uses
 MakeTransfer --> UserBankAccountDatabaseHandler : > Uses
