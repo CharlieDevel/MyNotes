@@ -87,6 +87,12 @@ Se crea un diseño o manual de calidad para aplicar el proceso por cualquier per
 
 Se menciona lo difícil que es **evidenciar** lo que se ha hecho para que cuando se revise tanto para nosotros i auditores, se pueda notar que hubieron resultados
 #PREGUNTA PARA PROFE MARÍA, Hay que saber guardar las evidencias que serán MUCHAS(500) y poder mostrarlas a otras personas, y no sólo eso, también documentar la forma d poder interpretarlo 
+Instrucciones de trabajo, son más específicas en casos particulares
+
+Métricas, como sacarlas, tiene que primero estar establecido el proceso
+
+Proceso está comprado por entrada y salida, y es un conjunto de etapas que se fórmula porque queremos hacer algo
+Un procedimiento es algo que se aplica debido de los procesos, y **puede ser aplicado en varios procesos**
 
 Se resalta lo importante que es la cultura de la gestión de la calidad y no los certificados u otras cosas, eso sólo es un bonus 
 

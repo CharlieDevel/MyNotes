@@ -212,4 +212,4 @@ lsmod : Sirve para ver procesos de los módulos del kernel, que tal vez puedan n
 
 
 
-# View points Ortogonales
+# SQL Injection
