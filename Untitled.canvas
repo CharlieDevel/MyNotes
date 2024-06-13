@@ -1,0 +1,8 @@
+{
+	"nodes":[
+		{"id":"01d66086d1aa835d","x":-266,"y":-3,"width":250,"height":60,"type":"text","text":""},
+		{"id":"3d6636605ce86435","x":-198,"y":219,"width":250,"height":60,"type":"text","text":"Hard drive(HDD - SSD)"},
+		{"id":"950009f3a0f68253","x":-198,"y":159,"width":250,"height":60,"type":"text","text":"Partition/Volume"}
+	],
+	"edges":[]
+}
