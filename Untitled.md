@@ -1,0 +1,2 @@
+VERIFICAR que el crt generado es diferente cada vez que se genera
+Esto se refiere al hack de agarrar el CA de alguien mas, crear un certificado de 0, que **representa a alguien mas**, y hacer que la CA lo firme, para que se pueda suplantar la identidad solo generando algo parecido a lo real y haciendo que la CA confie en el 
