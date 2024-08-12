@@ -37,3 +37,15 @@ Esto lo logra porque simplemente da vuelta a las IP de src y dst
 Esto involucra capa 2
 porque tambien ocupa software especial que sea capaz de hacer que el load balancer reciba paquetes de capa 3, y de alguna forma lo convierte en un paquete de capa 2, con el que hace que **obligatoriamente este conectado a las maquinas reales por capa 2, switches**, y tambien entiendan la forma de hablar asi 
 
+# IP flotante
+Está es una técnica para cuando tenemos una IP pública pero queremos que hayan 2 dispositivos de red que manejen la red y la reciban, como un par de firewalls, pero con sólo una IP
+
+Lo que normalmente se hace es usar un protocolo para esto, y también hay otro aspecto el cual es el de poder también **Monitorear** estos dispositivos, en Internet se usa algo que es mediocre el cual es tener esa IP flotante y también dar una IP extra que sí se la quedan a cada dispositivo, pero es bastante básico y primitivo
+
+La mejor opción es el hacer que uno tome el rol de *Monitorear* y el otro de *ser monitoreado*, y se usa un protocolo tal como Virtual Redundant Routing Protocol, para poder hacer la IP flotante y también tener algo que configura estos roles de una conexión tipo Peer 2 Peer con **Keepalived**
+
+Esto también tiene otro problema porque cuando se obtiene esto, la máquina que está de backup y no tiene la IP flotante, tampoco tiene acceso a Internet, lo que significa que no puede se puede ingresar a esta máquina, y está muy limitada, por lo que se añade funcionalidad extra a las máquinas cuando no tienen la IP flotante, y es la de hacer que su default gateway cambie a la default gateway de la otra red a la que están conectados, pero **Por detrás**(o sea la red interna a la que están conectados con otra interfaz de red, ya que están conectados también al frente a la calle con la interfaz de red que usa la IP flotante)
+
+En realidad las máquinas que comparten IP no tienen 2 interfaces de red, sólo UNA, pero esta en un estado especial como *medio muerto*, donde se puede hacer cosas raras pero que también puede hacer que keepalived le ponga la IP flotante
+
+En realidad si tienen 2 interfaces, la de atrás y la de adelante, pero la de adelante está zombie
