@@ -21,8 +21,14 @@ Another important component to add to the Resources are ***ports and influencers
 > It is specially important to take into account that this is done because what we are trying to model is **COMPLEX**, and thus things like expert opinions or best practices **are BAD**, because we need to **study the system or problem to be understood**
 
 ### Viewpoint 
+*Reinterpretation:* Viewpoints may actually be something like **Goals** and objectives to be achieved, which see things from the real world in such a way that only fulfils their needs.
+The things that we want are presented through them 
+
 **Viewpoints** are defined as: A list of statements of things that perceive a part from **reality and the Resources**, where we are able to define a Resource in a unique way rather than a general definition like just having a security viewpoint, and then a list of things like: `Sensitive Data should be encrypted` or `When Server receives data, encrypt the data`, it is beneficial to follow a pretty simple and conscice way and mention the **explicit resources in action** like `Data`, and a **predicate of what happens to the Resource**, like `Transaction Data can only be viewed by Emisor and Receptor`, because viewpoints are supposed to DEFINE the Resources in their unique perspective, you can also add in parentheses which resource the statement is interested in
    - When defining requirements of the entity, you can create a new Viewpoint and put the requirements in there, and stop putting requirements when there are statements that belong to another Viewpoint(which can be created or assigned to an existing one), and if these requirements are from the client or something similar, then it is better to create a brand new Viewpoint named as the original Viewpoint of the client but with an `advanced` appended to it or something that expresses that this is viewed differently than the original Viewpoint
+
+## Resources Explanation
+If you want to make a description to explain a process about a Resource which has a complicated activity like a storm, and how a storm is formed, then you can **create a Viewpoint called *Storm Formation*** and then explain its process in there, putting also a number in the description to denote the step, and just keep writing the rest just as usual
 
 *ADDITIONAL NOTE*: **Objectives/Problems to solve** can be created from **Viewpoints**, which can be mapped to (Stakeholders/Interested parts) that care about the system in different views, allowing us to see the problem with **multiple dimensions**(Although the problem comes when a stakeholder, like a Developer, isn't just **one viewpoint**(the Developer Viewpoint) but actually a **SET of Viewpoints** that each can be separated and also divided **Orthogonally**, like the Security Viewpoint, Database Viewpoint, etc)
 
