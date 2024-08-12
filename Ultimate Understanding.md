@@ -12,11 +12,18 @@ All of that are **Resources you want to visualize** and make sure to be known by
 > Thus, a Resource can be defined as:
 	`User Data: Database Viewpoint, Security Viewpoint, User Viewpoint, etc`
 > This example is a definition of a **Resource**, defined only with **Viewpoints**, and the reason it is like this is because the viewpoints will contain the instructions on how to view the real world things, but from different aspects INSTEAD of a GENERALISTIC Viewpoint, which tends to work but not fully
-- DON'T forget that the way to understand a Resource is a high level description of it, you should also be able to describe the Resource as what it actually is(like the **implementation** of the abstraction, because we can treat the implementation as the abstracion, but we can handle the implementation ***differently*** than the abstraction)>   
+- DON'T forget that the way to understand a Resource is a high level description of it, you should also be able to describe the Resource as what it actually is(like the **implementation** of the abstraction, because we can treat the implementation as the abstracion, but we can handle the implementation ***differently*** than the abstraction)>
 > Normally this results in writing a LOT of information for each thing
 > Including even making a **WHOLE Parts-Tree** for each Resource if it is convenient to do
  
 ### Ports of Resources
+//===========================  
+//=====  WORK ON THIS
+The *Ports of resources* is a way to say that resources can be influenced in some way by other things like other resources
+BUT I think it is more beneficial to view this as just a tiny thing rather than a thing on its own because it seems there are **RELATIONSHIPS** between resources of certain kinds, as in a Server has a relation with an OS in that **one contains the other** and are chained, as in one is affected, then the other is
+That right there was the relationship both resources have, but there must be a way to be able to state that in a clearer way
+//===========================  
+
 Another important component to add to the Resources are ***ports and influencers***, which is the input of the Resource that is able to *influence* the Resource's behaviour, and NOTE that you are not the ONLY one able to influence a Resource, **other resources or even forces are able to influence it(i. e. time)**
 > It is specially important to take into account that this is done because what we are trying to model is **COMPLEX**, and thus things like expert opinions or best practices **are BAD**, because we need to **study the system or problem to be understood**
 

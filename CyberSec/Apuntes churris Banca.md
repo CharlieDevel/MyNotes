@@ -185,6 +185,30 @@ También está otro campo pero más grande llamado **Chains**
 - **Nftables**: 
 Esto puede agarrar un archivo ip tables y cambiarle la sintaxis
 
+# Zona desmilitarizada
+Esto es una subred que el propósito que tiene es que en una empresa por ejemplo, las personas que **Sean del Internet puedan acceder a las cosas de la empresas PERO con mayor control**, porque esa subred está un poco mas expuesta al Internet **Que otras subredes de la empres**
+
+Mientras que para el caso de que alguien **Desde la empresa quiere ir al Internet**, esto se hace normalmente con un servidor **PROXY**, el cual es otra computadora pero también con un control mayor(el cual también se le puede aplicar bitácoras para revisar la actividad de los empleados) y de acceda al Internet
+
+## Servidor Firewall
+El servidor firewall es el cuello de botella, pero a propósito por el cual se quiere que todo lo que empiece a entrar a **las subredes**(como el servidor proxy y la subred desmilitarizada)
+
+# Reglas iptavles para NAT
+Esto es una nueva sección en la rules.v4, sección llamada nat
+En comando hay que añadir
+```
+iptables -t nat
+```
+En rules.v4
+```
+# nat
+-A ...
+```
+
+Opción `-p udp`
+-p
+
+
 
 
 # Generación de certificados digitales
