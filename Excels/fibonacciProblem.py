@@ -4,10 +4,7 @@ def getFibonacciNumber(index: int):
     for i in range(index):
         b = a+b
         a = b
-        print("a: " + str(a) + " - b: " + str(a))
+        print("a: " + str(a) + " - b: " + str(b))
     return a
 
 print(getFibonacciNumber(5))
-
-
-
