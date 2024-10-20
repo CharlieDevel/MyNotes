@@ -1,5 +1,5 @@
 Private Sub Worksheet_SelectionChange(ByVal Target As Range)
-  '//===========================  Function to highlight the entire columns of non blank cells from the active rows
+  '//===========================  Function to highlight the entire columns of non blank cells from the active row, you must select at least 2 cells to enable this
   If Target.Cells.Count = 1 Then Exit Sub
 
   Static lastTimeCheckedSeconds As Double
