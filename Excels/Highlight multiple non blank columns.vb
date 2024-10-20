@@ -1,6 +1,6 @@
 Private Sub Worksheet_SelectionChange(ByVal Target As Range)
-  '//===========================  Function to highlight the entire columns of non blank cells from the active rows
-  If Target.Cells.Count = 1 Then Exit Sub
+  '//===========================  Function to highlight the entire columns of non blank cells from the active row, AND also other rows, if we wait a bit and go down
+  If Target.Cells.Count > 1 Then Exit Sub
 
   Static lastTimeCheckedSeconds As Double
   ' If the A:1 cell is empty, then clear everything and don't run
@@ -13,7 +13,8 @@ Private Sub Worksheet_SelectionChange(ByVal Target As Range)
   Application.ScreenUpdating = False
 
   'Clear the color of all cells
-  Cells.Interior.ColorIndex = 0
+  If Target.Cells.Count = 3 Then Cells.Interior.ColorIndex = 0
+
   ' This With ensures that when we make a new selection of an active cell, all the formatting we did is reverted
   With Target
     '   'Highlight row and column of the selected cell
@@ -52,11 +53,14 @@ Private Sub Worksheet_SelectionChange(ByVal Target As Range)
       ' Change the interior Color of each cell
       If IsNumeric(cell) Then cell.EntireColumn.Interior.Color = RGB(230, 133, 201)
     Next cell
-    
+
+    ' Also color the row to see easily the intersection of the data
+    ' ActiveCell.EntireRow.Interior.Color = RGB(230, 133, 201)
   End With
   
   Application.ScreenUpdating = True
 
 
 End Sub
+
 
