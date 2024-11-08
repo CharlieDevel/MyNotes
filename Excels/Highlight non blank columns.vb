@@ -14,6 +14,9 @@ Private Sub Worksheet_SelectionChange(ByVal Target As Range)
 
   'Clear the color of all cells
   Cells.Interior.ColorIndex = 0
+  'Clear the font color all cells
+  Cells.Font.ColorIndex = xlColorIndexAutomatic
+
   ' This With ensures that when we make a new selection of an active cell, all the formatting we did is reverted
   With Target
     '   'Highlight row and column of the selected cell
@@ -50,7 +53,11 @@ Private Sub Worksheet_SelectionChange(ByVal Target As Range)
     Set myRng = Range(rowRange).SpecialCells(xlCellTypeConstants)
     For Each cell In myRng
       ' Change the interior Color of each cell
-      If IsNumeric(cell) Then cell.EntireColumn.Interior.Color = RGB(230, 133, 201)
+      If IsNumeric(cell) Then 
+        cell.EntireColumn.Interior.Color = RGB(232, 182, 203)
+        cell.Font.Color = RGB(255, 255, 240)
+      End If
+
     Next cell
     
   End With
