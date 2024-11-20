@@ -1,5 +1,6 @@
 ' Declare the colorDict as a global variable at the module level
 Dim colorDict As Object
+Dim targetWithBordersFormatted As Long
 
 Private Sub Worksheet_SelectionChange(ByVal Target As Range)
     '//===========================  Function to highlight the entire columns of non blank cells from the active row, you must select at least 2 cells to enable this
@@ -52,6 +53,9 @@ Private Sub Worksheet_SelectionChange(ByVal Target As Range)
                 currentCellValue = cell.Value
                 maximumCellValue = Application.WorksheetFunction.Max(myRng)
                   ' Check if the value is already in the dictionary
+                  If currentCellValue > 112 Then
+                      Call AdjustColorIntensity(currentCellValue, maximumCellValue, r, g, b)
+                  End If
                   If Not colorDict.exists(currentCellValue) Then
                       ' If not, calculate RGB values and store them
                       Call AdjustColorIntensity(currentCellValue, maximumCellValue, r, g, b)
@@ -71,6 +75,7 @@ Private Sub Worksheet_SelectionChange(ByVal Target As Range)
 
         ' Clear or reset the background color in Column A, for the cases where it was colored and has an annoying view
         Columns("A:A").Interior.ColorIndex = 0
+        Call FormatColumnBasedOnCriteriaInCurrentCell(myRng)
 
     End With
 
@@ -117,17 +122,15 @@ Sub AdjustColorIntensity(currentCellValue As Variant, maximumCellValue As Varian
     ' If none of the 2 ifs are hit, then apply coloring to normal resources between 68 and 111, which are normally mean only 1 interaction with the resource
     ' Base color values: Pure red (no green, no blue)
     r = 255
-    g = 0
+    g = 50
     b = 0
-    ' Make sure maximumCellValue is at least 100 because that is enough
-    If maximumCellValue > 100 Then
-        maximumCellValue = 100
-    End If
+    maximumCellValue = 97
     
     ' Calculate the intensity factor based on currentCellValue and maximumCellValue
-    minBigResourceValue = 68
+    minBigResourceValue = 73
     maxBigResourceValue = maximumCellValue
     minResultValue = 0.38
+    ' minResultValue = 0.38
     maxResultValue = 1
     intensityFactor = minResultValue + ((currentCellValue - minBigResourceValue) * (maxResultValue - minResultValue)) / (maxBigResourceValue - minBigResourceValue)
     ' intensityFactor = (17/7)*(currentCellValue / maximumCellValue) - (9/7)
@@ -142,4 +145,84 @@ Sub AdjustColorIntensity(currentCellValue As Variant, maximumCellValue As Varian
     r = Application.WorksheetFunction.Min(255, Application.WorksheetFunction.Max(0, r))
     g = Application.WorksheetFunction.Min(255, Application.WorksheetFunction.Max(0, g))
     b = Application.WorksheetFunction.Min(255, Application.WorksheetFunction.Max(0, b))
+End Sub
+
+
+Sub FormatColumnsBasedOnCriteria()
+    Dim ws As Worksheet
+    Dim cell As Range
+    Dim colNum As Long
+    Dim maxVal As Double
+    Dim targetCol As Long
+    Dim i As Long
+
+    Set ws = ActiveSheet
+
+    ' Loop through each cell in column A
+    'TODO: Check if we can use the 'Range(rowRange).SpecialCells(xlCellTypeConstants)' to get only the cells we are interested in(the numeric ones)
+    For Each cell In ws.Range("A1:A" & ws.Cells(ws.Rows.Count, "A").End(xlUp).Row)
+        If IsNumeric(cell.Value) Then
+            maxVal = -1
+            targetCol = 0
+
+            ' Loop through each cell in row 2
+            For i = 1 To ws.Cells(2, ws.Columns.Count).End(xlToLeft).Column
+                If IsNumeric(ws.Cells(2, i).Value) Then
+                    If ws.Cells(2, i).Value < cell.Value And ws.Cells(2, i).Value > maxVal Then
+                        maxVal = ws.Cells(2, i).Value
+                        targetCol = i
+                    End If
+                End If
+            Next i
+
+            ' Format the column if a valid target column is found
+            If targetCol > 0 Then
+                ws.Columns(targetCol).Borders(xlEdgeLeft).LineStyle = xlContinuous
+                ws.Columns(targetCol).Borders(xlEdgeLeft).Weight = xlThick
+            End If
+        End If
+    Next cell
+End Sub
+
+
+' This function will put a line in the whole column located at the cell with a value of granularity higher than the granularity level of the primary resource, which interacts with the second resource, as a way to mark the line where this resource is interacting with the resources with lower granularity level than him, or if it is interacting with resources with a higher level of granularity than them
+Sub FormatColumnBasedOnCriteriaInCurrentCell(myRng As Range)
+    Dim ws As Worksheet
+    Set ws = ActiveSheet
+    Dim cell As Range
+    Set cell = myRng.Cells(1, 1)
+    ' We will only draw the line only if the current active, is positioned in the same row as the granularity value(which is a number)
+    If Not IsNumeric(cell.Value) Then Exit Sub
+
+    ' Remove the previous formatting of the border applied
+    If targetWithBordersFormatted > 0 Then
+        ws.Columns(targetWithBordersFormatted).Borders(xlEdgeLeft).LineStyle = xlNone
+    End If
+
+    Dim colNum As Long
+    Dim maxVal As Double
+    Dim targetCol As Long
+    Dim i As Long
+
+    ' Loop through each cell in row 2 to get the cell in that row that has a higher granularity value than the one in the current cell
+    For i = 1 To ws.Cells(2, ws.Columns.Count).End(xlToLeft).Column
+        If IsNumeric(ws.Cells(2, i).Value) Then
+            If ws.Cells(2, i).Value > cell.Value Then
+                ' ws.Columns(xlEdgeLeft).LineStyle = xlNone
+                maxVal = ws.Cells(2, i).Value
+                targetCol = i
+                Exit For
+            End If
+        End If
+    Next i
+
+    ' Format the column if a valid target column is found
+    If targetCol > 0 Then
+        ws.Columns(targetCol).Borders(xlEdgeLeft).LineStyle = xlContinuous
+        ws.Columns(targetCol).Borders(xlEdgeLeft).Weight = xlThick
+        ' Save the column with the border formatting applied to
+        targetWithBordersFormatted = targetCol
+    End If
+
+
 End Sub
