@@ -1,6 +1,6 @@
 ' Declare the colorDict as a global variable at the module level
 Dim colorDict As Object
-Dim targetWithBordersFormatted As Long
+Dim usedColorIndex As Variant
 
 Private Sub Worksheet_SelectionChange(ByVal Target As Range)
     '//===========================  Function to highlight the entire columns of non blank cells from the active row, you must select at least 2 cells to enable this
@@ -21,6 +21,21 @@ Private Sub Worksheet_SelectionChange(ByVal Target As Range)
     'Clear the font color all cells
     Cells.Font.ColorIndex = xlColorIndexAutomatic
 
+    ' //===========================  Testing to see pivot table fields and know which field has the  'KinfOfDefinition' values
+
+    Dim pt As PivotTable
+    Dim kindOfResourceValue As Variant
+    Dim pi As PivotItem
+    ' Check if there is at least one PivotTable in the active sheet
+    If ActiveSheet.PivotTables.Count > 0 Then
+        ' Get the first (and only) PivotTable
+        Set pt = ActiveSheet.PivotTables(1)
+        ' Now you can work with the PivotTable
+        Debug.Print pt.Name
+    Else
+        MsgBox "No PivotTable found in the active worksheet."
+    End If
+
     ' This With ensures that when we make a new selection of an active cell, all the formatting we did is reverted
     With Target
         '//===========================  Getting the variables to get the column range, like "B:B"
@@ -33,6 +48,7 @@ Private Sub Worksheet_SelectionChange(ByVal Target As Range)
 
         '//===========================  Getting the cells and applying to each entire row of all the non blank cells highlighting
         Dim myRng As Range
+        Dim thisCell As Range
         Dim currentCellValue As Variant
         Dim maximumCellValue As Variant
         Dim r As Integer, g As Integer, b As Integer
@@ -50,13 +66,18 @@ Private Sub Worksheet_SelectionChange(ByVal Target As Range)
         For Each cell In myRng
             ' If the value is numeric, process it
             If IsNumeric(cell.Value) Then
+                ' //=====  Debugging
+
+                ' kindOfResourceValue = pt.GetPivotData("KindOfDefinition", cell.Row, cell.Column)
+                ' Debug.Print kindOfResourceValue
+                ' //=====  Debugging
+
                 currentCellValue = cell.Value
                 maximumCellValue = Application.WorksheetFunction.Max(myRng)
-                  ' Check if the value is already in the dictionary
                   If currentCellValue > 112 Then
                       Call AdjustColorIntensity(currentCellValue, maximumCellValue, r, g, b)
-                  End If
-                  If Not colorDict.exists(currentCellValue) Then
+                  ' Check if the value is already in the dictionary
+                  ElseIf Not colorDict.exists(currentCellValue) Then
                       ' If not, calculate RGB values and store them
                       Call AdjustColorIntensity(currentCellValue, maximumCellValue, r, g, b)
                       colorDict.Add currentCellValue, Array(r, g, b)
@@ -70,6 +91,12 @@ Private Sub Worksheet_SelectionChange(ByVal Target As Range)
                 ' Apply the calculated or default color to the cell
                 cell.EntireColumn.Interior.Color = RGB(r, g, b)
                 cell.Font.Color = RGB(255, 255, 240)
+
+                ' Highlight the cells according to the corresponding kinfOfDefinition if applicable
+                If Target.Cells.Count = 3 Then
+                    Set thisCell = cell
+                    Call LookupValueInNamedTable(thisCell)
+                End If
             End If
         Next cell
 
@@ -190,20 +217,19 @@ Sub FormatColumnBasedOnCriteriaInCurrentCell(myRng As Range)
     Dim ws As Worksheet
     Set ws = ActiveSheet
     Dim cell As Range
+    Dim rng As Range
     Set cell = myRng.Cells(1, 1)
     ' We will only draw the line only if the current active, is positioned in the same row as the granularity value(which is a number)
     If Not IsNumeric(cell.Value) Then Exit Sub
 
     ' Remove the previous formatting of the border applied
-    If targetWithBordersFormatted > 0 Then
-        ws.Columns(targetWithBordersFormatted).Borders(xlEdgeLeft).LineStyle = xlNone
-    End If
+    Set rng = ws.UsedRange
+    rng.Borders.LineStyle = xlNone
 
     Dim colNum As Long
     Dim maxVal As Double
     Dim targetCol As Long
     Dim i As Long
-
     ' Loop through each cell in row 2 to get the cell in that row that has a higher granularity value than the one in the current cell
     For i = 1 To ws.Cells(2, ws.Columns.Count).End(xlToLeft).Column
         If IsNumeric(ws.Cells(2, i).Value) Then
@@ -220,9 +246,133 @@ Sub FormatColumnBasedOnCriteriaInCurrentCell(myRng As Range)
     If targetCol > 0 Then
         ws.Columns(targetCol).Borders(xlEdgeLeft).LineStyle = xlContinuous
         ws.Columns(targetCol).Borders(xlEdgeLeft).Weight = xlThick
-        ' Save the column with the border formatting applied to
-        targetWithBordersFormatted = targetCol
     End If
 
 
+End Sub
+
+' To get the 'Splunk event' from '[Viewpoints_Statements].[SecondaryResource].&[Splunk event]'
+Function ExtractTextAfterAmpersand(inputString As String) As String
+    Dim startPos As Long
+    Dim endPos As Long
+    
+    ' Find the position of the ampersand
+    startPos = InStr(inputString, "&") + 1
+    
+    ' Check if ampersand was found
+    If startPos = 0 Then
+        ExtractTextAfterAmpersand = "Ampersand not found"
+        Exit Function
+    End If
+    
+    ' Find the position of the opening bracket after the ampersand
+    startPos = InStr(startPos, inputString, "[")
+    
+    ' Check if opening bracket was found
+    If startPos = 0 Then
+        ExtractTextAfterAmpersand = "Opening bracket not found"
+        Exit Function
+    End If
+    
+    ' Find the position of the closing bracket for the first bracketed text
+    endPos = InStr(startPos + 1, inputString, "]")
+    
+    ' Check if closing bracket was found
+    If endPos = 0 Then
+        ExtractTextAfterAmpersand = "Closing bracket not found"
+        Exit Function
+    End If
+    
+    ' Extract the text inside the brackets
+    ExtractTextAfterAmpersand = Mid(inputString, startPos + 1, endPos - startPos - 1)
+End Function
+
+Sub LookupValueInNamedTable(cell As Range)
+    Dim ws As Worksheet
+    Dim table As ListObject
+    Dim colIndex As Integer
+    Dim kindOfDefinitionString As Variant
+    Dim foundRow As Range
+
+    Dim pvtCell As PivotCell
+    Dim pvtField As PivotField
+    Dim pvtItem As PivotItem
+    Dim primaryResourceName As Variant
+    Dim secondaryResourceName As Variant
+    Dim lookupString As Variant
+    Set pvtCell = cell.PivotCell
+    Dim colors(0 To 19) As Long ' Declare as an array of Long with a fixed size
+    Dim colorValue As Long
+    ' Initialize the array of 20 distinct colors
+    colors(0) = RGB(255, 165, 0)    ' Orange
+    colors(1) = RGB(0, 255, 0)      ' Green
+    colors(2) = RGB(0, 0, 255)      ' Blue
+    colors(3) = RGB(255, 255, 0)    ' Yellow
+    colors(4) = RGB(255, 0, 0)      ' Red
+    colors(5) = RGB(173, 216, 230)  ' Light Blue
+    colors(6) = RGB(0, 255, 255)    ' Cyan
+    colors(7) = RGB(255, 192, 203)  ' Pink
+    colors(8) = RGB(128, 128, 0)    ' Olive
+    colors(9) = RGB(0, 0, 39)      ' Very Dark Blue
+    colors(10) = RGB(255, 105, 180)  ' Hot Pink
+    colors(11) = RGB(75, 0, 130)    ' Indigo
+    colors(12) = RGB(240, 230, 140)  ' Khaki
+    colors(13) = RGB(255, 20, 147)   ' Deep Pink
+    colors(14) = RGB(0, 100, 0)      ' Dark Green
+    colors(15) = RGB(0, 128, 128)    ' Teal
+    colors(16) = RGB(255, 69, 0)     ' Red Orange
+    colors(17) = RGB(210, 105, 30)   ' Chocolate
+    colors(18) = RGB(255, 228, 196)  ' Bisque
+    colors(19) = RGB(128, 0, 128)    ' Purple
+
+    Dim i As Integer
+    Dim charCode As Long
+
+    ' Getting the values to lookup the kind of definition
+    primaryResourceName = ExtractTextAfterAmpersand(pvtCell.RowItems(3))
+    secondaryResourceName = ExtractTextAfterAmpersand(pvtCell.ColumnItems(2))
+    lookupString = primaryResourceName & secondaryResourceName
+
+    ' Set your worksheet
+    Set ws = ThisWorkbook.Sheets("Viewpoints_Statements") ' Change to your sheet name
+
+    ' Get the named table by its name
+    Set table = ws.ListObjects("Viewpoints_Statements") ' Change to your table name
+
+    ' Specify the column index from which you want to retrieve the value (e.g., 2 for the second column)
+    colIndex = 6 ' Change to the desired column index
+
+    ' Search for the lookup value in the first column of the table
+    Set foundRow = table.ListColumns(8).DataBodyRange.Find(lookupString, LookIn:=xlValues, LookAt:=xlWhole)
+
+    ' Check if the value was found
+    If Not foundRow Is Nothing Then
+        ' Get a color
+        ' colorValue = colors(usedColorIndex Mod (UBound(colors) + 1))
+        ' Set usedColorIndex = usedColorIndex+1
+
+        ' Retrieve the value from the specified column index
+        kindOfDefinitionString = foundRow.Offset(0, -2).Value
+
+        '//===========================  Get the value transforming the string into a integer below the size of the colors array
+        colorValue = 0
+        ' Loop through each character in the string
+        For i = 1 To Len(kindOfDefinitionString)
+            ' Get the ASCII code of the character
+            charCode = Asc(Mid(kindOfDefinitionString, i, 1))
+            ' Update the hash value (a simple hash function)
+            colorValue = (colorValue * 31 + charCode) Mod UBound(colors)
+        Next i
+        '//===========================
+
+        cell.Offset(-1, 0).Interior.Color = colors(colorValue)
+        ' Apply dotted background color to the entire column
+        ' With cell.EntireColumn.Interior
+        ' With cell.Offset(-1, 0)
+        '     cell.Offset(-1, 0).Interior.Color = colors(colorValue)
+        '     ' .Pattern = xlPatternCrissCross ' Set the pattern to dots
+        '     ' .PatternColorIndex = xlAutomatic ' Set automatic pattern color
+        '     ' .Color = colors(colorValue) ' Set the color
+        ' End With
+    End If
 End Sub
