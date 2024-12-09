@@ -1,5 +1,6 @@
 ' Declare the colorDict as a global variable at the module level
 Dim colorDict As Object
+' This function works by needing to have an undeited and unmodified pivot table that will be the same as the one this script will be modifying, thus having 2 pivot tables in different sheets, and the other sheet called "optimizedPivotTable" has the untouched pivot table so that we can remove the current pivot table because this script will leave a lot of uncleanable trash to the PIVOT TABLE object(and not the worksheet this is in), and this way we will have an optimized pivot table that wont be slowed down icreasingly
 Sub ClearFormatsExceptPivot()
     Dim ws As Worksheet
     Dim pvt As PivotTable
