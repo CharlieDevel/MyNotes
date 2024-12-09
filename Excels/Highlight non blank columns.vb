@@ -1,10 +1,64 @@
 ' Declare the colorDict as a global variable at the module level
 Dim colorDict As Object
-Dim usedColorIndex As Variant
+Sub ClearFormatsExceptPivot()
+    Dim ws As Worksheet
+    Dim pvt As PivotTable
+    Dim cell As Range
 
+    ' Check if there is at least one PivotTable in the active sheet
+    If ActiveSheet.PivotTables.Count > 0 Then
+        ' Get the first (and only) PivotTable
+        Set pvt = ActiveSheet.PivotTables(1)
+    End If
+    ' //===========================  Saving the pivot table before clear format
+    With ActiveSheet
+        ' Cells.ClearFormats
+        On Error Resume Next
+        ' Check if there is a backup pivot in the sheet
+        Dim pivotCell As Range
+        Dim pvtRange As Range
+        Set pivotCell = targetCell.pivotCell
+        ' If there is nothing in there, then create the backup
+        ' If pivotCell Is Nothing Then
+        '     pvt.TableRange2.Copy .Range("CCC999") 'copy to another area within same sheet
+        '     Set pvt = ActiveSheet.PivotTables(2)
+        ' End If
+        ' Deleting the modified PivotTable completely
+        ' Set pvtRange = pvt.TableRange2
+        ' pvtRange.EntireColumn.Delete
+        ' pvt.TableRange2.Worksheet.PivotTables(pvt.Name).TableRange2.Clear
+        Cells.Clear
+        ' Get the format that was just erased from another sheet that just contains the format for the pivot table
+        Set pvt = Sheets("optimizedPivotTable").PivotTables(1)
+        pvt.TableRange2.Copy .Range("A1") 'copy to another area within same sheet
+        ' Sheets("optimizedPivotTable").Cells.Copy
+        
+        ' Set pvt = ActiveSheet.PivotTables(1)
+        ' pvt.TableRange2.Copy .Range("A1")
+        ' pvt.TableRange2.Copy .Range("CCC999") 'copy to another area within same sheet
+        ' Set pvt = ActiveSheet.PivotTables(3)
+        ' pvt.TableRange2.Worksheet.PivotTables(pvt.Name).TableRange2.Clear
+        On Error GoTo 0 ' Reset error handling to default
+    End With
+
+End Sub
+
+' Function to highlight the entire columns of non blank cells from the active row, you must select at least 2 cells to enable this
 Private Sub Worksheet_SelectionChange(ByVal Target As Range)
-    '//===========================  Function to highlight the entire columns of non blank cells from the active row, you must select at least 2 cells to enable this
+    ' If the selected cells is only one, then exit
     If Target.Cells.Count = 1 Then Exit Sub
+    ' This simulates a cell that contains 'Row Labels' as a button to refresh the entire pivot table
+    If Selection.Count = 2 Then
+        ' Check if either of the cells contains the string "Row"
+        If InStr(1, Selection.Cells(1, 1).Value, "Row Labels", vbTextCompare) > 0 Or _
+           InStr(1, Selection.Cells(2, 1).Value, "Row Labels", vbTextCompare) > 0 Then
+            Range("A1").Select
+            Call ClearFormatsExceptPivot
+        End If
+    End If
+    ' If too much was selected, then exit
+    If Target.Cells.Count > 4 Then Exit Sub
+    Application.EnableEvents = False
 
     Static lastTimeCheckedSeconds As Double
     ' If the A:1 cell is empty, then clear everything and don't run
@@ -20,7 +74,13 @@ Private Sub Worksheet_SelectionChange(ByVal Target As Range)
     Cells.Interior.ColorIndex = 0
     'Clear the font color all cells
     Cells.Font.ColorIndex = xlColorIndexAutomatic
-
+    'Clear the present and probably generated in the sheet
+    For Each shp In ActiveSheet.Shapes
+        If shp.Type = msoTextBox Then
+            shp.Delete
+        End If
+    Next shp
+    
     ' //===========================  Testing to see pivot table fields and know which field has the  'KinfOfDefinition' values
 
     Dim pt As PivotTable
@@ -105,8 +165,18 @@ Private Sub Worksheet_SelectionChange(ByVal Target As Range)
         Call FormatColumnBasedOnCriteriaInCurrentCell(myRng)
 
     End With
+    Set pvtCell = Nothing
+    Set pt = Nothing
+    Set pi = Nothing
+
+    Dim textCell As Range
+    Set textCell = Range("CCC1") ' Modify this to the textCell you want to target
+    
+    ' Increase the textCell's value by 1
+    textCell.Value = textCell.Value + 1
 
     Application.ScreenUpdating = True
+    Application.EnableEvents = True
 End Sub
 
 Sub AdjustColorIntensity(currentCellValue As Variant, maximumCellValue As Variant, ByRef r As Integer, ByRef g As Integer, ByRef b As Integer)
@@ -117,7 +187,7 @@ Sub AdjustColorIntensity(currentCellValue As Variant, maximumCellValue As Varian
     Dim maxBigResourceValue As Integer
     Dim minResultValue As Double
     Dim ResultValue As Double
-    If currentCellValue < 68 Then 
+    If currentCellValue < 68 Then
       r = 255
       g = 192
       b = 192
@@ -125,7 +195,7 @@ Sub AdjustColorIntensity(currentCellValue As Variant, maximumCellValue As Varian
     End If
     ' Apply the coloring but to values bigger than 112, which tend to represent multiple resources because they are summed up
     minBigResourceValue = 112
-    If currentCellValue > minBigResourceValue Then 
+    If currentCellValue > minBigResourceValue Then
       r = 255
       g = 0
       b = 255
@@ -174,44 +244,6 @@ Sub AdjustColorIntensity(currentCellValue As Variant, maximumCellValue As Varian
     b = Application.WorksheetFunction.Min(255, Application.WorksheetFunction.Max(0, b))
 End Sub
 
-
-Sub FormatColumnsBasedOnCriteria()
-    Dim ws As Worksheet
-    Dim cell As Range
-    Dim colNum As Long
-    Dim maxVal As Double
-    Dim targetCol As Long
-    Dim i As Long
-
-    Set ws = ActiveSheet
-
-    ' Loop through each cell in column A
-    'TODO: Check if we can use the 'Range(rowRange).SpecialCells(xlCellTypeConstants)' to get only the cells we are interested in(the numeric ones)
-    For Each cell In ws.Range("A1:A" & ws.Cells(ws.Rows.Count, "A").End(xlUp).Row)
-        If IsNumeric(cell.Value) Then
-            maxVal = -1
-            targetCol = 0
-
-            ' Loop through each cell in row 2
-            For i = 1 To ws.Cells(2, ws.Columns.Count).End(xlToLeft).Column
-                If IsNumeric(ws.Cells(2, i).Value) Then
-                    If ws.Cells(2, i).Value < cell.Value And ws.Cells(2, i).Value > maxVal Then
-                        maxVal = ws.Cells(2, i).Value
-                        targetCol = i
-                    End If
-                End If
-            Next i
-
-            ' Format the column if a valid target column is found
-            If targetCol > 0 Then
-                ws.Columns(targetCol).Borders(xlEdgeLeft).LineStyle = xlContinuous
-                ws.Columns(targetCol).Borders(xlEdgeLeft).Weight = xlThick
-            End If
-        End If
-    Next cell
-End Sub
-
-
 ' This function will put a line in the whole column located at the cell with a value of granularity higher than the granularity level of the primary resource, which interacts with the second resource, as a way to mark the line where this resource is interacting with the resources with lower granularity level than him, or if it is interacting with resources with a higher level of granularity than them
 Sub FormatColumnBasedOnCriteriaInCurrentCell(myRng As Range)
     Dim ws As Worksheet
@@ -223,7 +255,7 @@ Sub FormatColumnBasedOnCriteriaInCurrentCell(myRng As Range)
     If Not IsNumeric(cell.Value) Then Exit Sub
 
     ' Remove the previous formatting of the border applied
-    Set rng = ws.UsedRange
+    Set rng = ws.Cells
     rng.Borders.LineStyle = xlNone
 
     Dim colNum As Long
@@ -294,44 +326,48 @@ Sub LookupValueInNamedTable(cell As Range)
     Dim kindOfDefinitionString As Variant
     Dim foundRow As Range
 
-    Dim pvtCell As PivotCell
+    Dim pvtCell As pivotCell
     Dim pvtField As PivotField
     Dim pvtItem As PivotItem
     Dim primaryResourceName As Variant
     Dim secondaryResourceName As Variant
     Dim lookupString As Variant
-    Set pvtCell = cell.PivotCell
+    Set pvtCell = cell.pivotCell
     Dim colors(0 To 19) As Long ' Declare as an array of Long with a fixed size
     Dim colorValue As Long
     ' Initialize the array of 20 distinct colors
-    colors(0) = RGB(255, 165, 0)    ' Orange
+    colors(0) = RGB(255, 69, 0)     ' Red Orange
     colors(1) = RGB(0, 255, 0)      ' Green
-    colors(2) = RGB(0, 0, 255)      ' Blue
+    colors(2) = RGB(255, 20, 147)   ' Deep Pink
     colors(3) = RGB(255, 255, 0)    ' Yellow
-    colors(4) = RGB(255, 0, 0)      ' Red
+    colors(4) = RGB(255, 165, 0)    ' Orange
     colors(5) = RGB(173, 216, 230)  ' Light Blue
     colors(6) = RGB(0, 255, 255)    ' Cyan
     colors(7) = RGB(255, 192, 203)  ' Pink
-    colors(8) = RGB(128, 128, 0)    ' Olive
+    colors(8) = RGB(255, 0, 0)      ' Red
     colors(9) = RGB(0, 0, 39)      ' Very Dark Blue
     colors(10) = RGB(255, 105, 180)  ' Hot Pink
-    colors(11) = RGB(75, 0, 130)    ' Indigo
+    colors(11) = RGB(128, 128, 0)    ' Olive
     colors(12) = RGB(240, 230, 140)  ' Khaki
-    colors(13) = RGB(255, 20, 147)   ' Deep Pink
+    colors(13) = RGB(255, 228, 196)  ' Bisque
     colors(14) = RGB(0, 100, 0)      ' Dark Green
     colors(15) = RGB(0, 128, 128)    ' Teal
-    colors(16) = RGB(255, 69, 0)     ' Red Orange
+    colors(16) = RGB(75, 0, 130)    ' Indigo
     colors(17) = RGB(210, 105, 30)   ' Chocolate
-    colors(18) = RGB(255, 228, 196)  ' Bisque
+    colors(18) = RGB(0, 0, 255)      ' Blue
     colors(19) = RGB(128, 0, 128)    ' Purple
 
     Dim i As Integer
     Dim charCode As Long
 
     ' Getting the values to lookup the kind of definition
-    primaryResourceName = ExtractTextAfterAmpersand(pvtCell.RowItems(3))
-    secondaryResourceName = ExtractTextAfterAmpersand(pvtCell.ColumnItems(2))
-    lookupString = primaryResourceName & secondaryResourceName
+    ' viewpointName = ExtractTextAfterAmpersand(pvtCell.RowItems(1))
+    ' primaryResourceName = ExtractTextAfterAmpersand(pvtCell.RowItems(3))
+    ' secondaryResourceName = ExtractTextAfterAmpersand(pvtCell.ColumnItems(2))
+    viewpointName = pvtCell.RowItems(1)
+    primaryResourceName = pvtCell.RowItems(3)
+    secondaryResourceName = pvtCell.ColumnItems(2)
+    lookupString = viewpointName & primaryResourceName & secondaryResourceName
 
     ' Set your worksheet
     Set ws = ThisWorkbook.Sheets("Viewpoints_Statements") ' Change to your sheet name
@@ -347,10 +383,6 @@ Sub LookupValueInNamedTable(cell As Range)
 
     ' Check if the value was found
     If Not foundRow Is Nothing Then
-        ' Get a color
-        ' colorValue = colors(usedColorIndex Mod (UBound(colors) + 1))
-        ' Set usedColorIndex = usedColorIndex+1
-
         ' Retrieve the value from the specified column index
         kindOfDefinitionString = foundRow.Offset(0, -2).Value
 
@@ -365,7 +397,32 @@ Sub LookupValueInNamedTable(cell As Range)
         Next i
         '//===========================
 
-        cell.Offset(-1, 0).Interior.Color = colors(colorValue)
+        ' cell.Offset(-1, 0).Interior.Color = colors(colorValue)
+
+        ' Add a text box over the cell
+        Dim txtBox As Shape
+        Dim cellValue As Integer
+        cellValue = cell.Value
+        Set ws = ActiveSheet ' Adjust the sheet name as needed
+        Set cell = cell.Offset(-1, 0)
+        Set txtBox = ws.Shapes.AddTextbox(msoTextOrientationHorizontal, cell.Left, cell.Top, cell.Width, cell.Height)
+        ' Set txtBox = ws.Shapes.AddTextbox(msoTextOrientationHorizontal, cell.Left, cell.Top, 100, 50) ' Initial size
+
+        ' Set the text box properties
+        With txtBox
+            .TextFrame.Characters.Text = kindOfDefinitionString
+            .TextFrame.HorizontalAlignment = xlHAlignLeft
+            .TextFrame.VerticalAlignment = xlVAlignCenter
+            .Line.Visible = msoFalse
+            .Rotation = -90 ' Rotate the text box to 46 degrees
+            ' .TextFrame.AutoSize = True
+            .Width = txtBox.Width + 28 ' Increase the width by 50 points (adjust as needed)
+            ' .Fill.Visible = msoFalse ' Make the background transparent
+            .Fill.ForeColor.RGB = colors(colorValue) ' Example: Yellow background (RGB value)
+            .TextFrame.Characters.Font.Size = 8 ' Example font size, adjust as needed
+            .TextFrame.Characters.Font.Bold = True ' Makes the text bold
+        End With
+
         ' Apply dotted background color to the entire column
         ' With cell.EntireColumn.Interior
         ' With cell.Offset(-1, 0)
@@ -375,4 +432,12 @@ Sub LookupValueInNamedTable(cell As Range)
         '     ' .Color = colors(colorValue) ' Set the color
         ' End With
     End If
+    Set pvtCell = Nothing
+    Set pvtField = Nothing
+    Set pvtItem = Nothing
 End Sub
+
+
+
+
+
