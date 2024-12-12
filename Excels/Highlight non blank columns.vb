@@ -336,6 +336,9 @@ Sub LookupValueInNamedTable(cell As Range)
     Set pvtCell = cell.pivotCell
     Dim colors(0 To 19) As Long ' Declare as an array of Long with a fixed size
     Dim colorValue As Long
+    Dim firstAddress As String
+    Dim loopCounter As Integer
+
     ' Initialize the array of 20 distinct colors
     colors(0) = RGB(255, 69, 0)     ' Red Orange
     colors(1) = RGB(0, 255, 0)      ' Green
@@ -346,16 +349,16 @@ Sub LookupValueInNamedTable(cell As Range)
     colors(6) = RGB(0, 255, 255)    ' Cyan
     colors(7) = RGB(255, 192, 203)  ' Pink
     colors(8) = RGB(255, 0, 0)      ' Red
-    colors(9) = RGB(0, 0, 39)      ' Very Dark Blue
+    colors(9) = RGB(139, 235, 117)      '  Dark Blue
     colors(10) = RGB(255, 105, 180)  ' Hot Pink
     colors(11) = RGB(128, 128, 0)    ' Olive
     colors(12) = RGB(240, 230, 140)  ' Khaki
     colors(13) = RGB(255, 228, 196)  ' Bisque
     colors(14) = RGB(0, 100, 0)      ' Dark Green
     colors(15) = RGB(0, 128, 128)    ' Teal
-    colors(16) = RGB(75, 0, 130)    ' Indigo
+    colors(16) = RGB(204, 137, 255)    ' Indigo
     colors(17) = RGB(210, 105, 30)   ' Chocolate
-    colors(18) = RGB(0, 0, 255)      ' Blue
+    colors(18) = RGB(189, 189, 255)      ' Blue
     colors(19) = RGB(128, 0, 128)    ' Purple
 
     Dim i As Integer
@@ -381,57 +384,54 @@ Sub LookupValueInNamedTable(cell As Range)
 
     ' Search for the lookup value in the first column of the table
     Set foundRow = table.ListColumns(8).DataBodyRange.Find(lookupString, LookIn:=xlValues, LookAt:=xlWhole)
+    loopCounter = -1
 
     ' Check if the value was found
     If Not foundRow Is Nothing Then
-        ' Retrieve the value from the specified column index
-        kindOfDefinitionString = foundRow.Offset(0, -2).Value
+        firstAddress = foundRow.Address
+        ' loop until we wrap back to the first found cell
+        Do
+            loopCounter = loopCounter + 1
+            ' Retrieve the value from the specified column index
+            kindOfDefinitionString = foundRow.Offset(0, -2).Value
 
-        '//===========================  Get the value transforming the string into a integer below the size of the colors array
-        colorValue = 0
-        ' Loop through each character in the string
-        For i = 1 To Len(kindOfDefinitionString)
-            ' Get the ASCII code of the character
-            charCode = Asc(Mid(kindOfDefinitionString, i, 1))
-            ' Update the hash value (a simple hash function)
-            colorValue = (colorValue * 31 + charCode) Mod UBound(colors)
-        Next i
-        '//===========================
+            '//===========================  Get the value transforming the string into a integer below the size of the colors array
+            colorValue = 0
+            ' Loop through each character in the string
+            For i = 1 To Len(kindOfDefinitionString)
+                ' Get the ASCII code of the character
+                charCode = Asc(Mid(kindOfDefinitionString, i, 1))
+                ' Update the hash value (a simple hash function)
+                colorValue = (colorValue * 31 + charCode) Mod UBound(colors)
+            Next i
+            '//===========================
 
-        ' cell.Offset(-1, 0).Interior.Color = colors(colorValue)
+            ' Add a text box over the cell
+            Dim txtBox As Shape
+            Dim cellValue As Integer
+            cellValue = cell.Value
+            Set ws = ActiveSheet ' Adjust the sheet name as needed
+            Set cell = cell.Offset(-1, 0)
+            Set txtBox = ws.Shapes.AddTextbox(msoTextOrientationHorizontal, cell.Left, cell.Top-29*loopCounter, cell.Width, cell.Height)
 
-        ' Add a text box over the cell
-        Dim txtBox As Shape
-        Dim cellValue As Integer
-        cellValue = cell.Value
-        Set ws = ActiveSheet ' Adjust the sheet name as needed
-        Set cell = cell.Offset(-1, 0)
-        Set txtBox = ws.Shapes.AddTextbox(msoTextOrientationHorizontal, cell.Left, cell.Top, cell.Width, cell.Height)
-        ' Set txtBox = ws.Shapes.AddTextbox(msoTextOrientationHorizontal, cell.Left, cell.Top, 100, 50) ' Initial size
-
-        ' Set the text box properties
-        With txtBox
-            .TextFrame.Characters.Text = kindOfDefinitionString
-            .TextFrame.HorizontalAlignment = xlHAlignLeft
-            .TextFrame.VerticalAlignment = xlVAlignCenter
-            .Line.Visible = msoFalse
-            .Rotation = -90 ' Rotate the text box to 46 degrees
-            ' .TextFrame.AutoSize = True
-            .Width = txtBox.Width + 28 ' Increase the width by 50 points (adjust as needed)
-            ' .Fill.Visible = msoFalse ' Make the background transparent
-            .Fill.ForeColor.RGB = colors(colorValue) ' Example: Yellow background (RGB value)
-            .TextFrame.Characters.Font.Size = 8 ' Example font size, adjust as needed
-            .TextFrame.Characters.Font.Bold = True ' Makes the text bold
-        End With
-
-        ' Apply dotted background color to the entire column
-        ' With cell.EntireColumn.Interior
-        ' With cell.Offset(-1, 0)
-        '     cell.Offset(-1, 0).Interior.Color = colors(colorValue)
-        '     ' .Pattern = xlPatternCrissCross ' Set the pattern to dots
-        '     ' .PatternColorIndex = xlAutomatic ' Set automatic pattern color
-        '     ' .Color = colors(colorValue) ' Set the color
-        ' End With
+            ' Set the text box properties
+            With txtBox
+                .TextFrame.Characters.Text = kindOfDefinitionString
+                .TextFrame.HorizontalAlignment = xlHAlignLeft
+                .TextFrame.VerticalAlignment = xlVAlignCenter
+                .Line.Visible = msoFalse
+                .Rotation = -90 ' Rotate the text box to 46 degrees
+                ' .TextFrame.AutoSize = True
+                .Width = txtBox.Width + 28 ' Increase the width by 50 points (adjust as needed)
+                ' .Fill.Visible = msoFalse ' Make the background transparent
+                .Fill.ForeColor.RGB = colors(colorValue) ' Example: Yellow background (RGB value)
+                .TextFrame.Characters.Font.Size = 10 ' Example font size, adjust as needed
+                .TextFrame.Characters.Font.Bold = True ' Makes the text bold
+            End With
+            
+            ' Find the next occurrence
+            Set foundRow = table.ListColumns(8).DataBodyRange.Find(lookupString, LookIn:=xlValues, LookAt:=xlWhole, After:=foundRow)
+        Loop While Not foundRow Is Nothing And foundRow.Address <> firstAddress    
     End If
     Set pvtCell = Nothing
     Set pvtField = Nothing
