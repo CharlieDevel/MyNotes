@@ -1,3 +1,9 @@
+'//========  [To sort the data according to the data source's order(and ACTUALLY make excel do it) we must delete the cache of the pivot table(we can turn it on afterwards) and load again the data, thus what we need to do is]
+' 1. Go to PivotTable Options > Data > Number of items to retain per field: None [We set from "Automatic" to "None", and this will delete the PivotCache]
+' 2. Delete the entire table that the pivot table is feeding off the data, cutting the original data leaving it blank and storing it somewhere else(unless it is filled automatically like queries)
+' 3. Refresh pivot table pressing "Alt + F5"(If the table that feeds the pivot table is a query then its much easier and we achieved our goal by refreshing again)
+' 4. Refill the data and refresh again and done
+
 ' Declare the colorDict as a global variable at the module level
 Dim colorDict As Object
 ' This function works by needing to have an undeited and unmodified pivot table that will be the same as the one this script will be modifying, thus having 2 pivot tables in different sheets, and the other sheet called "optimizedPivotTable" has the untouched pivot table so that we can remove the current pivot table because this script will leave a lot of uncleanable trash to the PIVOT TABLE object(and not the worksheet this is in), and this way we will have an optimized pivot table that wont be slowed down icreasingly
@@ -368,6 +374,7 @@ Sub LookupValueInNamedTable(cell As Range)
     ' viewpointName = ExtractTextAfterAmpersand(pvtCell.RowItems(1))
     ' primaryResourceName = ExtractTextAfterAmpersand(pvtCell.RowItems(3))
     ' secondaryResourceName = ExtractTextAfterAmpersand(pvtCell.ColumnItems(2))
+    On Error GoTo ErrorHandler
     viewpointName = pvtCell.RowItems(1)
     primaryResourceName = pvtCell.RowItems(3)
     secondaryResourceName = pvtCell.ColumnItems(2)
@@ -436,6 +443,8 @@ Sub LookupValueInNamedTable(cell As Range)
     Set pvtCell = Nothing
     Set pvtField = Nothing
     Set pvtItem = Nothing
+ErrorHandler:
+    On Error GoTo 0
 End Sub
 
 
