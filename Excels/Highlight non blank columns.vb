@@ -269,12 +269,14 @@ Sub FormatColumnBasedOnCriteriaInCurrentCell(myRng As Range)
     Dim maxVal As Double
     Dim targetCol As Long
     Dim i As Long
+    Dim rowWithSecondGranularityLevel as Integer
+    rowWithSecondGranularityLevel = 3
     ' Loop through each cell in row 2 to get the cell in that row that has a higher granularity value than the one in the current cell
-    For i = 1 To ws.Cells(2, ws.Columns.Count).End(xlToLeft).Column
-        If IsNumeric(ws.Cells(2, i).Value) Then
-            If ws.Cells(2, i).Value > cell.Value Then
+    For i = 1 To ws.Cells(rowWithSecondGranularityLevel, ws.Columns.Count).End(xlToLeft).Column
+        If IsNumeric(ws.Cells(rowWithSecondGranularityLevel, i).Value) Then
+            If ws.Cells(rowWithSecondGranularityLevel, i).Value > cell.Value Then
                 ' ws.Columns(xlEdgeLeft).LineStyle = xlNone
-                maxVal = ws.Cells(2, i).Value
+                maxVal = ws.Cells(rowWithSecondGranularityLevel, i).Value
                 targetCol = i
                 Exit For
             End If
@@ -376,8 +378,8 @@ Sub LookupValueInNamedTable(cell As Range)
     ' secondaryResourceName = ExtractTextAfterAmpersand(pvtCell.ColumnItems(2))
     On Error GoTo ErrorHandler
     viewpointName = pvtCell.RowItems(1)
-    primaryResourceName = pvtCell.RowItems(3)
-    secondaryResourceName = pvtCell.ColumnItems(2)
+    primaryResourceName = pvtCell.RowItems(4)
+    secondaryResourceName = pvtCell.ColumnItems(3)
     lookupString = viewpointName & primaryResourceName & secondaryResourceName
 
     ' Set your worksheet
@@ -419,7 +421,7 @@ Sub LookupValueInNamedTable(cell As Range)
             cellValue = cell.Value
             Set ws = ActiveSheet ' Adjust the sheet name as needed
             Set cell = cell.Offset(-1, 0)
-            Set txtBox = ws.Shapes.AddTextbox(msoTextOrientationHorizontal, cell.Left, cell.Top-29*loopCounter, cell.Width, cell.Height)
+            Set txtBox = ws.Shapes.AddTextbox(msoTextOrientationHorizontal, cell.Left, cell.Top-29*loopCounter, cell.Width, cell.Width)
 
             ' Set the text box properties
             With txtBox
@@ -427,7 +429,7 @@ Sub LookupValueInNamedTable(cell As Range)
                 .TextFrame.HorizontalAlignment = xlHAlignLeft
                 .TextFrame.VerticalAlignment = xlVAlignCenter
                 .Line.Visible = msoFalse
-                .Rotation = -90 ' Rotate the text box to 46 degrees
+                .Rotation = -90
                 ' .TextFrame.AutoSize = True
                 .Width = txtBox.Width + 28 ' Increase the width by 50 points (adjust as needed)
                 ' .Fill.Visible = msoFalse ' Make the background transparent
