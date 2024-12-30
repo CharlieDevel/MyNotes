@@ -222,18 +222,16 @@ Sub AdjustColorIntensity(currentCellValue As Variant, maximumCellValue As Varian
       b = Application.WorksheetFunction.Min(255, Application.WorksheetFunction.Max(0, b))
       Exit Sub
     End If
-    
     ' If none of the 2 ifs are hit, then apply coloring to normal resources between 68 and 111, which are normally mean only 1 interaction with the resource
     ' Base color values: Pure red (no green, no blue)
     r = 255
     g = 50
     b = 0
-    maximumCellValue = 97
-    
     ' Calculate the intensity factor based on currentCellValue and maximumCellValue
-    minBigResourceValue = 73
+    maximumCellValue = 95
+    minBigResourceValue = 59
     maxBigResourceValue = maximumCellValue
-    minResultValue = 0.38
+    minResultValue = 0
     ' minResultValue = 0.38
     maxResultValue = 1
     intensityFactor = minResultValue + ((currentCellValue - minBigResourceValue) * (maxResultValue - minResultValue)) / (maxBigResourceValue - minBigResourceValue)
@@ -241,9 +239,9 @@ Sub AdjustColorIntensity(currentCellValue As Variant, maximumCellValue As Varian
     
     ' Apply the intensity factor to the red component to make the color more red as value increases
     ' For the green and blue components, we'll increase their intensity as currentCellValue increases
-    r = r - (255 - r) * (1 - intensityFactor) ' As value increases, make red stronger
-    g = g + (255 - g) * (1 - intensityFactor)   ' Add green (white component) as value increases
-    b = b + (255 - b) * (1 - intensityFactor)   ' Add blue (white component) as value increases
+    r = r + (255 - r) * (1 - intensityFactor) ' As value increases, make red stronger
+    g = g + (255 - g) * (1 - intensityFactor)  ' Add green (white component) as value increases
+    b = b - (255 - b) * (1 - intensityFactor)  ' Add blue (white component  ) as value increases
 
     ' Ensure RGB values stay within the valid range (0-255)
     r = Application.WorksheetFunction.Min(255, Application.WorksheetFunction.Max(0, r))
@@ -353,7 +351,7 @@ Sub LookupValueInNamedTable(cell As Range)
     colors(2) = RGB(255, 20, 147)   ' Deep Pink
     colors(3) = RGB(255, 255, 0)    ' Yellow
     colors(4) = RGB(255, 165, 0)    ' Orange
-    colors(5) = RGB(173, 216, 230)  ' Light Blue
+    colors(5) = RGB(59, 125, 35)  ' Light green
     colors(6) = RGB(0, 255, 255)    ' Cyan
     colors(7) = RGB(255, 192, 203)  ' Pink
     colors(8) = RGB(255, 0, 0)      ' Red
