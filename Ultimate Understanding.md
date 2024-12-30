@@ -39,6 +39,13 @@ If you want to make a description to explain a process about a Resource which ha
 
 *ADDITIONAL NOTE*: **Objectives/Problems to solve** can be created from **Viewpoints**, which can be mapped to (Stakeholders/Interested parts) that care about the system in different views, allowing us to see the problem with **multiple dimensions**(Although the problem comes when a stakeholder, like a Developer, isn't just **one viewpoint**(the Developer Viewpoint) but actually a **SET of Viewpoints** that each can be separated and also divided **Orthogonally**, like the Security Viewpoint, Database Viewpoint, etc)
 
+There can be resources that are `Power Sources`, which mean that other resources interact with a given resource, and the more resources interact with this one resource, means that this resource is a power source that lets other resources have meaning and keep stability in those resources and thus, to the whole system
+
+There can also be resources that can generate changes in several orders, mainly 3:
+1. Direct interaction: Where a resource interacts directly with another resource and causes an effect on top of that resource that is easily seen and spottable
+2. Indirect interaction: Resources after interacting directly with one resource, can generate a snowball that make the acted upon resource to act over other resources, **because** of that first interaction that then triggered these other interactions
+3. Lasting effect interaction: These kinds of interactions are much less noticeable and have effects that rather affect the **stability of the system** than a given resource at a specific time, and these effects can last unlike just being something that happened like an event, specifically this means that an interaction can trigger another set of interactions, be them direct/indirectly or a single interaction even, where now enough resources(or some critical ones) have been affected where they change the stability of the system 
+
 ARCHIVED:
 * Requirements and problems(which are the things that you start **(the system/add new functionality)**)
 	This will either mean the **creation of a new Resource** or ***propagating* the (objective/problem to solve) to an already existing Resource**
