@@ -378,6 +378,11 @@ Sub LookupValueInNamedTable(cell As Range)
     viewpointName = pvtCell.RowItems(1)
     primaryResourceName = pvtCell.RowItems(4)
     secondaryResourceName = pvtCell.ColumnItems(3)
+    ' Verify if there is secondary resource, if not, then fix the string
+    If secondaryResourceName = "(blank)" Then
+        secondaryResourceName = ""
+    End If
+
     lookupString = viewpointName & primaryResourceName & secondaryResourceName
 
     ' Set your worksheet
