@@ -160,7 +160,7 @@ Private Sub Worksheet_SelectionChange(ByVal Target As Range)
                 cell.Font.Color = RGB(255, 255, 240)
 
                 ' Highlight the cells according to the corresponding kinfOfDefinition if applicable
-                If Target.Cells.Count = 3 Then
+                If Target.Cells.Count = 2 Then
                     Set thisCell = cell
                     Call LookupValueInNamedTable(thisCell)
                 End If
