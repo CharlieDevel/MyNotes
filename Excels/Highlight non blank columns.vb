@@ -360,7 +360,7 @@ Sub LookupValueInNamedTable(cell As Range)
     colors(11) = RGB(128, 128, 0)    ' Olive
     colors(12) = RGB(240, 230, 140)  ' Khaki
     colors(13) = RGB(255, 228, 196)  ' Bisque
-    colors(14) = RGB(0, 100, 0)      ' Dark Green
+    colors(14) = RGB(220, 170, 145)      ' Beige
     colors(15) = RGB(0, 128, 128)    ' Teal
     colors(16) = RGB(204, 137, 255)    ' Indigo
     colors(17) = RGB(210, 105, 30)   ' Chocolate
