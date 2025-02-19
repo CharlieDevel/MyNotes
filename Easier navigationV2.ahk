@@ -14,13 +14,359 @@ global fileFavoriteLocationsStartingFromHome := Array()
 ; Special selection mode enabled(the "g" keybind)
 global shiftLockToggle := false
 
+;/===========================  MOUSE controls
+global multipleLinesJumpValue := 3
+global numbersShortcutsEnabled := 0
+global mousePowerIncrement := 1.45
+global mouseScaler := 1
+global mouseHorizontalButtonPressed := false
+global mouseClickedDown := false
+
+global mouseDirectionX := 20
+global mouseDirectionXBase := mouseDirectionX
+global mouseDirectionXKeepForward := 0
+global mouseDirectionXKeepBackward := 0
+
+global mouseDirectionY := 20
+global mouseDirectionYBase := mouseDirectionY
+global mouseDirectionYKeepForward := 0
+global mouseDirectionYKeepBackward := 0
+
+$[::
+{
+    global multipleLinesJumpValue
+    global multipleLinesJumpValue := multipleLinesJumpValue+1
+    if(multipleLinesJumpValue > 3)
+    {
+        global multipleLinesJumpValue := multipleLinesJumpValue+1
+    }
+    if(multipleLinesJumpValue > 7)
+    {
+        global multipleLinesJumpValue := 1
+    }
+    ToolTip("███Vim ON███`n███value=" multipleLinesJumpValue " ███", 68, 100 )
+}
+
+$.::
+{
+    toggleMousePositionsOff()
+
+    global numbersShortcutsEnabled
+    if(numbersShortcutsEnabled == 0)
+    {
+        global numbersShortcutsEnabled := 1
+        ToolTip("███Vim ON███`n███ mouse ███", 68, 100 )
+        ;ToolTip("███Vim ON███`n███ arrows  ███", 68, 100 )
+        return
+    }
+    if(numbersShortcutsEnabled == 1)
+    {
+        global numbersShortcutsEnabled := 0
+        ToolTip("███Vim ON███`n███              ███", 68, 100 )
+        return
+    }
+    if(numbersShortcutsEnabled == 2)
+    {
+        global numbersShortcutsEnabled := 0
+        ToolTip("███Vim ON███`n███              ███", 68, 100 )
+        return
+    }
+}
+
+printMousePositions(lastKeyDirectionIsHorizontal)
+{
+    ; Defining variables to use
+    ;MsgBox(xpos . "---" . ypos)
+    MouseGetPos &xpos, &ypos 
+    iterator := 1
+    mouseDirectionXsign := 1
+    if(mouseDirectionX < 0)
+        mouseDirectionXsign := -1
+    mouseDirectionYsign := 1
+    if(mouseDirectionY < 0)
+        mouseDirectionYsign := -1
+    ;MsgBox("X: " mouseDirectionX "Y: " mouseDirectionY " --- X: " mouseDirectionXsign "Y: " mouseDirectionYsign " RESULT: " xpos+(mouseDirectionX*11*(mouseDirectionXsign)))
+
+    ; Large positions
+    if(lastKeyDirectionIsHorizontal = true)
+        ToolTip("L", xpos+(mouseDirectionX*11), ypos, iterator)
+    else
+        ToolTip("L", xpos, ypos+(mouseDirectionY*11), iterator)
+
+    iterator := iterator+1
+    ; Short positions
+    if(lastKeyDirectionIsHorizontal = true)
+        ToolTip("s", xpos+(mouseDirectionX*4), ypos, iterator)
+    else
+        ToolTip("s", xpos, ypos+(mouseDirectionY*4), iterator)
+}
+
+toggleMousePositionsOff()
+{
+    ; Hide the mouse movement marks
+    ToolTip("", , , 1)
+    ToolTip("", , , 2)
+    ToolTip("", , , 3)
+    ToolTip("", , , 4)
+}
+
+;//===============  Rigth side to control the X axis
+$1::
+{
+    if(numbersShortcutsEnabled = 0)
+    {
+        Send "1"
+        return
+    }
+
+    if(numbersShortcutsEnabled = 1)
+    {
+        Send "{LButton}"
+        return
+    }
+
+    ; Setting the base values to be used for movement
+    global mouseDirectionX
+    mouseDirectionX := 17*mouseScaler
+    global mouseDirectionXBase
+    mouseDirectionXBase := mouseDirectionX
+
+    ; Perform basic movement
+    MouseMove mouseDirectionX, 0, 50, "R"
+
+    ; Reset going backward and forward
+    global mouseDirectionXKeepBackward
+    mouseDirectionXKeepBackward := 0
+    global mouseDirectionXKeepForward
+    mouseDirectionXKeepForward := 0
+    printMousePositions(true)
+}
+
+$+1::
+{
+    if(numbersShortcutsEnabled = 0)
+    {
+        Send "{!}"
+        return
+    }
+
+    ; Hold the mouse clik button
+    if(numbersShortcutsEnabled = 1)
+    {
+        Click "Down"
+        return
+    }
+}
+
+$2::
+{
+    if(numbersShortcutsEnabled = 0)
+    {
+        Send "2"
+        return
+    }
+
+    global mouseScaler
+    if(mouseScaler = 1)
+        mouseScaler := 0.5
+    else
+        mouseScaler := 1
+    return
+}
+
+$3::
+{
+    if(numbersShortcutsEnabled = 0)
+    {
+        Send "3"
+        return
+    }
+
+    if(numbersShortcutsEnabled = 1)
+    {
+        Send "{RButton}"
+        return
+    }
+
+    ; Setting the direction to go forward if the next key to press is the base key that goes backwards(to keep the flow)
+    global mouseDirectionXKeepForward
+    mouseDirectionXKeepForward := 2*mouseDirectionXBase
+
+    ; Reset going backwards
+    global mouseDirectionXKeepBackward
+    mouseDirectionXKeepBackward := 0
+
+    ; Accelerating the movement power
+    ; Perform movement(which may be incremented)
+    global mouseDirectionX
+    if(mouseDirectionX > 0)
+    {
+        MouseMove mouseDirectionX*11, 0, 50, "R"
+    }
+    else
+    {
+        MouseMove mouseDirectionX*4, 0, 50, "R"
+    }
+    printMousePositions(true)
+}
+
+$4::
+{
+    ; Setting the base values to be used for movement
+    global mouseDirectionX
+    mouseDirectionX := -17*mouseScaler
+    global mouseDirectionXBase
+    mouseDirectionXBase := mouseDirectionX
+
+    if(numbersShortcutsEnabled = 0)
+    {
+        Send "4"
+        return
+    }
+    ; Perform basic movement
+    MouseMove mouseDirectionX, 0, 50, "R"
+
+    ; Reset going backward and forward
+    global mouseDirectionXKeepForward
+    mouseDirectionXKeepForward := 0
+    global mouseDirectionXKeepBackward
+    mouseDirectionXKeepBackward := 0
+    printMousePositions(true)
+}
+
+;//===============  Rigth side to control the Y axis
+$7::
+{
+    if(numbersShortcutsEnabled = 0)
+    {
+        Send "7"
+        return
+    }
+    ; Setting the base values to be used for movement
+    global mouseDirectionY
+    mouseDirectionY := 17*mouseScaler
+    global mouseDirectionYBase
+    mouseDirectionYBase := mouseDirectionY
+
+    ; Perform basic movement
+    MouseMove 0, mouseDirectionY, 50, "R"
+
+    ; Reset going backward and forward
+    global mouseDirectionYKeepBackward
+    mouseDirectionYKeepBackward := 0
+    global mouseDirectionYKeepForward
+    mouseDirectionYKeepForward := 0
+    printMousePositions(false)
+}
+
+$8::
+{
+    if(numbersShortcutsEnabled = 0)
+    {
+        Send "8"
+        return
+    }
+    ; Setting the direction to go backwards if the next key to press is the base key that goes forward(to keep the flow)
+    global mouseDirectionYKeepBackward
+    mouseDirectionYKeepBackward := 2*mouseDirectionYBase
+    
+    ; Reset going forward
+    global mouseDirectionYKeepForward
+    mouseDirectionYKeepForward := 0
+
+    ; Accelerating the movement power
+    ; Perform movement(which may be incremented)
+    global mouseDirectionY
+    if(mouseDirectionY > 0)
+    {
+        MouseMove 0, mouseDirectionY*4, 50, "R"
+    }
+    else
+    {
+        MouseMove 0, mouseDirectionY*11, 50, "R"
+    }
+    printMousePositions(false)
+}
+
+$9::
+{
+    if(numbersShortcutsEnabled = 0)
+    {
+        Send "9"
+        return
+    }
+
+    ; Setting the direction to go forward if the next key to press is the base key that goes backwards(to keep the flow)
+    global mouseDirectionYKeepForward
+    mouseDirectionYKeepForward := 2*mouseDirectionYBase
+
+    ; Reset going backwards
+    global mouseDirectionYKeepBackward
+    mouseDirectionYKeepBackward := 0
+
+    ; Accelerating the movement power
+    ; Perform movement(which may be incremented)
+    global mouseDirectionY
+    if(mouseDirectionY > 0)
+    {
+        MouseMove 0, mouseDirectionY*11, 50, "R"
+    }
+    else
+    {
+        MouseMove 0, mouseDirectionY*4, 50, "R"
+    }
+    printMousePositions(false)
+}
+
+$0::
+{
+    if(numbersShortcutsEnabled = 0)
+    {
+        Send "0"
+        return
+    }
+
+    ; Setting the base values to be used for movement
+    global mouseDirectionY
+    mouseDirectionY := -17*mouseScaler
+    global mouseDirectionYBase
+    mouseDirectionYBase := mouseDirectionY
+
+    ; Perform basic movement
+    MouseMove 0, mouseDirectionY, 50, "R"
+
+    ; Reset going backward and forward
+    global mouseDirectionYKeepForward
+    mouseDirectionYKeepForward := 0
+    global mouseDirectionYKeepBackward
+    mouseDirectionYKeepBackward := 0
+    printMousePositions(false)
+
+}
+;/===========================  
+
+
 ShowMessage()
 {
     if(capslockPressed)
     {
+        global numbersShortcutsEnabled
         ToolTip("███Vim ON███`n███              ███", 68, 100 )
-;        Sleep 150
-;        ToolTip("", 1, 1 )
+        if(numbersShortcutsEnabled = 0)
+        {
+            ToolTip("███Vim ON███`n███              ███", 68, 100 )
+            return
+        }
+        if(numbersShortcutsEnabled = 11)
+        {
+            ToolTip("███Vim ON███`n███ arrows  ███", 68, 100 )
+            return
+        }
+        if(numbersShortcutsEnabled = 1)
+        {
+            ToolTip("███Vim ON███`n███ mouse ███", 68, 100 )
+            return
+        }
     }
     else
     {
@@ -40,7 +386,6 @@ toggleBinds()
     {
         if(shiftLockToggle)
             Send "{Blind}{LShift Up}"
-
         shiftLockToggle := false
     }
     Suspend
@@ -51,6 +396,8 @@ capslock::
 {
     ;Toggle all binds off or on
     toggleBinds()
+
+    toggleMousePositionsOff()
 
     ;SetCapsLockState capslockPressed
     ShowMessage()
@@ -81,14 +428,35 @@ r::
 ;Delete current word the cursor currently is
 i::
 {
-    Send "{Left}"
-    Send "^{Right}"
     Send "+^{Left}"
     Send "{Backspace}"
 }
 
 $j::
 {
+    if(numbersShortcutsEnabled = 1)
+    {
+        ; Perform previous movement
+        if(mouseHorizontalButtonPressed)
+        {
+            if(mouseDirectionX > 0)
+            {
+                MouseMove mouseDirectionX*11, 0, 50, "R"
+            }
+            else
+            {
+                MouseMove mouseDirectionX*4, 0, 50, "R"
+            }
+            printMousePositions(true)
+        }
+        else
+        {
+            MouseMove 0, mouseDirectionY*4, 50, "R"
+            printMousePositions(false)
+        }
+        return
+    }
+
     SendEvent "^{Left}" ; If the condition is met, send 'n'
 }
 +j::
@@ -98,6 +466,22 @@ $j::
 
 $k::
 {
+    if(numbersShortcutsEnabled = 1)
+    {
+        ; Perform previous movement
+        if(mouseDirectionX > 0)
+        {
+            MouseMove mouseDirectionX*4, 0, 50, "R"
+        }
+        else
+        {
+            MouseMove mouseDirectionX*11, 0, 50, "R"
+        }
+
+        printMousePositions(true)
+        return
+    }
+    
     SendEvent "^{Right}" ; If the condition is met, send 'n'
 }
 +k::
@@ -105,8 +489,44 @@ $k::
     Send "+^{Right}"  ; Sends the Shift+Up key combination
 }
 
+Up::
+{
+    Send "^{Up}"
+}
+Down::
+{
+    Send "^{Down}"
+}
+Right::
+{
+    Send "^{Right}"
+}
+Left::
+{
+    Send "^{Left}"
+}
+
 u::
 {
+    if(numbersShortcutsEnabled = 1)
+    {
+        ; Setting the base values to be used for movement
+        global mouseDirectionY
+        mouseDirectionY := -17*mouseScaler
+        global mouseHorizontalButtonPressed
+        mouseHorizontalButtonPressed := false
+
+        ; Perform basic movement
+        MouseMove 0, mouseDirectionY, 50, "R"
+
+        ; Reset going backward and forward
+        global mouseDirectionYKeepBackward
+        mouseDirectionYKeepBackward := 0
+        global mouseDirectionYKeepForward
+        mouseDirectionYKeepForward := 0
+        printMousePositions(false)
+        return
+    }
     Send "{Up}" ; If the condition is met, send 'n'
 }
 +u::
@@ -123,15 +543,33 @@ u::
 }
 y::
 {
-    loop 15
+    if(numbersShortcutsEnabled = 1)
+    {
+        ; Setting the base values to be used for movement
+        global mouseDirectionY
+        mouseDirectionY := -17*mouseScaler
+        global mouseHorizontalButtonPressed
+        mouseHorizontalButtonPressed := false
+
+        ; Perform basic movement
+        MouseMove 0, mouseDirectionY*11, 50, "R"
+
+        ; Reset going backward and forward
+        global mouseDirectionYKeepBackward
+        mouseDirectionYKeepBackward := 0
+        global mouseDirectionYKeepForward
+        mouseDirectionYKeepForward := 0
+        printMousePositions(false)
+        return
+    }
+    loop 5*multipleLinesJumpValue
     {
         Send "{Up}"  ; Sends the Shift+Up key combination
     }
-    return
 }
 +y::
 {
-    loop 15
+    loop 5*multipleLinesJumpValue
     {
         Send "+{Up}"  ; Sends the Shift+Up key combination
     }
@@ -140,6 +578,26 @@ y::
 
 n::
 {
+    if(numbersShortcutsEnabled = 1)
+    {
+        ; Setting the base values to be used for movement
+        global mouseDirectionY
+        mouseDirectionY := 17*mouseScaler
+        global mouseHorizontalButtonPressed
+        mouseHorizontalButtonPressed := false
+
+        ; Perform basic movement
+        MouseMove 0, mouseDirectionY, 50, "R"
+
+        ; Reset going backward and forward
+        global mouseDirectionYKeepBackward
+        mouseDirectionYKeepBackward := 0
+        global mouseDirectionYKeepForward
+        mouseDirectionYKeepForward := 0
+        printMousePositions(false)
+        return
+    }
+
     Send "{Down}" ; If the condition is met, send 'n'
 }
 +n::
@@ -147,7 +605,7 @@ n::
     Send "+{Down}"  ; Sends the Shift+Up key combination
 }
 ^n::
-{
+{   
     Send "^{Down}"  ; Sends the Shift+Up key combination
 }
 ^+n::
@@ -156,14 +614,34 @@ n::
 }
 b::
 {
-    loop 15
+    if(numbersShortcutsEnabled = 1)
+    {
+        ; Setting the base values to be used for movement
+        global mouseDirectionY
+        mouseDirectionY := 17*mouseScaler
+        global mouseHorizontalButtonPressed
+        mouseHorizontalButtonPressed := false
+
+        ; Perform basic movement
+        MouseMove 0, mouseDirectionY*11, 50, "R"
+
+        ; Reset going backward and forward
+        global mouseDirectionYKeepBackward
+        mouseDirectionYKeepBackward := 0
+        global mouseDirectionYKeepForward
+        mouseDirectionYKeepForward := 0
+        printMousePositions(false)
+        return
+    }
+
+    loop 5*multipleLinesJumpValue
     {
         Send "{Down}"  ; Sends the Shift+Up key combination
     }
 }
 +b::
 {
-    loop 15
+    loop 5*multipleLinesJumpValue
     {
         Send "+{Down}"  ; Sends the Shift+Up key combination
     }
@@ -173,6 +651,24 @@ b::
 
 h::
 {
+    global mouseDirectionX
+    mouseDirectionX := 20
+
+    if(numbersShortcutsEnabled = 1)
+    {
+        ; Setting the base values to be used for movement
+        global mouseDirectionX
+        mouseDirectionX := -17*mouseScaler
+        global mouseHorizontalButtonPressed
+        mouseHorizontalButtonPressed := true
+
+        ; Perform basic movement
+        MouseMove mouseDirectionX, 0, 50, "R"
+
+        printMousePositions(true)
+        return
+    }
+
     Send "{Left}" ; If the condition is met, send 'n'
 }
 +h::
@@ -182,6 +678,24 @@ h::
 
 l::
 {
+    global mouseDirectionX
+    mouseDirectionX := -20
+
+    if(numbersShortcutsEnabled = 1)
+    {
+        ; Setting the base values to be used for movement
+        global mouseDirectionX
+        mouseDirectionX := 17*mouseScaler
+        global mouseHorizontalButtonPressed
+        mouseHorizontalButtonPressed := true
+
+        ; Perform basic movement
+        MouseMove mouseDirectionX, 0, 50, "R"
+
+        printMousePositions(true)
+        return
+    }
+
     Send "{Right}" ; If the condition is met, send 'n'
 }
 +l::
@@ -976,7 +1490,6 @@ PerformSearch(goRight := 1) {
     cursorPosition := 0
     pastMatch := 0
     accumulatedPosition := 0
-    userInput := "l"
     ih2 := InputHook("L1", "{Esc}{Backspace}")
 
     if(goRight == 0)
@@ -1002,9 +1515,10 @@ PerformSearch(goRight := 1) {
     if(goRight == 0)
         Send "{Left}"
 
+    userInput := "d"
     ;Checking the user pressed "left" or "right" and moving to the selected match
-    while ((userInput == "l" || userInput == "h" || userInput == "j" || userInput == "k") && userInput != "i") {
-        if((userInput == "l" || userInput == "k") && selectedMatch != matches.Length) {
+    while ((userInput == "a" || userInput == "s" || userInput == "d" || userInput == "f") && userInput != "i") {
+        if((userInput == "d" || userInput == "f") && selectedMatch != matches.Length) {
             selectedMatch := selectedMatch+1
             accumulatedPosition := matches[selectedMatch] - pastMatch
             pastMatch := matches[selectedMatch]
@@ -1012,7 +1526,7 @@ PerformSearch(goRight := 1) {
                 Send "{Right}"
             }
         }
-        if((userInput == "h" || userInput == "j") && selectedMatch != 1) {
+        if((userInput == "a" || userInput == "s") && selectedMatch != 1) {
             selectedMatch := selectedMatch-1
             accumulatedPosition := pastMatch - matches[selectedMatch]
             pastMatch := matches[selectedMatch]
@@ -1023,8 +1537,8 @@ PerformSearch(goRight := 1) {
 
         ;If there were no matches then end this while loop
         if(matches.Length < 1) {
-            userInput := "."
-            toggleBinds()
+            userInput := ""
+            toggleBinds()   
         }
         else {
             ToolTip("███           ███`n██████ Match " selectedMatch "/"  matches.Length, 68, 123 )
@@ -1042,6 +1556,22 @@ PerformSearch(goRight := 1) {
         Send "+^{Left}"
         Send "{Backspace}"
         ;Send "^{Backspace}"
+        toggleBinds()
+    }
+    if(userInput == "h") {
+        Send "{Left}"
+        toggleBinds()
+    }
+    if(userInput == "j") {
+        SendEvent "^{Left}"
+        toggleBinds()
+    }
+    if(userInput == "k") {
+        SendEvent "^{Right}"
+        toggleBinds()
+    }
+    if(userInput == "l") {
+        Send "{Right}"
         toggleBinds()
     }
     if(userInput == "q") {

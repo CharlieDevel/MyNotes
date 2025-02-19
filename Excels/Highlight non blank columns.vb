@@ -425,6 +425,7 @@ Sub LookupValueInNamedTable(cell As Range)
             Set ws = ActiveSheet ' Adjust the sheet name as needed
             Set cell = cell.Offset(-1, 0)
             Set txtBox = ws.Shapes.AddTextbox(msoTextOrientationHorizontal, cell.Left, cell.Top-29*loopCounter, cell.Width, cell.Width)
+            Set txtBoxInFrozenCells = ws.Shapes.AddTextbox(msoTextOrientationHorizontal, cell.Left, 29, cell.Width, cell.Width)
 
             ' Set the text box properties
             With txtBox
@@ -435,6 +436,19 @@ Sub LookupValueInNamedTable(cell As Range)
                 .Rotation = -90
                 ' .TextFrame.AutoSize = True
                 .Width = txtBox.Width + 28 ' Increase the width by 50 points (adjust as needed)
+                ' .Fill.Visible = msoFalse ' Make the background transparent
+                .Fill.ForeColor.RGB = colors(colorValue) ' Example: Yellow background (RGB value)
+                .TextFrame.Characters.Font.Size = 10 ' Example font size, adjust as needed
+                .TextFrame.Characters.Font.Bold = True ' Makes the text bold
+            End With
+            With txtBoxInFrozenCells
+                .TextFrame.Characters.Text = kindOfDefinitionString
+                .TextFrame.HorizontalAlignment = xlHAlignLeft
+                .TextFrame.VerticalAlignment = xlVAlignCenter
+                .Line.Visible = msoFalse
+                .Rotation = -90
+                ' .TextFrame.AutoSize = True
+                .Width = txtBox.Width ' Increase the width by 50 points (adjust as needed)
                 ' .Fill.Visible = msoFalse ' Make the background transparent
                 .Fill.ForeColor.RGB = colors(colorValue) ' Example: Yellow background (RGB value)
                 .TextFrame.Characters.Font.Size = 10 ' Example font size, adjust as needed
