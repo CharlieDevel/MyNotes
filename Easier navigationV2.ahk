@@ -160,18 +160,23 @@ $+1::
 
 $2::
 {
-    if(numbersShortcutsEnabled = 0)
+    if(numbersShortcutsEnabled = 1)
     {
-        Send "2"
+        ; Perform previous movement
+        if(mouseHorizontalButtonPressed)
+        {
+            MouseMove mouseDirectionX, 0, 50, "R"
+            printMousePositions(true)
+        }
+        else
+        {
+            MouseMove 0, mouseDirectionY, 50, "R"
+            printMousePositions(false)
+        }
         return
     }
 
-    global mouseScaler
-    if(mouseScaler = 1)
-        mouseScaler := 0.5
-    else
-        mouseScaler := 1
-    return
+    Send "2"
 }
 
 $3::
@@ -212,26 +217,23 @@ $3::
 
 $4::
 {
-    ; Setting the base values to be used for movement
-    global mouseDirectionX
-    mouseDirectionX := -17*mouseScaler
-    global mouseDirectionXBase
-    mouseDirectionXBase := mouseDirectionX
-
-    if(numbersShortcutsEnabled = 0)
+    if(numbersShortcutsEnabled = 1)
     {
-        Send "4"
+        ; Perform previous movement
+        if(mouseHorizontalButtonPressed)
+        {
+            MouseMove mouseDirectionX/2, 0, 50, "R"
+            printMousePositions(true)
+        }
+        else
+        {
+            MouseMove 0, mouseDirectionY/2, 50, "R"
+            printMousePositions(false)
+        }
         return
     }
-    ; Perform basic movement
-    MouseMove mouseDirectionX, 0, 50, "R"
 
-    ; Reset going backward and forward
-    global mouseDirectionXKeepForward
-    mouseDirectionXKeepForward := 0
-    global mouseDirectionXKeepBackward
-    mouseDirectionXKeepBackward := 0
-    printMousePositions(true)
+    Send "4"
 }
 
 ;//===============  Rigth side to control the Y axis

@@ -4,6 +4,9 @@
 ' 3. Refresh pivot table pressing "Alt + F5"(If the table that feeds the pivot table is a query then its much easier and we achieved our goal by refreshing again)
 ' 4. Refill the data and refresh again and done
 
+'//========  When you want to make a cell have exactly the same content as another cell(even when its a table and withstand sorting) we must add a lookup column that uniquely identifies the row/record in the table, which that lookup colun is in column H, and use the following formula and placinf the string that uniquely identifies the lookup column(the C column is the column with the value we want to copy/reference)
+'=INDEX(C:C, MATCH("Splunk architectureBucketsEventual roll-to", H:H, 0))
+
 ' Declare the colorDict as a global variable at the module level
 Dim colorDict As Object
 ' This function works by needing to have an undeited and unmodified pivot table that will be the same as the one this script will be modifying, thus having 2 pivot tables in different sheets, and the other sheet called "optimizedPivotTable" has the untouched pivot table so that we can remove the current pivot table because this script will leave a lot of uncleanable trash to the PIVOT TABLE object(and not the worksheet this is in), and this way we will have an optimized pivot table that wont be slowed down icreasingly
