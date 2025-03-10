@@ -32,7 +32,7 @@ global mouseDirectionYBase := mouseDirectionY
 global mouseDirectionYKeepForward := 0
 global mouseDirectionYKeepBackward := 0
 
-$[::
+$t::
 {
     global multipleLinesJumpValue
     global multipleLinesJumpValue := multipleLinesJumpValue+1
@@ -722,6 +722,19 @@ l::
     Send "+{Tab}"
 }
 
+;Translates to Ctrl+Tab
+[::
+{
+    Send "^{Tab}"
+
+}
+
+;Translates to Shift+Ctrl+Tab
+]::
+{
+    Send "^+{Tab}"
+
+}
 
 ;//===========================   Copy paste binds
 x::
