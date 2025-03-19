@@ -1639,5 +1639,25 @@ $f8::
     Send "^v"
 }
 
+; Very special key which is supposed to be triggered in windws terminal, and have vscode as the second opened window, copies everything in the terminal, deletes all empty spaces, changes tab(into vscode), and pastes the text in the terminal
+!o::
+{
+    Send "^+a"
+    Send "^c"
+    sleep timeToSleepForCopy
+    textt := A_Clipboard
+
+    ; Normalizing line endings
+    textt := StrReplace(textt, "`r`n", "`n")
+
+    ; Deleting all empty spaces
+    textt := StrReplace(textt, "`n`n`n", " ")
+
+    Send "!{Tab}"
+    sleep timeToSleepForCopy-30
+    A_Clipboard := textt
+    Send "^v"
+
+}
 
 return
