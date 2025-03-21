@@ -10,6 +10,17 @@ global fileFavoriteLocations := Array()
 global fileFavoriteLocationsActualLocation := Array()
 global fileFavoriteLocationsTextualIdentifier := Array()
 global fileFavoriteLocationsStartingFromHome := Array()
+global favoriteWords := Array()
+favoriteWords.Push(1)
+favoriteWords.Push(2)
+favoriteWords.Push(3)
+favoriteWords.Push(4)
+favoriteWords.Push(5)
+favoriteWords.Push(5)
+favoriteWords.Push(6)
+favoriteWords.Push(7)
+favoriteWords.Push(8)
+favoriteWords.Push(9)
 
 ; Special selection mode enabled(the "g" keybind)
 global shiftLockToggle := false
@@ -432,6 +443,11 @@ i::
 {
     Send "+^{Left}"
     Send "{Backspace}"
+}
+
+\::
+{
+    Send "^{w}"
 }
 
 $j::
@@ -1179,6 +1195,18 @@ PrintFilesSavedLocations()
     fileFavoriteLocationsString := RTrim(fileFavoriteLocationsString, "`n")
     ToolTip(fileFavoriteLocationsString, 190, 100 )
 }
+PrintFavoriteWords()
+{
+    ; Initialize an empty string
+    favoriteWordsListString := ""
+    ; Convert the nested array to a string
+    for index, value in favoriteWords {
+        favoriteWordsListString .= "Paste " . index . ": " . value . "`n"
+    }
+    ; Remove the last newline (`n`)
+    favoriteWordsListString := RTrim(favoriteWordsListString, "`n")
+    ToolTip(favoriteWordsListString, 190, 100 )
+}
 ; Save the location of a file(store the line number we currently are in a text editor) to later access it when desired, you must enter a number between 0-9, where 0 will create a new entry to the files saved locations, and the others will add the location to a previously stored file
 $^+j::
 {
@@ -1290,6 +1318,24 @@ $^j::
 
     }
     A_Clipboard := originalClipboard
+    ShowMessage()
+}
+; This will receive an input press from 0-9, and will save the currently selected text to an array at the number pressed position
+$+f9::
+{
+    Send "^c"
+    PrintFavoriteWords()
+    desiredWord := GetUserInput(0)
+    favoriteWords.RemoveAt(desiredWord)
+    favoriteWords.InsertAt(desiredWord, A_Clipboard)
+    ShowMessage()
+}
+$f9::
+{
+    PrintFavoriteWords()
+    desiredWord := GetUserInput(0)
+    A_Clipboard := favoriteWords[desiredWord]
+    Send "^v"
     ShowMessage()
 }
 ;Selects a contiguous string as long as the next char is not a parentheses,
@@ -1642,9 +1688,12 @@ $f8::
 ; Very special key which is supposed to be triggered in windws terminal, and have vscode as the second opened window, copies everything in the terminal, deletes all empty spaces, changes tab(into vscode), and pastes the text in the terminal
 !o::
 {
+    ; The Suspend function is used to ensure we are able to press tings like '^n' and ensure it will actually be a hotkey for the vs code window and NOT press it with this hotkeys on(which will just do nothing)
+    Suspend
     Send "^+a"
+    ;MsgBox("    Send a+")
     Send "^c"
-    sleep timeToSleepForCopy
+    sleep timeToSleepForCopy+200
     textt := A_Clipboard
 
     ; Normalizing line endings
@@ -1652,12 +1701,22 @@ $f8::
 
     ; Deleting all empty spaces
     textt := StrReplace(textt, "`n`n`n", " ")
+    textt := StrReplace(textt, "  ", " ")
+    ; Check if the string length is greater than 98k characters, if so, leave only the last 98k characters
+    if (StrLen(textt) > 98000)
+        textt := SubStr(textt, -98000)
 
-    Send "!{Tab}"
-    sleep timeToSleepForCopy-30
+    ;MsgBox("    Send Tab")
+    ;Send "!{Tab}"
+    ;WinActivate("ahk_class Chrome_WidgetWin_1")
+    WinActivate("ahk_exe Code.exe")
+    
+    sleep timeToSleepForCopy+170
     A_Clipboard := textt
+    Send("^n")
     Send "^v"
-
+    Suspend
 }
 
 return
+
