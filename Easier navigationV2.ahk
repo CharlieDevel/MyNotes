@@ -16,7 +16,6 @@ favoriteWords.Push(2)
 favoriteWords.Push(3)
 favoriteWords.Push(4)
 favoriteWords.Push(5)
-favoriteWords.Push(5)
 favoriteWords.Push(6)
 favoriteWords.Push(7)
 favoriteWords.Push(8)
@@ -1201,7 +1200,12 @@ PrintFavoriteWords()
     favoriteWordsListString := ""
     ; Convert the nested array to a string
     for index, value in favoriteWords {
-        favoriteWordsListString .= "Paste " . index . ": " . value . "`n"
+        textt := value
+        ; Check if the value copied in the array has a length greater than 172 characters, if so, leave only the last 172 characters
+        if (StrLen(value) > 172)
+            textt := SubStr(textt, -172)
+
+        favoriteWordsListString .= "Paste " . index . ": " . textt . "`n"
     }
     ; Remove the last newline (`n`)
     favoriteWordsListString := RTrim(favoriteWordsListString, "`n")
