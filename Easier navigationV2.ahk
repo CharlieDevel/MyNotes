@@ -23,10 +23,11 @@ favoriteWords.Push(9)
 
 ; Special selection mode enabled(the "g" keybind)
 global shiftLockToggle := false
+global multipleLinesJumpValue := 2
 
 ;/===========================  MOUSE controls
-global multipleLinesJumpValue := 3
-global numbersShortcutsEnabled := 0
+global mousePrintMode := 2
+global mouseModeEnabled := 0
 global mousePowerIncrement := 1.45
 global mouseScaler := 1
 global mouseHorizontalButtonPressed := false
@@ -42,8 +43,59 @@ global mouseDirectionYBase := mouseDirectionY
 global mouseDirectionYKeepForward := 0
 global mouseDirectionYKeepBackward := 0
 
+global mouseQwertyCurrentIndexPosition := 0
+global qwertyEnable := 0
+global originalMousePositionX := 0
+global originalMousePositionY := 0
+global mouseQwertyKeysSetSize := 5 ; The multiple is a way to define the 'groupings' of the positions to make for the mouse, like having an array of 15 and a multiple chosen of 5 would give 3 sets of 5 sub level locations we can travel
+; Thse 2 variables will define the boundaries available for the currently selected set
+global mouseQwertyKeysSetMinOffset := 1
+global mouseQwertyKeysSetMaxOffset := mouseQwertyKeysSetSize
+global mouseQwertyKeys := Array()
+mouseQwertyKeys.Push("q")
+mouseQwertyKeys.Push("w")
+mouseQwertyKeys.Push("e")
+mouseQwertyKeys.Push("r")
+mouseQwertyKeys.Push("a")
+mouseQwertyKeys.Push("s")
+mouseQwertyKeys.Push("d")
+mouseQwertyKeys.Push("f")
+mouseQwertyKeys.Push("z")
+mouseQwertyKeys.Push("x")
+mouseQwertyKeys.Push("c")
+mouseQwertyKeys.Push("v")
+global mouseQwertyValues := Array()
+mouseQwertyValues.Push("1")
+mouseQwertyValues.Push("2")
+mouseQwertyValues.Push("3")
+mouseQwertyValues.Push("4")
+mouseQwertyValues.Push("5")
+mouseQwertyValues.Push("6")
+mouseQwertyValues.Push("7")
+mouseQwertyValues.Push("8")
+mouseQwertyValues.Push("9")
+mouseQwertyValues.Push("10")
+mouseQwertyValues.Push("11")
+mouseQwertyValues.Push("12")
+mouseQwertyValues.Push("13")
+mouseQwertyValues.Push("14")
+mouseQwertyValues.Push("15")
+
 $t::
 {
+    ; This defines what will be printed when the mouse mode is enabled, and thetool tip are printed, which can be just the 'L'arge and 's'mall tooltips, or the qwerty tool tips, or both
+    if(mouseModeEnabled)
+    {
+        global mousePrintMode
+        global mousePrintMode := mousePrintMode+1
+        if(mousePrintMode > 2)
+        {
+            global mousePrintMode := 1
+        }
+        toggleMousePositionsOff()
+        ToolTip("███Vim ON███`n███print=" mousePrintMode " ███", 68, 100 )
+        return
+    }
     global multipleLinesJumpValue
     global multipleLinesJumpValue := multipleLinesJumpValue+1
     if(multipleLinesJumpValue > 3)
@@ -61,34 +113,49 @@ $.::
 {
     toggleMousePositionsOff()
 
-    global numbersShortcutsEnabled
-    if(numbersShortcutsEnabled == 0)
+    global mouseModeEnabled
+    if(mouseModeEnabled == 0)
     {
-        global numbersShortcutsEnabled := 1
+        global mouseModeEnabled := 1
         ToolTip("███Vim ON███`n███ mouse ███", 68, 100 )
         ;ToolTip("███Vim ON███`n███ arrows  ███", 68, 100 )
         return
     }
-    if(numbersShortcutsEnabled == 1)
+    if(mouseModeEnabled == 1)
     {
-        global numbersShortcutsEnabled := 0
+        global mouseModeEnabled := 0
         ToolTip("███Vim ON███`n███              ███", 68, 100 )
         return
     }
-    if(numbersShortcutsEnabled == 2)
+    if(mouseModeEnabled == 2)
     {
-        global numbersShortcutsEnabled := 0
+        global mouseModeEnabled := 0
         ToolTip("███Vim ON███`n███              ███", 68, 100 )
         return
     }
 }
 
-printMousePositions(lastKeyDirectionIsHorizontal)
+printMousePositions(lastKeyDirectionIsHorizontal, hasQwertyKeyBeenPressed := 0)
 {
     ; Defining variables to use
     ;MsgBox(xpos . "---" . ypos)
     MouseGetPos &xpos, &ypos 
-    iterator := 1
+
+    ; This if is used to know if we should use new values as base(the mouse current position), or to keep the base values from previous mouse movements, those that came from 'u', 'n', 'l', or 'h' keys
+    if(hasQwertyKeyBeenPressed)
+    {
+        xpos := originalMousePositionX
+        ypos := originalMousePositionY
+    }
+    else
+    {
+        global originalMousePositionX
+        global originalMousePositionX := xpos
+        global originalMousePositionY
+        global originalMousePositionY := ypos
+    }
+
+    iterator := mouseQwertyValues.Length+1
     mouseDirectionXsign := 1
     if(mouseDirectionX < 0)
         mouseDirectionXsign := -1
@@ -97,39 +164,130 @@ printMousePositions(lastKeyDirectionIsHorizontal)
         mouseDirectionYsign := -1
     ;MsgBox("X: " mouseDirectionX "Y: " mouseDirectionY " --- X: " mouseDirectionXsign "Y: " mouseDirectionYsign " RESULT: " xpos+(mouseDirectionX*11*(mouseDirectionXsign)))
 
-    ; Large positions
-    if(lastKeyDirectionIsHorizontal = true)
-        ToolTip("L", xpos+(mouseDirectionX*11), ypos, iterator)
-    else
-        ToolTip("L", xpos, ypos+(mouseDirectionY*11), iterator)
+    if(mousePrintMode = 1 and hasQwertyKeyBeenPressed = 0)
+    {
+        ; Qwerty positions
+        global mouseQwertyValues
+        global mouseQwertyKeys
+        tooltipText := "."
+        if(lastKeyDirectionIsHorizontal = true)
+        {
+            for qwertyIndex, value in mouseQwertyValues {
+                tooltipText := SubStr("|.....#####||||||", Mod((qwertyIndex+1), mouseQwertyValues.Length), 1)
+                mouseQwertyValues.RemoveAt(qwertyIndex)
+                mouseQwertyValues.InsertAt(qwertyIndex, mouseDirectionX*qwertyIndex*3)
+                ToolTip(tooltipText, xpos+(mouseQwertyValues[qwertyIndex]), ypos, qwertyIndex)
+            }
+        }
+        else
+        {
+            for qwertyIndex, value in mouseQwertyValues {
+                tooltipText := SubStr("|.....#####||||||", Mod((qwertyIndex+1), mouseQwertyValues.Length), 1)
+                mouseQwertyValues.RemoveAt(qwertyIndex)
+                mouseQwertyValues.InsertAt(qwertyIndex, mouseDirectionY*qwertyIndex*3)
+                ToolTip(tooltipText, xpos, ypos+(mouseQwertyValues[qwertyIndex]), qwertyIndex)
+            }
+        }
+    }
 
-    iterator := iterator+1
-    ; Short positions
-    if(lastKeyDirectionIsHorizontal = true)
-        ToolTip("s", xpos+(mouseDirectionX*4), ypos, iterator)
+
+    if(mousePrintMode = 2)
+    {
+        ; Large positions
+        if(lastKeyDirectionIsHorizontal = true)
+            ToolTip("L", xpos+(mouseDirectionX*11), ypos, iterator)
+        else
+            ToolTip("L", xpos, ypos+(mouseDirectionY*11), iterator)
+
+        iterator := iterator+1
+        ; Short positions
+        if(lastKeyDirectionIsHorizontal = true)
+            ToolTip("s", xpos+(mouseDirectionX*4), ypos, iterator)
+        else
+            ToolTip("s", xpos, ypos+(mouseDirectionY*4), iterator)
+    }
+}
+
+Clamp(value, min, max) {
+    return (value < min) ? min : (value > max) ? max : value
+}
+
+performMouseQwertyMovement(keyPressed)
+{
+    printMousePositions(mouseHorizontalButtonPressed, 1)
+
+    global mouseQwertyCurrentIndexPosition
+    global mouseQwertyKeysSetMinOffset
+    global mouseQwertyKeysSetMaxOffset
+    ; If the direction we are going is left specifically, then reverse left and right
+    reverseDirection := 1
+    ;if((mouseDirectionX <= 0 and (keyPressed = 1 or keyPressed = 2)) or (mouseDirectionY <= 0 and (keyPressed = 3 or keyPressed = 4)))
+    if((mouseDirectionX <= 0 and mouseHorizontalButtonPressed))
+        reverseDirection := -1
+    ; This will decide wether to move inside the set confined(by default the first set, which e.g. if the whole locations count is 15, and a set size of 5, then we would have 5 available spaces to move in), or to a new set(following the example, we would be able to move to 3 sets)
+    Switch keyPressed {
+        Case 1: ; 'l' pressed, go left
+        {
+            mouseQwertyCurrentIndexPosition := Clamp(mouseQwertyCurrentIndexPosition+(1*reverseDirection), 1, mouseQwertyValues.Length)
+            ;mouseQwertyCurrentIndexPosition := Clamp(mouseQwertyCurrentIndexPosition+(1*reverseDirection), mouseQwertyKeysSetMinOffset, mouseQwertyKeysSetMaxOffset)
+        }
+        Case 2: ; 'h' pressed, go right
+        {
+            mouseQwertyCurrentIndexPosition := Clamp(mouseQwertyCurrentIndexPosition-(1*reverseDirection), 1, mouseQwertyValues.Length)
+            ;mouseQwertyCurrentIndexPosition := Clamp(mouseQwertyCurrentIndexPosition-(1*reverseDirection), mouseQwertyKeysSetMinOffset, mouseQwertyKeysSetMaxOffset)
+        }
+        Case 3: ; 'u' pressed, go to next set
+        {
+            mouseQwertyKeysSetMinOffset := Clamp(mouseQwertyKeysSetMinOffset+mouseQwertyKeysSetSize, 1, mouseQwertyValues.Length-mouseQwertyKeysSetSize)
+            mouseQwertyKeysSetMaxOffset := Clamp(mouseQwertyKeysSetMaxOffset+mouseQwertyKeysSetSize, mouseQwertyKeysSetSize, mouseQwertyValues.Length)
+            mouseQwertyCurrentIndexPosition := Clamp(mouseQwertyCurrentIndexPosition+mouseQwertyKeysSetSize, 1, mouseQwertyValues.Length)
+        }
+        Case 4: ; 'n' pressed, go the previous set
+        {
+            mouseQwertyKeysSetMinOffset := Clamp(mouseQwertyKeysSetMinOffset-mouseQwertyKeysSetSize, 1, mouseQwertyValues.Length-mouseQwertyKeysSetSize)
+            mouseQwertyKeysSetMaxOffset := Clamp(mouseQwertyKeysSetMaxOffset-mouseQwertyKeysSetSize, mouseQwertyKeysSetSize, mouseQwertyValues.Length)
+            mouseQwertyCurrentIndexPosition := Clamp(mouseQwertyCurrentIndexPosition-mouseQwertyKeysSetSize, 1, mouseQwertyValues.Length)
+        }
+        Default: ; default to 'l' pressed
+        {
+            mouseQwertyCurrentIndexPosition := Clamp(mouseQwertyCurrentIndexPosition+1, mouseQwertyKeysSetMinOffset, mouseQwertyKeysSetMaxOffset)
+        }
+    }
+
+    ; Peform movement according to mouse array
+    if(mouseHorizontalButtonPressed)
+    {
+        MouseMove(originalMousePositionX + mouseQwertyValues[Clamp(mouseQwertyCurrentIndexPosition, 1, mouseQwertyValues.Length)], originalMousePositionY)
+         ;mouseQwertyValues[Clamp(mouseQwertyCurrentIndexPosition, 1, mouseQwertyValues.Length)], 0, 50, "R"
+    }
     else
-        ToolTip("s", xpos, ypos+(mouseDirectionY*4), iterator)
+    {
+        MouseMove(originalMousePositionX, originalMousePositionY + mouseQwertyValues[Clamp(mouseQwertyCurrentIndexPosition, 1, mouseQwertyValues.Length)])
+        ;0, mouseQwertyValues[selectedIndex], 50, "R"
+    }
+
 }
 
 toggleMousePositionsOff()
 {
     ; Hide the mouse movement marks
-    ToolTip("", , , 1)
-    ToolTip("", , , 2)
-    ToolTip("", , , 3)
-    ToolTip("", , , 4)
+    index := 1
+    loop mouseQwertyValues.Length+3 {
+        index += 1
+        ToolTip("", , , index)
+    }
 }
 
 ;//===============  Rigth side to control the X axis
 $1::
 {
-    if(numbersShortcutsEnabled = 0)
+    if(mouseModeEnabled = 0)
     {
         Send "1"
         return
     }
 
-    if(numbersShortcutsEnabled = 1)
+    if(mouseModeEnabled = 1)
     {
         Send "{LButton}"
         return
@@ -154,14 +312,14 @@ $1::
 
 $+1::
 {
-    if(numbersShortcutsEnabled = 0)
+    if(mouseModeEnabled = 0)
     {
         Send "{!}"
         return
     }
 
     ; Hold the mouse clik button
-    if(numbersShortcutsEnabled = 1)
+    if(mouseModeEnabled = 1)
     {
         Click "Down"
         return
@@ -170,7 +328,7 @@ $+1::
 
 $2::
 {
-    if(numbersShortcutsEnabled = 1)
+    if(mouseModeEnabled = 1)
     {
         ; Perform previous movement
         if(mouseHorizontalButtonPressed)
@@ -191,13 +349,13 @@ $2::
 
 $3::
 {
-    if(numbersShortcutsEnabled = 0)
+    if(mouseModeEnabled = 0)
     {
         Send "3"
         return
     }
 
-    if(numbersShortcutsEnabled = 1)
+    if(mouseModeEnabled = 1)
     {
         Send "{RButton}"
         return
@@ -227,7 +385,7 @@ $3::
 
 $4::
 {
-    if(numbersShortcutsEnabled = 1)
+    if(mouseModeEnabled = 1)
     {
         ; Perform previous movement
         if(mouseHorizontalButtonPressed)
@@ -249,7 +407,7 @@ $4::
 ;//===============  Rigth side to control the Y axis
 $7::
 {
-    if(numbersShortcutsEnabled = 0)
+    if(mouseModeEnabled = 0)
     {
         Send "7"
         return
@@ -273,7 +431,7 @@ $7::
 
 $8::
 {
-    if(numbersShortcutsEnabled = 0)
+    if(mouseModeEnabled = 0)
     {
         Send "8"
         return
@@ -302,7 +460,7 @@ $8::
 
 $9::
 {
-    if(numbersShortcutsEnabled = 0)
+    if(mouseModeEnabled = 0)
     {
         Send "9"
         return
@@ -332,7 +490,7 @@ $9::
 
 $0::
 {
-    if(numbersShortcutsEnabled = 0)
+    if(mouseModeEnabled = 0)
     {
         Send "0"
         return
@@ -362,19 +520,19 @@ ShowMessage()
 {
     if(capslockPressed)
     {
-        global numbersShortcutsEnabled
+        global mouseModeEnabled
         ToolTip("███Vim ON███`n███              ███", 68, 100 )
-        if(numbersShortcutsEnabled = 0)
+        if(mouseModeEnabled = 0)
         {
             ToolTip("███Vim ON███`n███              ███", 68, 100 )
             return
         }
-        if(numbersShortcutsEnabled = 11)
+        if(mouseModeEnabled = 11)
         {
             ToolTip("███Vim ON███`n███ arrows  ███", 68, 100 )
             return
         }
-        if(numbersShortcutsEnabled = 1)
+        if(mouseModeEnabled = 1)
         {
             ToolTip("███Vim ON███`n███ mouse ███", 68, 100 )
             return
@@ -418,6 +576,12 @@ capslock::
 
 r::
 {
+    if(mouseModeEnabled = 1)
+    {
+        performMouseQwertyMovement(3)
+        return
+    }
+
     ;aee := ControlGetFocus("A")
     ToolTip("", 1, 1 )
     ;ToolTip(WinGetTitle("A"), 1, 1 )
@@ -451,7 +615,7 @@ i::
 
 $j::
 {
-    if(numbersShortcutsEnabled = 1)
+    if(mouseModeEnabled = 1)
     {
         ; Perform previous movement
         if(mouseHorizontalButtonPressed)
@@ -483,7 +647,7 @@ $j::
 
 $k::
 {
-    if(numbersShortcutsEnabled = 1)
+    if(mouseModeEnabled = 1)
     {
         ; Perform previous movement
         if(mouseDirectionX > 0)
@@ -525,7 +689,16 @@ Left::
 
 u::
 {
-    if(numbersShortcutsEnabled = 1)
+    if(qwertyEnable)
+    {
+        performMouseQwertyMovement(3)
+        return
+    }
+
+    global mouseQwertyCurrentIndexPosition
+    global mouseQwertyCurrentIndexPosition := 0
+
+    if(mouseModeEnabled = 1)
     {
         ; Setting the base values to be used for movement
         global mouseDirectionY
@@ -560,7 +733,7 @@ u::
 }
 y::
 {
-    if(numbersShortcutsEnabled = 1)
+    if(mouseModeEnabled = 1)
     {
         ; Setting the base values to be used for movement
         global mouseDirectionY
@@ -595,7 +768,16 @@ y::
 
 n::
 {
-    if(numbersShortcutsEnabled = 1)
+    if(qwertyEnable)
+    {
+        performMouseQwertyMovement(4)
+        return
+    }
+
+    global mouseQwertyCurrentIndexPosition
+    global mouseQwertyCurrentIndexPosition := 0
+
+    if(mouseModeEnabled = 1)
     {
         ; Setting the base values to be used for movement
         global mouseDirectionY
@@ -631,7 +813,7 @@ n::
 }
 b::
 {
-    if(numbersShortcutsEnabled = 1)
+    if(mouseModeEnabled = 1)
     {
         ; Setting the base values to be used for movement
         global mouseDirectionY
@@ -668,10 +850,19 @@ b::
 
 h::
 {
+    if(qwertyEnable)
+    {
+        performMouseQwertyMovement(2)
+        return
+    }
+
+    global mouseQwertyCurrentIndexPosition
+    global mouseQwertyCurrentIndexPosition := 0
+
     global mouseDirectionX
     mouseDirectionX := 20
 
-    if(numbersShortcutsEnabled = 1)
+    if(mouseModeEnabled = 1)
     {
         ; Setting the base values to be used for movement
         global mouseDirectionX
@@ -690,15 +881,25 @@ h::
 }
 +h::
 {
+
     Send "+{Left}"  ; Sends the Shift+Up key combination
 }
 
 l::
 {
+    if(qwertyEnable)
+    {
+        performMouseQwertyMovement(1)
+        return
+    }
+
+    global mouseQwertyCurrentIndexPosition
+    global mouseQwertyCurrentIndexPosition := 0
+
     global mouseDirectionX
     mouseDirectionX := -20
 
-    if(numbersShortcutsEnabled = 1)
+    if(mouseModeEnabled = 1)
     {
         ; Setting the base values to be used for movement
         global mouseDirectionX
@@ -843,7 +1044,7 @@ g::
 {
     global shiftLockToggle
     shiftLockToggle := true
-    Send "{Home}{Home}{Home}{Home}"
+    Send "{Home}{Right}{Home}{Home}"
     Send "{Blind}{LShift Down}"
 }
 ;Unholds the shift key
@@ -875,9 +1076,15 @@ GetUserInput(substactValue := 1) {
     return occurenceChosen
 }
 
-;Select everything inside comillas
+;Select everything inside comillas, or move mouse in mouse mode
 $q::
 {
+    if(mouseModeEnabled = 1)
+    {
+        performMouseQwertyMovement(4)
+        return
+    }
+
     if(capslockPressed)
     {
         originalClipboard := A_Clipboard
@@ -1028,6 +1235,12 @@ $+q::
 ;Select Everything inside a parentheses
 $w::
 {
+    if(mouseModeEnabled = 1)
+    {
+        performMouseQwertyMovement(2)
+        return
+    }
+
     if(capslockPressed)
     {
         originalClipboard := A_Clipboard
@@ -1114,6 +1327,12 @@ $w::
 ;Select Everything inside curly braces
 $e::
 {
+    if(mouseModeEnabled = 1)
+    {
+        performMouseQwertyMovement(1)
+        return
+    }
+
     if(capslockPressed)
     {
         originalClipboard := A_Clipboard
@@ -1187,7 +1406,7 @@ PrintFilesSavedLocations()
     fileFavoriteLocationsString := ""
     ; Convert the nested array to a string
     for index, value in fileFavoriteLocationsActualLocation {
-        fileFavoriteLocationsString .= "Goto " . index . ": " . value . "::" . fileFavoriteLocationsTextualIdentifier[index] . "--"
+        fileFavoriteLocationsString .= "███ Goto {" . index . "}: " . value . "█: " . fileFavoriteLocationsTextualIdentifier[index] . "--"
         fileFavoriteLocationsString := RTrim(fileFavoriteLocationsString, "--") . "`n"
     }
     ; Remove the last newline (`n`)
@@ -1201,11 +1420,14 @@ PrintFavoriteWords()
     ; Convert the nested array to a string
     for index, value in favoriteWords {
         textt := value
-        ; Check if the value copied in the array has a length greater than 172 characters, if so, leave only the last 172 characters
+        ; Check if the value copied in the array has a length greater than 172 characters, if so, leave only the first 172 characters
         if (StrLen(value) > 172)
-            textt := SubStr(textt, -172)
+            ; Get first characters
+            textt := SubStr(textt, 1, 172)
+            ; Get last characters
+            ;textt := SubStr(textt, -172)
 
-        favoriteWordsListString .= "Paste " . index . ": " . textt . "`n"
+        favoriteWordsListString .= "███ {" . index . "}█: " . textt . "`n"
     }
     ; Remove the last newline (`n`)
     favoriteWordsListString := RTrim(favoriteWordsListString, "`n")
@@ -1415,6 +1637,12 @@ $+d::
 ;After pressing a key different from the "left" and "right", then we exit VIM mode
 f::
 {
+    if(mouseModeEnabled = 1)
+    {
+        performMouseQwertyMovement(8)
+        return
+    }
+
     ;Setting off all the hotkeys to be able to input them
     toggleBinds()
 
@@ -1717,10 +1945,35 @@ $f8::
     
     sleep timeToSleepForCopy+170
     A_Clipboard := textt
-    Send("^n")
+    ;Send("^n")
     Send "^v"
     Suspend
 }
 
+; Key that gets the current line, removes the part that probably come from a console, and pastes the string to a console window(only if this window was the last visited window)
+^o::
+{
+    Suspend
+    originalClipboard := A_Clipboard
+    Send "{Home}{Right}{Home}{Home}"
+    Send "+{Down}"
+    Send "^c"
+    sleep 70
+    textt := A_Clipboard
+    Send "{Left}"
+    consolePartRegex := "(^(.*?[#\$%❯➜→▶λ>~\)])\s([#\$%❯➜→▶λ>~\)]\s)?)"
+
+    textt := StrReplace(textt, "`r", "")
+    textt := RegExReplace(textt, consolePartRegex)
+    
+    ; MsgBox("textt: " textt "Clip: " A_Clipboard)
+    WinActivate("ahk_exe WindowsTerminal.exe")
+    ;Send("!{Tab}")
+    A_Clipboard := textt
+    Send "^v"
+    sleep timeToSleepForCopy+70
+    A_Clipboard := originalClipboard
+    Suspend
+}
 return
 
