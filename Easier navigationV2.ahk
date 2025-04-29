@@ -1081,7 +1081,22 @@ $q::
 {
     if(mouseModeEnabled = 1)
     {
-        performMouseQwertyMovement(4)
+        ; Perform previous movement
+        if(mouseHorizontalButtonPressed)
+        {
+            MouseMove mouseDirectionX, 0, 50, "R"
+            printMousePositions(true)
+        }
+        else
+        {
+            MouseMove 0, mouseDirectionY, 50, "R"
+            printMousePositions(false)
+        }
+        return
+    }
+    if(mouseModeEnabled = 1)
+    {
+        ;performMouseQwertyMovement(4)
         return
     }
 
@@ -1237,7 +1252,22 @@ $w::
 {
     if(mouseModeEnabled = 1)
     {
-        performMouseQwertyMovement(2)
+        ; Perform previous movement
+        if(mouseHorizontalButtonPressed)
+        {
+            MouseMove mouseDirectionX, 0, 50, "R"
+            printMousePositions(true)
+        }
+        else
+        {
+            MouseMove 0, mouseDirectionY, 50, "R"
+            printMousePositions(false)
+        }
+        return
+    }
+    if(mouseModeEnabled = 1)
+    {
+        ;performMouseQwertyMovement(2)
         return
     }
 
@@ -1329,7 +1359,22 @@ $e::
 {
     if(mouseModeEnabled = 1)
     {
-        performMouseQwertyMovement(1)
+        ; Perform previous movement
+        if(mouseHorizontalButtonPressed)
+        {
+            MouseMove mouseDirectionX, 0, 50, "R"
+            printMousePositions(true)
+        }
+        else
+        {
+            MouseMove 0, mouseDirectionY, 50, "R"
+            printMousePositions(false)
+        }
+        return
+    }
+    if(mouseModeEnabled = 1)
+    {
+        ;performMouseQwertyMovement(1)
         return
     }
 
@@ -1922,6 +1967,7 @@ $f8::
 {
     ; The Suspend function is used to ensure we are able to press tings like '^n' and ensure it will actually be a hotkey for the vs code window and NOT press it with this hotkeys on(which will just do nothing)
     Suspend
+    originalClipboard := A_Clipboard
     Send "^+a"
     ;MsgBox("    Send a+")
     Send "^c"
@@ -1932,36 +1978,40 @@ $f8::
     textt := StrReplace(textt, "`r`n", "`n")
 
     ; Deleting all empty spaces
-    textt := StrReplace(textt, "`n`n`n", " ")
-    textt := StrReplace(textt, "  ", " ")
-    ; Check if the string length is greater than 98k characters, if so, leave only the last 98k characters
-    if (StrLen(textt) > 98000)
-        textt := SubStr(textt, -98000)
+    ;textt := StrReplace(textt, "`n`n`n", " ")
+    ;textt := StrReplace(textt, "  ", " ")
+    ; Check if the string length is greater than 4500 characters, if so, leave only the last 98k characters
+    if (StrLen(textt) > 4500)
+        textt := SubStr(textt, -4500)
 
     ;MsgBox("    Send Tab")
     ;Send "!{Tab}"
     ;WinActivate("ahk_class Chrome_WidgetWin_1")
     WinActivate("ahk_exe Code.exe")
     
-    sleep timeToSleepForCopy+170
-    A_Clipboard := textt
-    ;Send("^n")
+    sleep timeToSleepForCopy+100
+    ;A_Clipboard := textt
+    A_Clipboard := "`n`n===========================  BLANK  ===========================`n===============================================================`n`n" . textt
+    Send("!1")
+    Send("^{End}")
     Send "^v"
+    sleep timeToSleepForCopy
+    A_Clipboard := originalClipboard
     Suspend
 }
 
 ; Key that gets the current line, removes the part that probably come from a console, and pastes the string to a console window(only if this window was the last visited window)
-^o::
+^9::
 {
     Suspend
-    originalClipboard := A_Clipboard
     Send "{Home}{Right}{Home}{Home}"
     Send "+{Down}"
+    ;Send "+{Left}" ; This is important to keep the regex working correctly only with what we care for
     Send "^c"
     sleep 70
     textt := A_Clipboard
     Send "{Left}"
-    consolePartRegex := "(^(.*?[#\$%❯➜→▶λ>~\)])\s([#\$%❯➜→▶λ>~\)]\s)?)"
+    consolePartRegex := "(^((\s*).*?([#\$%❯➜→▶λ>~\)])|\s+)\s([#\$%❯➜→▶λ>~\)]\s+)?)"
 
     textt := StrReplace(textt, "`r", "")
     textt := RegExReplace(textt, consolePartRegex)
@@ -1972,7 +2022,6 @@ $f8::
     A_Clipboard := textt
     Send "^v"
     sleep timeToSleepForCopy+70
-    A_Clipboard := originalClipboard
     Suspend
 }
 return
