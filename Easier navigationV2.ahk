@@ -193,11 +193,29 @@ printMousePositions(lastKeyDirectionIsHorizontal, hasQwertyKeyBeenPressed := 0)
 
     if(mousePrintMode = 2)
     {
+        PrintLargePositionsCount := 4
+        PrintLargePositionsCountIterator := 1
         ; Large positions
-        if(lastKeyDirectionIsHorizontal = true)
-            ToolTip("L", xpos+(mouseDirectionX*11), ypos, iterator)
+        if (lastKeyDirectionIsHorizontal = true)
+        {
+            PrintLargePositionsCountIterator := 1
+            ; Print the Large position multiple times
+            loop (PrintLargePositionsCount)
+            {
+                ToolTip(PrintLargePositionsCountIterator, xpos + (mouseDirectionX*11*PrintLargePositionsCountIterator), ypos, PrintLargePositionsCountIterator+1)
+                PrintLargePositionsCountIterator += 1
+            }
+        }
         else
-            ToolTip("L", xpos, ypos+(mouseDirectionY*11), iterator)
+        {
+            PrintLargePositionsCountIterator := 1
+            ; Print the Large position multiple times
+            loop (PrintLargePositionsCount)
+            {
+                ToolTip(PrintLargePositionsCountIterator, xpos, ypos+(mouseDirectionY*11*PrintLargePositionsCountIterator), PrintLargePositionsCountIterator+1)
+                PrintLargePositionsCountIterator += 1
+            }
+        }
 
         iterator := iterator+1
         ; Short positions
@@ -2001,7 +2019,7 @@ $f8::
 }
 
 ; Key that gets the current line, removes the part that probably come from a console, and pastes the string to a console window(only if this window was the last visited window)
-^9::
+!9::
 {
     Suspend
     Send "{Home}{Right}{Home}{Home}"
