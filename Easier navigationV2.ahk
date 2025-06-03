@@ -590,6 +590,17 @@ capslock::
     ;SetCapsLockState capslockPressed
     ShowMessage()
 }
+;Key that triggers the VIM mode
+!a::
+{
+    ;Toggle all binds off or on
+    toggleBinds()
+
+    toggleMousePositionsOff()
+
+    ;SetCapsLockState capslockPressed
+    ShowMessage()
+}
 #SuspendExempt False
 
 r::
@@ -1998,14 +2009,16 @@ $f8::
     ; Deleting all empty spaces
     ;textt := StrReplace(textt, "`n`n`n", " ")
     ;textt := StrReplace(textt, "  ", " ")
-    ; Check if the string length is greater than 4500 characters, if so, leave only the last 98k characters
-    if (StrLen(textt) > 4500)
-        textt := SubStr(textt, -4500)
+    ; Check if the string length is greater than 9600 characters, if so, leave only the last 98k characters
+    if (StrLen(textt) > 9600)
+        textt := SubStr(textt, -9600)
 
     ;MsgBox("    Send Tab")
     ;Send "!{Tab}"
     ;WinActivate("ahk_class Chrome_WidgetWin_1")
     WinActivate("ahk_exe Code.exe")
+    if (WinGetProcessName("A") = "Code.exe")
+        Send "^+u"
     
     sleep timeToSleepForCopy+100
     ;A_Clipboard := textt
@@ -2043,4 +2056,11 @@ $f8::
     Suspend
 }
 return
+
+$f1::
+{
+    Send("^!{Tab}")
+}
+
+
 
