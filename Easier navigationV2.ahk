@@ -2020,7 +2020,7 @@ $f8::
     if (WinGetProcessName("A") = "Code.exe")
         Send "^+u"
     
-    sleep timeToSleepForCopy+100
+    sleep timeToSleepForCopy+430
     ;A_Clipboard := textt
     A_Clipboard := "`n`n===========================  BLANK  ===========================`n===============================================================`n`n" . textt
     Send("!1")
