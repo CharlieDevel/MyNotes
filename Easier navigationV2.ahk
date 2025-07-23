@@ -1994,7 +1994,7 @@ $f8::
 ; Very special key which is supposed to be triggered in windws terminal, and have vscode as the second opened window, copies everything in the terminal, deletes all empty spaces, changes tab(into vscode), and pastes the text in the terminal
 !o::
 {
-    ; The Suspend function is used to ensure we are able to press tings like '^n' and ensure it will actually be a hotkey for the vs code window and NOT press it with this hotkeys on(which will just do nothing)
+    ; The Suspend function is used to ensure we are able to press tings like '^n' and ensure it will actually be a hotkey for the vs code window and NOT press it with these hotkeys on(which will do whatever we have mapped "^n" to do here)
     Suspend
     originalClipboard := A_Clipboard
     Send "^+a"
@@ -2020,10 +2020,11 @@ $f8::
     if (WinGetProcessName("A") = "Code.exe")
         Send "^+u"
     
-    sleep timeToSleepForCopy+430
+    sleep timeToSleepForCopy
     ;A_Clipboard := textt
     A_Clipboard := "`n`n===========================  BLANK  ===========================`n===============================================================`n`n" . textt
     Send("!1")
+    sleep timeToSleepForCopy
     Send("^{End}")
     Send "^v"
     sleep timeToSleepForCopy
@@ -2032,6 +2033,7 @@ $f8::
 }
 
 ; Key that gets the current line, removes the part that probably come from a console, and pastes the string to a console window(only if this window was the last visited window)
+; TODO: Fix the issue where this for some reason presses 'Alt + Enter' after finishing
 !9::
 {
     Suspend
@@ -2052,7 +2054,7 @@ $f8::
     ;Send("!{Tab}")
     A_Clipboard := textt
     Send "^v"
-    sleep timeToSleepForCopy+70
+    Send "!v"
     Suspend
 }
 return
