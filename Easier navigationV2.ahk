@@ -44,6 +44,7 @@ global mouseDirectionYKeepForward := 0
 global mouseDirectionYKeepBackward := 0
 
 global mouseQwertyCurrentIndexPosition := 0
+global mouseMovementMulitplier := 9
 global qwertyEnable := 0
 global originalMousePositionX := 0
 global originalMousePositionY := 0
@@ -202,7 +203,7 @@ printMousePositions(lastKeyDirectionIsHorizontal, hasQwertyKeyBeenPressed := 0)
             ; Print the Large position multiple times
             loop (PrintLargePositionsCount)
             {
-                ToolTip(PrintLargePositionsCountIterator, xpos + (mouseDirectionX*11*PrintLargePositionsCountIterator), ypos, PrintLargePositionsCountIterator+1)
+                ToolTip(PrintLargePositionsCountIterator, xpos + (mouseDirectionX*mouseMovementMulitplier*PrintLargePositionsCountIterator), ypos, PrintLargePositionsCountIterator+1)
                 PrintLargePositionsCountIterator += 1
             }
         }
@@ -212,7 +213,7 @@ printMousePositions(lastKeyDirectionIsHorizontal, hasQwertyKeyBeenPressed := 0)
             ; Print the Large position multiple times
             loop (PrintLargePositionsCount)
             {
-                ToolTip(PrintLargePositionsCountIterator, xpos, ypos+(mouseDirectionY*11*PrintLargePositionsCountIterator), PrintLargePositionsCountIterator+1)
+                ToolTip(PrintLargePositionsCountIterator, xpos, ypos+(mouseDirectionY*mouseMovementMulitplier*PrintLargePositionsCountIterator), PrintLargePositionsCountIterator+1)
                 PrintLargePositionsCountIterator += 1
             }
         }
@@ -392,7 +393,7 @@ $3::
     global mouseDirectionX
     if(mouseDirectionX > 0)
     {
-        MouseMove mouseDirectionX*11, 0, 50, "R"
+        MouseMove mouseDirectionX*mouseMovementMulitplier, 0, 50, "R"
     }
     else
     {
@@ -471,7 +472,7 @@ $8::
     }
     else
     {
-        MouseMove 0, mouseDirectionY*11, 50, "R"
+        MouseMove 0, mouseDirectionY*mouseMovementMulitplier, 50, "R"
     }
     printMousePositions(false)
 }
@@ -497,7 +498,7 @@ $9::
     global mouseDirectionY
     if(mouseDirectionY > 0)
     {
-        MouseMove 0, mouseDirectionY*11, 50, "R"
+        MouseMove 0, mouseDirectionY*mouseMovementMulitplier, 50, "R"
     }
     else
     {
@@ -651,7 +652,7 @@ $j::
         {
             if(mouseDirectionX > 0)
             {
-                MouseMove mouseDirectionX*11, 0, 50, "R"
+                MouseMove mouseDirectionX*mouseMovementMulitplier, 0, 50, "R"
             }
             else
             {
@@ -685,7 +686,7 @@ $k::
         }
         else
         {
-            MouseMove mouseDirectionX*11, 0, 50, "R"
+            MouseMove mouseDirectionX*mouseMovementMulitplier, 0, 50, "R"
         }
 
         printMousePositions(true)
@@ -771,7 +772,7 @@ y::
         mouseHorizontalButtonPressed := false
 
         ; Perform basic movement
-        MouseMove 0, mouseDirectionY*11, 50, "R"
+        MouseMove 0, mouseDirectionY*mouseMovementMulitplier, 50, "R"
 
         ; Reset going backward and forward
         global mouseDirectionYKeepBackward
@@ -851,7 +852,7 @@ b::
         mouseHorizontalButtonPressed := false
 
         ; Perform basic movement
-        MouseMove 0, mouseDirectionY*11, 50, "R"
+        MouseMove 0, mouseDirectionY*mouseMovementMulitplier, 50, "R"
 
         ; Reset going backward and forward
         global mouseDirectionYKeepBackward
