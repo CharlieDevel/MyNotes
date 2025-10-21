@@ -30,6 +30,7 @@ global mousePrintMode := 2
 global mouseModeEnabled := 0
 global mousePowerIncrement := 1.45
 global mouseScaler := 1
+global mouseShortDirectionMultiplier := 1
 global mouseHorizontalButtonPressed := false
 global mouseClickedDown := false
 
@@ -44,7 +45,8 @@ global mouseDirectionYKeepForward := 0
 global mouseDirectionYKeepBackward := 0
 
 global mouseQwertyCurrentIndexPosition := 0
-global mouseMovementMulitplier := 9
+global mouseBigMovementMulitplier := 9
+global mouseShortMovementMulitplier := 3
 global qwertyEnable := 0
 global originalMousePositionX := 0
 global originalMousePositionY := 0
@@ -142,7 +144,7 @@ printMousePositions(lastKeyDirectionIsHorizontal, hasQwertyKeyBeenPressed := 0)
     ;MsgBox(xpos . "---" . ypos)
     MouseGetPos &xpos, &ypos 
 
-    ; This if is used to know if we should use new values as base(the mouse current position), or to keep the base values from previous mouse movements, those that came from 'u', 'n', 'l', or 'h' keys
+    ; This is used to know if we should use new values as base(the mouse current position), or to keep the base values from previous mouse movements, those that came from 'u', 'n', 'l', or 'h' keys
     if(hasQwertyKeyBeenPressed)
     {
         xpos := originalMousePositionX
@@ -203,7 +205,7 @@ printMousePositions(lastKeyDirectionIsHorizontal, hasQwertyKeyBeenPressed := 0)
             ; Print the Large position multiple times
             loop (PrintLargePositionsCount)
             {
-                ToolTip(PrintLargePositionsCountIterator, xpos + (mouseDirectionX*mouseMovementMulitplier*PrintLargePositionsCountIterator), ypos, PrintLargePositionsCountIterator+1)
+                ToolTip(PrintLargePositionsCountIterator, xpos + (mouseDirectionX*mouseBigMovementMulitplier*PrintLargePositionsCountIterator), ypos, PrintLargePositionsCountIterator+1)
                 PrintLargePositionsCountIterator += 1
             }
         }
@@ -213,7 +215,7 @@ printMousePositions(lastKeyDirectionIsHorizontal, hasQwertyKeyBeenPressed := 0)
             ; Print the Large position multiple times
             loop (PrintLargePositionsCount)
             {
-                ToolTip(PrintLargePositionsCountIterator, xpos, ypos+(mouseDirectionY*mouseMovementMulitplier*PrintLargePositionsCountIterator), PrintLargePositionsCountIterator+1)
+                ToolTip(PrintLargePositionsCountIterator, xpos, ypos+(mouseDirectionY*mouseBigMovementMulitplier*PrintLargePositionsCountIterator), PrintLargePositionsCountIterator+1)
                 PrintLargePositionsCountIterator += 1
             }
         }
@@ -345,6 +347,7 @@ $+1::
     }
 }
 
+; Performs a very short mouse movement to the current direction(X or Y)
 $2::
 {
     if(mouseModeEnabled = 1)
@@ -393,7 +396,7 @@ $3::
     global mouseDirectionX
     if(mouseDirectionX > 0)
     {
-        MouseMove mouseDirectionX*mouseMovementMulitplier, 0, 50, "R"
+        MouseMove mouseDirectionX*mouseBigMovementMulitplier, 0, 50, "R"
     }
     else
     {
@@ -472,7 +475,7 @@ $8::
     }
     else
     {
-        MouseMove 0, mouseDirectionY*mouseMovementMulitplier, 50, "R"
+        MouseMove 0, mouseDirectionY*mouseBigMovementMulitplier, 50, "R"
     }
     printMousePositions(false)
 }
@@ -498,7 +501,7 @@ $9::
     global mouseDirectionY
     if(mouseDirectionY > 0)
     {
-        MouseMove 0, mouseDirectionY*mouseMovementMulitplier, 50, "R"
+        MouseMove 0, mouseDirectionY*mouseBigMovementMulitplier, 50, "R"
     }
     else
     {
@@ -652,17 +655,17 @@ $j::
         {
             if(mouseDirectionX > 0)
             {
-                MouseMove mouseDirectionX*mouseMovementMulitplier, 0, 50, "R"
+                MouseMove mouseDirectionX*mouseBigMovementMulitplier, 0, 50, "R"
             }
             else
             {
-                MouseMove mouseDirectionX*4, 0, 50, "R"
+                MouseMove mouseDirectionX*mouseShortMovementMulitplier, 0, 50, "R"
             }
             printMousePositions(true)
         }
         else
         {
-            MouseMove 0, mouseDirectionY*4, 50, "R"
+            MouseMove 0, mouseDirectionY*mouseShortMovementMulitplier, 50, "R"
             printMousePositions(false)
         }
         return
@@ -682,11 +685,11 @@ $k::
         ; Perform previous movement
         if(mouseDirectionX > 0)
         {
-            MouseMove mouseDirectionX*4, 0, 50, "R"
+            MouseMove mouseDirectionX*mouseShortMovementMulitplier, 0, 50, "R"
         }
         else
         {
-            MouseMove mouseDirectionX*mouseMovementMulitplier, 0, 50, "R"
+            MouseMove mouseDirectionX*mouseBigMovementMulitplier, 0, 50, "R"
         }
 
         printMousePositions(true)
@@ -772,7 +775,7 @@ y::
         mouseHorizontalButtonPressed := false
 
         ; Perform basic movement
-        MouseMove 0, mouseDirectionY*mouseMovementMulitplier, 50, "R"
+        MouseMove 0, mouseDirectionY*mouseBigMovementMulitplier, 50, "R"
 
         ; Reset going backward and forward
         global mouseDirectionYKeepBackward
@@ -852,7 +855,7 @@ b::
         mouseHorizontalButtonPressed := false
 
         ; Perform basic movement
-        MouseMove 0, mouseDirectionY*mouseMovementMulitplier, 50, "R"
+        MouseMove 0, mouseDirectionY*mouseBigMovementMulitplier, 50, "R"
 
         ; Reset going backward and forward
         global mouseDirectionYKeepBackward
@@ -975,6 +978,13 @@ l::
 
 }
 
+;Translates to Ctrl+PgUp
++[::
+{
+    Send "^{PgUp}"
+
+}
+
 ;Translates to Shift+Ctrl+Tab
 ]::
 {
@@ -982,6 +992,12 @@ l::
 
 }
 
+;Translates to Ctrl+PgDown
++]::
+{
+    Send "^{PgDn}"
+
+}
 ;//===========================   Copy paste binds
 x::
 {
@@ -1277,7 +1293,8 @@ $+q::
     else
         Send "{Q}"
 }
-;Select Everything inside a parentheses
+
+;Select Everything inside a parentheses, in mouse mode enabled, performs a short(not the shortest) mouse movement to the current direction(X or Y)
 $w::
 {
     if(mouseModeEnabled = 1)
@@ -1285,19 +1302,14 @@ $w::
         ; Perform previous movement
         if(mouseHorizontalButtonPressed)
         {
-            MouseMove mouseDirectionX, 0, 50, "R"
+            MouseMove mouseDirectionX*mouseShortMovementMulitplier, 0, 50, "R"
             printMousePositions(true)
         }
         else
         {
-            MouseMove 0, mouseDirectionY, 50, "R"
+            MouseMove 0, mouseDirectionY*mouseShortMovementMulitplier, 50, "R"
             printMousePositions(false)
         }
-        return
-    }
-    if(mouseModeEnabled = 1)
-    {
-        ;performMouseQwertyMovement(2)
         return
     }
 
@@ -1384,7 +1396,7 @@ $w::
     else
         Send "w"
 }
-;Select Everything inside curly braces
+;Select Everything inside curly braces, in mouse mode enabled, performs a long mouse movement to the current direction(X or Y)
 $e::
 {
     if(mouseModeEnabled = 1)
@@ -1392,12 +1404,12 @@ $e::
         ; Perform previous movement
         if(mouseHorizontalButtonPressed)
         {
-            MouseMove mouseDirectionX, 0, 50, "R"
+            MouseMove mouseDirectionX*mouseBigMovementMulitplier, 0, 50, "R"
             printMousePositions(true)
         }
         else
         {
-            MouseMove 0, mouseDirectionY, 50, "R"
+            MouseMove 0, mouseDirectionY*mouseBigMovementMulitplier, 50, "R"
             printMousePositions(false)
         }
         return
