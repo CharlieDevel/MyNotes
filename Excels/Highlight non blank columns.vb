@@ -333,6 +333,7 @@ Sub LookupValueInNamedTable(cell As Range)
     Dim ws As Worksheet
     Dim table As ListObject
     Dim colIndex As Integer
+    Dim lookupColumnNumber As Integer
     Dim kindOfDefinitionString As Variant
     Dim foundRow As Range
 
@@ -394,11 +395,14 @@ Sub LookupValueInNamedTable(cell As Range)
     ' Get the named table by its name
     Set table = ws.ListObjects("Viewpoints_Statements") ' Change to your table name
 
+    ' Specify the LookupColumn that will be used to find the row we want(values are in format "Splunk architectureSmartStoreSplunk cloud" for example, the Viewpoint, Primary and Secondary Resource names are merged in a single string)
+    lookupColumnNumber = 10 ' Change to the desired column to check
+
     ' Specify the column index from which you want to retrieve the value (e.g., 2 for the second column)
-    colIndex = 6 ' Change to the desired column index
+    colIndex = 8 ' Change to the desired column index
 
     ' Search for the lookup value in the first column of the table
-    Set foundRow = table.ListColumns(8).DataBodyRange.Find(lookupString, LookIn:=xlValues, LookAt:=xlWhole)
+    Set foundRow = table.ListColumns(lookupColumnNumber).DataBodyRange.Find(lookupString, LookIn:=xlValues, LookAt:=xlWhole)
     loopCounter = -1
 
     ' Check if the value was found
@@ -408,7 +412,8 @@ Sub LookupValueInNamedTable(cell As Range)
         Do
             loopCounter = loopCounter + 1
             ' Retrieve the value from the specified column index
-            kindOfDefinitionString = foundRow.Offset(0, -2).Value
+            ' kindOfDefinitionString = foundRow.Offset(0, -2).Value
+            kindOfDefinitionString = foundRow.Offset(0, colIndex-lookupColumnNumber).Value
 
             '//===========================  Get the value transforming the string into a integer below the size of the colors array
             colorValue = 0
@@ -458,8 +463,8 @@ Sub LookupValueInNamedTable(cell As Range)
                 .TextFrame.Characters.Font.Bold = True ' Makes the text bold
             End With
             
-            ' Find the next occurrence
-            Set foundRow = table.ListColumns(8).DataBodyRange.Find(lookupString, LookIn:=xlValues, LookAt:=xlWhole, After:=foundRow)
+            ' Find the next occurrence(LookupColumn, currently it is column I:I)
+            Set foundRow = table.ListColumns(lookupColumnNumber).DataBodyRange.Find(lookupString, LookIn:=xlValues, LookAt:=xlWhole, After:=foundRow)
         Loop While Not foundRow Is Nothing And foundRow.Address <> firstAddress    
     End If
     Set pvtCell = Nothing
