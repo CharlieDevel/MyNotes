@@ -989,14 +989,12 @@ l::
 ]::
 {
     Send "^+{Tab}"
-
 }
 
 ;Translates to Ctrl+PgDown
 +]::
 {
     Send "^{PgDn}"
-
 }
 ;//===========================   Copy paste binds
 x::
@@ -2077,5 +2075,150 @@ $f1::
     Send("^!{Tab}")
 }
 
+; WOrkflow designed for the viewpoints excel, which will take the value of a resource statement from the pivot table, copy it, and go to the viewpoints table to the actual row that defines contains the statement, to be modified easily 
+^f10::
+{
+    searchForSpecificRowWithValueInPivotTable()
+}
+
+; Workflow designed for the viewpoints excel. Place the excel cursor over a secondary resource in the pivot table view, then type a number which represents the granularity of this item, this will then go to the table of reosurce granularity that powers the pivot table, and assign the granularity to this resource
+!f10::
+{
+    ; //===========================  Get the text and its number
+    ; Send Escape
+    Send "{Escape}"
+    sleep 130
+
+    ; Send f2
+    Send "{F2}"
+    sleep 130
+
+    ; Send ctrl A
+    Send "^a"
+    sleep 130
+
+    ; Send ctrl c
+    Send "^c"
+    sleep 130
+
+    ; Send Escape
+    Send "{Escape}"
+    sleep 130
+
+    ; Capture a number from user input and save it into a variable for later use
+    granularityForResource := InputBox("Enter granularity for this resource:", "Number Input").Value
+    ; //=====  
+
+
+    ; //===========================  Go to resource granularity table and create new row
+    ; Switch to the resource granularity tab
+    Send "^{PgDn}"
+    sleep 130
+    Send "^{PgDn}"
+    sleep 130
+
+    ; You will have to ensure the excel cursor in the resource granularity tab has been positioned inside the table, inside column A
+    ; Go to the bottom of the table
+    ; Place the excel cursor back in the same position to run this workflow correctly again
+    placeExcelCursorForResourceGranularityTable()
+    sleep 130
+    Send "^{Down}"
+    Send "{Down}"
+    sleep 130
+
+    Send "^v"
+    sleep 130
+
+    Send "{Tab}"
+    Send "{Tab}"
+    sleep 130
+
+    ; Write the saved number
+    Send granularityForResource
+
+    ; Go back to the pivot table
+    Send "^{PgUp}"
+    Send "^{PgUp}"
+
+    ; //=====  
+}
+
+; This key will trigger the workflow to look for a secondary resource form the pivot table tab, and go to the resource granularity and find the actual resource, to give it a different value
++f10::
+{
+    searchForSpecificRowWithValueInPivotTable(1)
+}
+
+; This function will be used for 2 workflow that do the same thing, find the actual row contianing the data that feeds a pivot table, the parameter is used to just know if we are lookin in one table, or another, which are in different tabs/worksheets
+searchForSpecificRowWithValueInPivotTable(gotoResourceGranularityTable := 0)
+{
+    ; Send Escape
+    Send "{Escape}"
+    sleep 130
+
+    ; Send f2
+    Send "{F2}"
+    sleep 130
+
+    if (gotoResourceGranularityTable) 
+    {
+        ; Send shift up
+        Send "^a"
+        sleep 130
+    }
+    else
+    {
+        ; Send shift up
+        Send "+{Up}"
+        sleep 130
+    }
+
+    ; Send ctrl c
+    Send "^c"
+    sleep 130
+
+    ; Send Escape
+    Send "{Escape}"
+    sleep 130
+
+    ; Switch to the viewpointStatements tab
+    Send "^{PgDn}"
+    sleep 130
+
+    if (gotoResourceGranularityTable) 
+    {
+        Send "^{PgDn}"
+        sleep 130
+    }
+
+    ; Send Ctrl f to toggle find mode
+    Send "^f"
+    sleep 130
+
+    ; Send ctrl v
+    Send "^v"
+    sleep 130
+
+    ; Send enter
+    Send "{Enter}"
+
+    if (gotoResourceGranularityTable = 1) 
+    {
+        sleep 130
+        Send "{Escape}"
+        Send "{Right}"
+        Send "{Right}"
+        sleep 130
+    }
+}
+
+
+; Function that only moves the excel cursor in a favorable position to run an automated workflow, which is in column A, inside the table
+placeExcelCursorForResourceGranularityTable() 
+{
+    Send "^{Left}"
+    Send "^{Left}"
+    Send "{Up}"
+}
 
 

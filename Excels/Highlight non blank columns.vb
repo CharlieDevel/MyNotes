@@ -381,7 +381,13 @@ Sub LookupValueInNamedTable(cell As Range)
     On Error GoTo ErrorHandler
     viewpointName = pvtCell.RowItems(1)
     primaryResourceName = pvtCell.RowItems(4)
-    secondaryResourceName = pvtCell.ColumnItems(3)
+    ' This if will ensure that if we remove some columns from the pivot table, which moves the secondary resource around, then still find out the secondary resource
+    If IsError(pvtCell.ColumnItems(3)) Or IsEmpty(pvtCell.ColumnItems(3)) Or pvtCell.ColumnItems(3) = "" Then
+        secondaryResourceName = pvtCell.ColumnItems(1)
+    Else
+        secondaryResourceName = pvtCell.ColumnItems(3)
+    End If
+
     ' Verify if there is secondary resource, if not, then fix the string
     If secondaryResourceName = "(blank)" Then
         secondaryResourceName = ""
