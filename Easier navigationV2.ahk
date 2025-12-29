@@ -2199,10 +2199,23 @@ searchForSpecificRowWithValueInPivotTable(gotoResourceGranularityTable := 0)
     Send "^v"
     sleep 130
 
+    if (gotoResourceGranularityTable = 0)
+    {
+        Send "{Tab}"
+        Send "{Tab}"
+        Send "{Tab}"
+        Send "{Tab}"
+        Send "{Tab}"
+        Send "{Tab}"
+        sleep 130
+        Send "{Space}"
+        sleep 130
+    }
+
     ; Send enter
     Send "{Enter}"
 
-    if (gotoResourceGranularityTable = 1) 
+    if (gotoResourceGranularityTable)
     {
         sleep 130
         Send "{Escape}"
