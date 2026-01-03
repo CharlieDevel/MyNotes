@@ -2208,15 +2208,16 @@ searchForSpecificRowWithValueInPivotTable(gotoResourceGranularityTable := 0)
         Send "{Tab}"
         Send "{Tab}"
         sleep 130
-        Send "{Space}"
         sleep 130
     }
 
-    ; Send enter
-    Send "{Enter}"
 
     if (gotoResourceGranularityTable)
     {
+        ; Send enter
+        Send "{Enter}"
+
+        ; Go back to the pivot sheet
         sleep 130
         Send "{Escape}"
         Send "{Right}"
