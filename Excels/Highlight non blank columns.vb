@@ -190,13 +190,14 @@ Private Sub Worksheet_SelectionChange(ByVal Target As Range)
 End Sub
 
 Sub AdjustColorIntensity(currentCellValue As Variant, maximumCellValue As Variant, ByRef r As Integer, ByRef g As Integer, ByRef b As Integer)
-    ' Start with base color (pure red: RGB(255, 0, 0))
     Dim intensityFactor As Double
     Dim scaleFactor As Double
     Dim minBigResourceValue As Integer
     Dim maxBigResourceValue As Integer
     Dim minResultValue As Double
     Dim ResultValue As Double
+
+    ' Apply a default value for very low cell values
     If currentCellValue < 68 Then
       r = 255
       g = 192
@@ -214,10 +215,9 @@ Sub AdjustColorIntensity(currentCellValue As Variant, maximumCellValue As Varian
       maxResultValue = 1
       intensityFactor = minResultValue + ((currentCellValue - minBigResourceValue) * (maxResultValue - minResultValue)) / (maxBigResourceValue - minBigResourceValue)
       ' Apply the intensity factor to the red component to make the color more red as value increases
-      ' For the green and blue components, we'll increase their intensity as currentCellValue increases
       r = r - (255 - r) * (1 - intensityFactor) ' As value increases, make red stronger
       g = g + (255 - g) * (1 - intensityFactor)   ' Add green (white component) as value increases
-      b = b + (255 - b) * (1 - intensityFactor)   ' Add blue (white component) as value increases
+      b = b - (255 - b) * (1 - intensityFactor)   ' Add blue (white component) as value increases
 
       ' Ensure RGB values stay within the valid range (0-255)
       r = Application.WorksheetFunction.Min(255, Application.WorksheetFunction.Max(0, r))
@@ -225,13 +225,37 @@ Sub AdjustColorIntensity(currentCellValue As Variant, maximumCellValue As Varian
       b = Application.WorksheetFunction.Min(255, Application.WorksheetFunction.Max(0, b))
       Exit Sub
     End If
-    ' If none of the 2 ifs are hit, then apply coloring to normal resources between 68 and 111, which are normally mean only 1 interaction with the resource
-    ' Base color values: Pure red (no green, no blue)
+
+    ' //===========================  At this point(If none of the 2 ifs are hit), we are going to color a cell resource wih values between 69 and 111, first we will apply an RGB color with values between 85~ to 111, and after that we will apply values from 59 to 85~
+    If currentCellValue > 84 Then
+        r = 245
+        g = 0
+        b = 0
+        ' Calculate the intensity factor based on currentCellValue and maximumCellValue
+        maximumCellValue = 98
+        minBigResourceValue = 73
+        maxBigResourceValue = maximumCellValue
+        minResultValue = 0
+        ' minResultValue = 0.38
+        maxResultValue = 1
+        intensityFactor = minResultValue + ((currentCellValue - minBigResourceValue) * (maxResultValue - minResultValue)) / (maxBigResourceValue - minBigResourceValue)
+        ' intensityFactor = (17/7)*(currentCellValue / maximumCellValue) - (9/7)
+        
+        r = r + (255 - r) * (1 - intensityFactor)  ' As value increases, make red stronger
+        g = g + (255 - g) * (1 - intensityFactor)  ' Add green (white component) as value increases
+        b = b - (255 - b) * (1 - intensityFactor)  ' Add blue (white component  ) as value increases
+        ' Ensure RGB values stay within the valid range (0-255)
+        r = Application.WorksheetFunction.Min(255, Application.WorksheetFunction.Max(0, r))
+        g = Application.WorksheetFunction.Min(255, Application.WorksheetFunction.Max(0, g))
+        b = Application.WorksheetFunction.Min(255, Application.WorksheetFunction.Max(0, b))
+      Exit Sub
+    End If
+    
     r = 255
-    g = 50
-    b = 0
+    g = 97
+    b = 97
     ' Calculate the intensity factor based on currentCellValue and maximumCellValue
-    maximumCellValue = 95
+    maximumCellValue = 83
     minBigResourceValue = 59
     maxBigResourceValue = maximumCellValue
     minResultValue = 0
@@ -241,10 +265,9 @@ Sub AdjustColorIntensity(currentCellValue As Variant, maximumCellValue As Varian
     ' intensityFactor = (17/7)*(currentCellValue / maximumCellValue) - (9/7)
     
     ' Apply the intensity factor to the red component to make the color more red as value increases
-    ' For the green and blue components, we'll increase their intensity as currentCellValue increases
-    r = r + (255 - r) * (1 - intensityFactor) ' As value increases, make red stronger
+    r = r - (255 - r) * (1 - intensityFactor)  ' As value increases, make red stronger
     g = g + (255 - g) * (1 - intensityFactor)  ' Add green (white component) as value increases
-    b = b - (255 - b) * (1 - intensityFactor)  ' Add blue (white component  ) as value increases
+    b = b + (255 - b) * (1 - intensityFactor)  ' Add blue (white component  ) as value increases
 
     ' Ensure RGB values stay within the valid range (0-255)
     r = Application.WorksheetFunction.Min(255, Application.WorksheetFunction.Max(0, r))
@@ -270,7 +293,7 @@ Sub FormatColumnBasedOnCriteriaInCurrentCell(myRng As Range)
     Dim maxVal As Double
     Dim targetCol As Long
     Dim i As Long
-    Dim rowWithSecondGranularityLevel as Integer
+    Dim rowWithSecondGranularityLevel As Integer
     rowWithSecondGranularityLevel = 3
     ' Loop through each cell in row 2 to get the cell in that row that has a higher granularity value than the one in the current cell
     For i = 1 To ws.Cells(rowWithSecondGranularityLevel, ws.Columns.Count).End(xlToLeft).Column
@@ -419,7 +442,7 @@ Sub LookupValueInNamedTable(cell As Range)
             loopCounter = loopCounter + 1
             ' Retrieve the value from the specified column index
             ' kindOfDefinitionString = foundRow.Offset(0, -2).Value
-            kindOfDefinitionString = foundRow.Offset(0, colIndex-lookupColumnNumber).Value
+            kindOfDefinitionString = foundRow.Offset(0, colIndex - lookupColumnNumber).Value
 
             '//===========================  Get the value transforming the string into a integer below the size of the colors array
             colorValue = 0
@@ -438,7 +461,7 @@ Sub LookupValueInNamedTable(cell As Range)
             cellValue = cell.Value
             Set ws = ActiveSheet ' Adjust the sheet name as needed
             Set cell = cell.Offset(-1, 0)
-            Set txtBox = ws.Shapes.AddTextbox(msoTextOrientationHorizontal, cell.Left, cell.Top-29*loopCounter, cell.Width, cell.Width)
+            Set txtBox = ws.Shapes.AddTextbox(msoTextOrientationHorizontal, cell.Left, cell.Top - 29 * loopCounter, cell.Width, cell.Width)
             Set txtBoxInFrozenCells = ws.Shapes.AddTextbox(msoTextOrientationHorizontal, cell.Left, 29, cell.Width, cell.Width)
 
             ' Set the text box properties
@@ -471,7 +494,7 @@ Sub LookupValueInNamedTable(cell As Range)
             
             ' Find the next occurrence(LookupColumn, currently it is column I:I)
             Set foundRow = table.ListColumns(lookupColumnNumber).DataBodyRange.Find(lookupString, LookIn:=xlValues, LookAt:=xlWhole, After:=foundRow)
-        Loop While Not foundRow Is Nothing And foundRow.Address <> firstAddress    
+        Loop While Not foundRow Is Nothing And foundRow.Address <> firstAddress
     End If
     Set pvtCell = Nothing
     Set pvtField = Nothing
@@ -479,8 +502,3 @@ Sub LookupValueInNamedTable(cell As Range)
 ErrorHandler:
     On Error GoTo 0
 End Sub
-
-
-
-
-
