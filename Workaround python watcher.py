@@ -25,6 +25,15 @@ def forward_message(mail, forwarding_account):
     forward.Send()
     print(f"✅ Forwarded: {mail.Subject}")
 
+def send_subject_only(mail, outlook, forwarding_account):
+    new_mail = outlook.CreateItem(0)  # 0 = olMailItem
+    new_mail.To = FORWARD_TO_EMAIL
+    new_mail.Subject = "[-carlblan-] " +  mail.Subject
+    new_mail.Body = ""  # No body content
+    new_mail.SendUsingAccount = forwarding_account
+    new_mail.Send()
+    print(f"✅ Sent subject only: {mail.Subject}")
+    
 while True:
     try:
         pythoncom.CoInitialize()
@@ -42,7 +51,8 @@ while True:
 
         if newest and newest.Class == 43:  # 43 = MailItem
             if newest.EntryID != last_entry_id:
-                forward_message(newest, forwarding_account)
+                send_subject_only(newest, outlook, forwarding_account)
+                # forward_message(newest, forwarding_account)
                 last_entry_id = newest.EntryID
 
         pythoncom.CoUninitialize()
