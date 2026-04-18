@@ -1056,7 +1056,7 @@ s::
 ;Sets the cursor at the end of line
 p::
 {
-    Send "+{End}{Right}"
+    Send "{Right}+{End}{Right}"
 }
 ;Sets the cursor in a new line below current line and exits pseudo vim mode
 $+p::
